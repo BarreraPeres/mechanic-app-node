@@ -1,0 +1,86 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  CLIENT
+  EMPLOYEE
+  BOSS
+}
+
+enum Type {
+  MAINTENANCE
+  REPAIR
+  INSPECTION
+}
+
+model User {
+  id            String @id @default(uuid())
+  name          String
+  email         String @unique
+  cpf           String @unique
+  password_hash String
+  role          Role   @default(CLIENT)
+
+  vehicles  Vehicle[]
+  schedules Scheduling[]
+
+  @@map("users")
+}
+
+model Scheduling {
+  id           String   @id @default(uuid())
+  request_at   DateTime @default(now())
+  scheduledFor String?
+  type         Type
+  status       String   @default("PENDING")
+  description  String
+
+  user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id String
+
+  order_service OrderService?
+
+  vehicle    Vehicle @relation(fields: [vehicle_id], references: [id], onDelete: Cascade)
+  vehicle_id String
+
+  @@map("schedules")
+}
+
+model OrderService {
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  status      String   @default("PENDING")
+  value       Int
+  description String?
+
+  schedule      Scheduling? @relation(fields: [scheduling_id], references: [id], onDelete: Cascade)
+  scheduling_id String?     @unique
+
+  @@map("order_services")
+}
+
+model Vehicle {
+  id    String @id @default(uuid())
+  plate String @unique
+  model String
+  year  Int
+
+  user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id String
+
+  schedules Scheduling[]
+
+  @@map("vehicles")
+}
