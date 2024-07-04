@@ -40,33 +40,40 @@ model User {
 }
 
 model Scheduling {
-  id           String   @id @default(uuid())
-  request_at   DateTime @default(now())
-  scheduledFor String?
-  type         Type
-  status       String   @default("PENDING")
-  description  String
+  id            String   @id @default(uuid())
+  request_at    DateTime @default(now())
+  status        String   @default("PENDING")
+  scheduled_for DateTime
+  type          Type
+  description   String
 
   user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id String
 
   order_service OrderService?
 
-  vehicle    Vehicle @relation(fields: [vehicle_id], references: [id], onDelete: Cascade)
-  vehicle_id String
+  vehicle     Vehicle  @relation(fields: [vehicle_id], references: [id], onDelete: Cascade)
+  vehicle_id  String
+  mechanic    Mechanic @relation(fields: [mechanic_id], references: [id], onDelete: Cascade)
+  mechanic_id String
 
   @@map("schedules")
 }
 
 model OrderService {
   id          String   @id @default(uuid())
-  createdAt   DateTime @default(now())
+  created_at  DateTime @default(now())
   status      String   @default("PENDING")
-  value       Int
   description String?
+  materials   String?
+  value       Int
+  start_date  DateTime
+  end_date    DateTime
 
   schedule      Scheduling? @relation(fields: [scheduling_id], references: [id], onDelete: Cascade)
   scheduling_id String?     @unique
+  mechanic      Mechanic?   @relation(fields: [mechanic_id], references: [id], onDelete: Cascade)
+  mechanic_id   String?
 
   @@map("order_services")
 }
@@ -83,4 +90,17 @@ model Vehicle {
   schedules Scheduling[]
 
   @@map("vehicles")
+}
+
+model Mechanic {
+  id        String  @id @default(uuid())
+  name      String
+  phone     String?
+  latitude  Decimal
+  longitude Decimal
+
+  schedules      Scheduling[]
+  order_services OrderService[]
+
+  @@map("mechanics")
 }

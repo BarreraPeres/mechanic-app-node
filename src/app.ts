@@ -1,8 +1,13 @@
 import fastify from "fastify";
 import { schedulesRoutes } from "./http/controllers/schedules/routes";
-import { ordersServicesRoutes } from "./http/controllers/orders-services.ts/routes";
+import { orderServicesRoutes } from "./http/controllers/order-services/routes";
+import { errorHandler } from "./error-handler";
+
 
 export const app = fastify()
 
+
+app.register(orderServicesRoutes)
 app.register(schedulesRoutes)
-app.register(ordersServicesRoutes)
+
+app.setErrorHandler(errorHandler)

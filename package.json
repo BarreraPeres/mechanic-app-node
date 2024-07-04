@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx --watch src/server.ts"
+    "dev": "tsx --watch src/server.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui"
   },
   "keywords": [],
   "author": "",
@@ -11,12 +15,17 @@
   "description": "",
   "devDependencies": {
     "@types/node": "^20.14.6",
+    "@vitest/coverage-v8": "^2.0.2",
+    "@vitest/ui": "^2.0.2",
     "tsup": "^8.1.0",
     "tsx": "^4.15.6",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "vitest": "^2.0.2"
   },
   "dependencies": {
     "@prisma/client": "^5.16.0",
+    "date-fns": "^3.6.0",
+    "dayjs": "^1.11.11",
     "dotenv": "^16.4.5",
     "fastify": "^4.28.0",
     "prisma": "^5.15.1",
