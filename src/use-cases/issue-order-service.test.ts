@@ -116,7 +116,6 @@ describe("Issue Order Service Use Case", async () => {
     })
 
     it("should not be issue a order service with a inexistent schedule", async () => {
-
         await expect(() =>
             sut.execute({
                 start_date: new Date("2024-07-10T04:12:12.000Z"), //new Date(),

@@ -3,6 +3,7 @@ import { OrderServiceRepository } from "../order-service-repository";
 import { randomUUID } from "crypto";
 
 export class InMemoryOrderServiceRepository implements OrderServiceRepository {
+
     public items: OrderService[] = []
 
     async create(data: Prisma.OrderServiceUncheckedCreateInput) {
@@ -35,6 +36,18 @@ export class InMemoryOrderServiceRepository implements OrderServiceRepository {
     async findSchedulingExisting(scheduling_id: string) {
         const scheduleAlreadyIssued = this.items.find(item => item.scheduling_id === scheduling_id) || null
         return scheduleAlreadyIssued
+    }
+
+    async save(schedulingId: string, UpdateStatus: string) {
+        const order = this.items.findIndex((item) => item.scheduling_id === schedulingId)
+
+        if (order >= 0) {
+            this.items[order].status = UpdateStatus
+            return this.items[order]
+        }
+        return null
+
+
     }
 
 

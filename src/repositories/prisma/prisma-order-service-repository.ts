@@ -4,6 +4,7 @@ import { prisma } from "../../config/prisma";
 
 
 export class PrismaOrderServiceRepository implements OrderServiceRepository {
+
     create(data: Prisma.OrderServiceUncheckedCreateInput) {
         const orderService = prisma.orderService.create({
             data
@@ -39,6 +40,21 @@ export class PrismaOrderServiceRepository implements OrderServiceRepository {
         return scheduleAlreadyIssued
 
     }
+    async save(schedulingId: string, UpdateStatus: string) {
+        const response = await prisma.orderService.update({
+            where: {
+                id: schedulingId
+            },
+            data: {
+                status: UpdateStatus
+            }
+        })
 
+        if (!response) {
+            return null
+        }
+
+        return response
+    }
 
 }
