@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { Prisma, Scheduling } from "@prisma/client";
 import { SchedulingRepository } from "../scheduling-repository";
 import { prisma } from "../../config/prisma";
 
@@ -29,6 +29,20 @@ export class PrismaSchedulingRepository implements SchedulingRepository {
             }
         })
         return conflictingSchedule
+    }
+
+    async save(scheduleId: string, updateStatus: string) {
+        const response = await prisma.scheduling.update({
+            where: { id: scheduleId },
+            data: {
+                status: updateStatus
+            }
+        })
+        if (!response) {
+            throw new Error()
+        }
+
+        return response
     }
 
 

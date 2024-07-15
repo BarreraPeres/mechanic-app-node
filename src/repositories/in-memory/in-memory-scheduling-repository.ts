@@ -40,4 +40,18 @@ export class InMemoryScheduleRepository implements SchedulingRepository {
 
     }
 
+    async save(scheduleId: string, updateStatus: string) {
+        const schedule = this.items.findIndex((item) => item.id === scheduleId)
+
+        if (schedule >= 0) {
+            this.items[schedule].status = updateStatus
+            return this.items[schedule]
+        }
+
+        return null
+
+
+    }
+
+
 }
