@@ -9,7 +9,7 @@
 - [x] Deve ser possível solicitar o agendamento de um serviço 
 - [x] Deve ser possível escolher a data e o horário disponíveis.
 - [X] Deve ser possível o cliente selecionar o tipo de serviço (manutenção, reparo e inspeção).
-- [] Deve ser possível cliente confirma o agendamento
+- [x] Deve ser possível cliente confirma o agendamento
 - [x] Deve ser possível o agendamento conter um status (agendado, pendente ou rejeitado)
 - [] Deve ser possível visualizar o histórico de serviços em um veículo
 - [x] Deve ser possíve funcionário emitir ordem de serviço para um veículo, detalhando os trabalhos e o valor.

@@ -1,6 +1,6 @@
 
 import { describe, expect, it, beforeEach } from "vitest";
-import { ResponseSchedulingUseCases } from "./respond-scheduling.use-case";
+import { ResponseSchedulingUseCases } from "./responder-scheduling.use-case";
 import { InMemoryScheduleRepository } from "../repositories/in-memory/in-memory-scheduling-repository";
 import { InMemoryOrderServiceRepository } from "../repositories/in-memory/in-memory-order-service-repository";
 import { ResourceNotFoundError } from "./errors/resource-not-found-error";
