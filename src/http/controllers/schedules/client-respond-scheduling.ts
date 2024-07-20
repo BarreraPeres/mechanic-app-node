@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
 
-import { ResponseSchedulingUseCases } from "../../../use-cases/respond-scheduling.use-case";
+import { ResponseSchedulingUseCases } from "../../../use-cases/responder-scheduling.use-case";
 import { PrismaSchedulingRepository } from "../../../repositories/prisma/prisma-scheduling-repository";
 import { PrismaOrderServiceRepository } from "../../../repositories/prisma/prisma-order-service-repository";
 import { ResourceNotFoundError } from "../../../use-cases/errors/resource-not-found-error";

@@ -1,5 +1,4 @@
 
-
 import { OrderService } from "@prisma/client"
 import { OrderServiceRepository } from "../repositories/order-service-repository"
 import { SchedulingRepository } from "../repositories/scheduling-repository"
@@ -10,16 +9,11 @@ import { ScheduleAlreadyOrderIssuedError } from "./errors/schedule-already-order
 interface IssueRequest {
     value: number
     description: string | null
-    description: string | null
     scheduling_id: string
     start_date: Date
     end_date: Date
     mechanic_id?: string | null
-    start_date: Date
-    end_date: Date
-    mechanic_id?: string | null
 }
-interface IssueResponse {
 interface IssueResponse {
     orderService: OrderService
 }
@@ -48,9 +42,6 @@ export class IssueServiceUseCases {
             throw new ResourceNotFoundError()
         }
 
-        //const startDate = parseISO(start_date.toString());
-        //const endDate = parseISO(end_date.toString());
-
         const isAvailable = await this.checkAvailability(start_date, end_date)
         if (!isAvailable) {
             throw new TimeNotAvailebleOrderServicesError();
@@ -63,65 +54,17 @@ export class IssueServiceUseCases {
         }
 
         const orderService = await this.issueServiceRepository.create({
-            export class IssueServiceUseCases {
-            constructor(
-                public issueServiceRepository: OrderServiceRepository,
-                public schedulingRepository: SchedulingRepository
-            ) { }
-
-    async checkAvailability(start_date: Date, end_date: Date): Promise<boolean> {
-                const orderServices = await this.issueServiceRepository.findByDate(start_date, end_date);
-                return orderServices.length === 0;
-            }
-
-    async execute({
-                description,
-                scheduling_id,
-                mechanic_id,
-                end_date,
-                start_date,
-                value
-            }: IssueRequest): Promise<IssueResponse> {
-                const scheduling = await this.schedulingRepository.findUniqueById(scheduling_id)
-                if (!scheduling) {
-                    throw new ResourceNotFoundError()
-                }
-
-                //const startDate = parseISO(start_date.toString());
-                //const endDate = parseISO(end_date.toString());
-
-                const isAvailable = await this.checkAvailability(start_date, end_date)
-                if (!isAvailable) {
-                    throw new TimeNotAvailebleOrderServicesError();
-                }
-
-
-                const schedulingIdAlreadyIssued = await this.issueServiceRepository.findSchedulingExisting(scheduling_id)
-                if (schedulingIdAlreadyIssued) {
-                    throw new ScheduleAlreadyOrderIssuedError()
-                }
-
-                const orderService = await this.issueServiceRepository.create({
-                    value,
-                    mechanic_id: scheduling.mechanic_id,
-                    mechanic_id: scheduling.mechanic_id,
-                    description,
-                    scheduling_id,
-                    start_date,//: startDate,
-                    end_date//: endDate
-                })
-                start_date,//: startDate,
-                    end_date//: endDate
-            })
-
-
-        return { orderService }
+            value,
+            mechanic_id: scheduling.mechanic_id,
+            description,
+            scheduling_id,
+            start_date,//: startDate,
+            end_date//: endDate
+        })
 
 
         return { orderService }
 
     }
 }
-
-
 

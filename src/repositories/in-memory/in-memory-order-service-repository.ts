@@ -51,6 +51,9 @@ export class InMemoryOrderServiceRepository implements OrderServiceRepository {
 
     }
 
-
+    async findManyByMechanicId(mechanicId: string) {
+        const orderService = this.items.filter(item => item.mechanic_id === mechanicId) || null
+        return orderService
+    }
 }
 
