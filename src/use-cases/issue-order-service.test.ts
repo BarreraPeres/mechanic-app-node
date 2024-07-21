@@ -67,6 +67,7 @@ describe("Issue Order Service Use Case", async () => {
             end_date: "2024-07-09T04:12:12.000Z",
             status: "SCHEDULED",
             start_date: "2024-07-05T04:12:12.000Z",
+            vehicle_id: "vehicle_id",
             value: 100
         })
 
@@ -103,16 +104,16 @@ describe("Issue Order Service Use Case", async () => {
             end_date: new Date("2024-07-14T04:12:12.000Z"),
             value: 100
         })
-        await
-            await expect(() => sut.execute({
-                scheduling_id: "id_2",
-                description: "Oil change",
-                mechanic_id: "id_1",
-                start_date: new Date("2024-07-012T04:12:12.000Z"),
-                end_date: new Date("2024-07-14T04:12:12.000Z"),
-                value: 100
-            })
-            ).rejects.toBeInstanceOf(ScheduleAlreadyOrderIssuedError)
+
+        await expect(() => sut.execute({
+            scheduling_id: "id_2",
+            description: "Oil change",
+            mechanic_id: "id_1",
+            start_date: new Date("2024-07-012T04:12:12.000Z"),
+            end_date: new Date("2024-07-14T04:12:12.000Z"),
+            value: 100
+        })
+        ).rejects.toBeInstanceOf(ScheduleAlreadyOrderIssuedError)
     })
 
     it("should not be issue a order service with a inexistent schedule", async () => {

@@ -56,6 +56,7 @@ export class IssueServiceUseCases {
         const orderService = await this.issueServiceRepository.create({
             value,
             mechanic_id: scheduling.mechanic_id,
+            vehicle_id: scheduling.vehicle_id,
             description,
             scheduling_id,
             start_date,//: startDate,

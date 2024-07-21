@@ -31,6 +31,7 @@ describe("Avalieble Times Mechanic Use Case", async () => {
             scheduling_id: "id_2",
             description: "Oil change",
             mechanic_id: "id_1",
+            vehicle_id: "vehicle_id",
             start_date: new Date("2024-07-012T04:12:12.000Z"),
             end_date: new Date("2024-07-14T04:12:12.000Z"),
             value: 100
@@ -60,6 +61,7 @@ describe("Avalieble Times Mechanic Use Case", async () => {
             scheduling_id: "id_2",
             description: "Oil change",
             mechanic_id: "mechanic_id",
+            vehicle_id: "vehicle_Id",
             start_date: new Date(2024, 6, 18, 8, 0, 0),
             end_date: new Date(2024, 6, 18, 10, 0, 0),
             value: 100,

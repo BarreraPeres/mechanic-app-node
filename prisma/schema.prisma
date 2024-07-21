@@ -74,6 +74,8 @@ model OrderService {
   scheduling_id String?     @unique
   mechanic      Mechanic?   @relation(fields: [mechanic_id], references: [id], onDelete: Cascade)
   mechanic_id   String?
+  vehicle       Vehicle?    @relation(fields: [vehicle_id], references: [id])
+  vehicle_id    String
 
   @@map("order_services")
 }
@@ -87,7 +89,8 @@ model Vehicle {
   user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id String
 
-  schedules Scheduling[]
+  schedules     Scheduling[]
+  OrderServices OrderService[]
 
   @@map("vehicles")
 }

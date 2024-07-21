@@ -6,5 +6,6 @@ export interface OrderServiceRepository {
     findSchedulingExisting(scheduling_id: string): Promise<OrderService | null>
     save(schedulingId: string, UpdateStatus: string): Promise<OrderService | null>
     findManyByMechanicId(mechanicId: string): Promise<OrderService[] | null>
+    findManyByVehicleId(vehicleId: string, page: number): Promise<OrderService[]>
 }
 

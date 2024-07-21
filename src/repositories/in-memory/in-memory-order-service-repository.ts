@@ -4,7 +4,6 @@ import { OrderServiceRepository } from "../order-service-repository";
 import { randomUUID } from "crypto";
 
 export class InMemoryOrderServiceRepository implements OrderServiceRepository {
-
     public items: OrderService[] = []
 
     async create(data: Prisma.OrderServiceUncheckedCreateInput) {
@@ -18,7 +17,8 @@ export class InMemoryOrderServiceRepository implements OrderServiceRepository {
             start_date: new Date(data.start_date),
             end_date: new Date(data.end_date),
             scheduling_id: data.scheduling_id ?? null,
-            mechanic_id: data.mechanic_id ?? null
+            mechanic_id: data.mechanic_id ?? null,
+            vehicle_id: data.vehicle_id ?? null
         }
         this.items.push(orderService)
         return orderService
@@ -55,5 +55,12 @@ export class InMemoryOrderServiceRepository implements OrderServiceRepository {
         const orderService = this.items.filter(item => item.mechanic_id === mechanicId) || null
         return orderService
     }
+
+    async findManyByVehicleId(vehicleId: string, page: number) {
+        return this.items
+            .filter(item => item.vehicle_id === vehicleId)
+            .slice(page * 10, (page + 1) * 10)
+    }
+
 }
 
