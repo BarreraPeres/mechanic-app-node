@@ -21,9 +21,15 @@ export class InMemoryMechanicRepository implements MechanicRepository {
 
 
     async findById(mechanicId: string) {
-        const mechanic = await this.items.find((item) => item.id === mechanicId) || null
+        const mechanic = this.items.find((item) => item.id === mechanicId) || null
 
         return mechanic
     }
 
+    async searchMany(query: string, page: number) {
+
+        return this.items
+            .filter(item => item.name.includes(query))
+            .slice(page * 10, (page + 1) * 10)
+    }
 }

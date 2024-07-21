@@ -23,5 +23,20 @@ export class PrismaMechanicRepository implements MechanicRepository {
         return mechanic
     }
 
+    async searchMany(query: string, page: number) {
+        const mechanics = await prisma.mechanic.findMany({
+            where: {
+                name: {
+                    contains: query
+                },
+            },
+            take: 10,
+            skip: page * 10
+        })
+
+        return mechanics
+    }
+
+
 
 }

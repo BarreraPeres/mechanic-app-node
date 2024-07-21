@@ -16,7 +16,7 @@
 - [x] Deve ser possíve funcionário emitir ordem de serviço para um veículo, detalhando os trabalhos e o valor.
 - [] Deve ser possível buscar mecânicas proximas 
 - [] Deve ser possível cadastrar mecânicas
-- [] Deve ser possível buscar mecânicas pelo nome
+- [x] Deve ser possível buscar mecânicas pelo nome
 
 
 ## Regras De Negócio
