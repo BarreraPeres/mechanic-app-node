@@ -12,6 +12,7 @@
 - [x] Deve ser possível cliente confirma o agendamento
 - [x] Deve ser possível o agendamento conter um status (agendado, pendente ou rejeitado)
 - [] Deve ser possível visualizar o histórico de serviços em um veículo
+- [x] Deve ser possível visualizar o histórico de agendamentos
 - [x] Deve ser possíve funcionário emitir ordem de serviço para um veículo, detalhando os trabalhos e o valor.
 - [] Deve ser possível buscar mecânicas proximas 
 - [] Deve ser possível cadastrar mecânicas

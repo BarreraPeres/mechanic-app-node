@@ -5,4 +5,5 @@ export interface SchedulingRepository {
     findConflictingSchedule(scheduledDate: Date, status: string): Promise<Scheduling | null>
     findUniqueById(id: string): Promise<Scheduling | null>
     save(scheduleId: string, updateStatus: string): Promise<Scheduling | null>
+    findManyByUserId(userId: string): Promise<Scheduling[]>
 }
