@@ -11,7 +11,7 @@ export class InMemoryVehicleRepository implements VehicleRepository {
             plate: data.plate,
             model: data.model,
             year: data.year,
-            user_id: data.user_id ?? "user_1"
+            user_id: data.user_id || randomUUID().toString()// ?? "user_1"
         }
         this.items.push(vehicle)
 
@@ -23,6 +23,11 @@ export class InMemoryVehicleRepository implements VehicleRepository {
         return vehicle
     }
 
+    async findByPlate(plate: string) {
+        const vehicle = this.items.find(item => item.plate === plate) || null
+
+        return vehicle
+    }
 
 
 }

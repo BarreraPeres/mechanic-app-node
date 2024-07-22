@@ -21,7 +21,7 @@
 
 ## Regras De Negócio
 - [] Não deve ser possível cadastrar dois usuários com o mesmo e-mail.
-- [] Cada veículo deve estar associado a exatamente um usuário, mas um usuário pode ter múltiplos veículos.
+- [x] Cada veículo deve estar associado a exatamente um usuário, mas um usuário pode ter múltiplos veículos.
 - [] Não deve ser possivel, o pedido de agendamento, conflitar com um agentamento com status pedente
 - [x] O sistema verifica a disponibilidade dos técnicos e do espaço.
 
