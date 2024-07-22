@@ -1,6 +1,7 @@
 import { Prisma, Mechanic } from "@prisma/client";
-import { MechanicRepository } from "../mechanic-repository";
+import { FindManyNearbyParms, MechanicRepository } from "../mechanic-repository";
 import { randomUUID } from "crypto";
+import { getDistanceBetweenCoordinates } from "../../utils/get-distance-between-coordinates";
 
 export class InMemoryMechanicRepository implements MechanicRepository {
     public items: Mechanic[] = []
@@ -31,5 +32,15 @@ export class InMemoryMechanicRepository implements MechanicRepository {
         return this.items
             .filter(item => item.name.includes(query))
             .slice(page * 10, (page + 1) * 10)
+    }
+
+    async findManyNearby(parms: FindManyNearbyParms) {
+        return this.items.filter(item => {
+            const distance = getDistanceBetweenCoordinates(
+                { latitude: parms.latitude, longitude: parms.longitude },
+                { latitude: item.latitude.toNumber(), longitude: item.longitude.toNumber() }
+            )
+            return distance < 10
+        })
     }
 }
