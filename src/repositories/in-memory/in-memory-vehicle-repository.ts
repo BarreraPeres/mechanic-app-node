@@ -7,11 +7,11 @@ export class InMemoryVehicleRepository implements VehicleRepository {
 
     async create(data: Prisma.VehicleUncheckedCreateInput) {
         const vehicle = {
-            id: randomUUID(),
+            id: data.id ?? randomUUID(),
             plate: data.plate,
             model: data.model,
             year: data.year,
-            user_id: data.user_id || randomUUID().toString()// ?? "user_1"
+            user_id: data.user_id || randomUUID().toString()
         }
         this.items.push(vehicle)
 

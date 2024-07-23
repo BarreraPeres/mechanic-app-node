@@ -1,0 +1,25 @@
+import { Prisma, User } from "@prisma/client";
+import { UserRepository } from "../user-repository";
+import { prisma } from "../../config/prisma";
+
+export class PrismaUserRepository implements UserRepository {
+    async create(data: Prisma.UserCreateInput) {
+        const user = await prisma.user.create({
+            data
+        })
+
+        return user
+    }
+    async findByCpfOrEmail(email: string, cpf: string) {
+        const user = await prisma.user.findFirst({
+            where: {
+                OR: [
+                    { cpf },
+                    { email }
+                ]
+            }
+        })
+        return user
+    }
+
+}

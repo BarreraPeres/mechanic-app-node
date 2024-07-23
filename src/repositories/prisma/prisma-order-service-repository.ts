@@ -4,6 +4,7 @@ import { prisma } from "../../config/prisma";
 
 
 export class PrismaOrderServiceRepository implements OrderServiceRepository {
+
     create(data: Prisma.OrderServiceUncheckedCreateInput) {
         const orderService = prisma.orderService.create({
             data
@@ -65,4 +66,15 @@ export class PrismaOrderServiceRepository implements OrderServiceRepository {
         return OrderService
     }
 
+    async findManyByVehicleId(vehicleId: string, page: number) {
+        const orderServices = await prisma.orderService.findMany({
+            where: {
+                vehicle_id: vehicleId
+            },
+            take: 10,
+            skip: page * 10
+        })
+
+        return orderServices
+    }
 }
