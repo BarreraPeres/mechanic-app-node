@@ -29,6 +29,7 @@ describe("Responder Scheduling Use Cases", async () => {
             start_date: new Date("2024-07-10T04:12:12.000Z"), //new Date(),
             end_date: new Date("2024-07-10T05:12:12.000Z"),// new Date(),
             value: 100,
+            vehicle_id: "vehcile_id",
             description: "Oil change",
             mechanic_id: "mechanic_id",
             scheduling_id: "scheduling_id",

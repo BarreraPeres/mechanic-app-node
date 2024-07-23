@@ -5,6 +5,8 @@ import { SchedulingRepository } from "../repositories/scheduling-repository"
 import { TimeNotAvailebleOrderServicesError } from "./errors/time-not-avalieble-order-services-error"
 import { ResourceNotFoundError } from "./errors/resource-not-found-error"
 import { ScheduleAlreadyOrderIssuedError } from "./errors/schedule-already-order-issued-error"
+import dayjs from "dayjs"
+
 
 interface IssueRequest {
     value: number
@@ -51,6 +53,12 @@ export class IssueServiceUseCases {
         const schedulingIdAlreadyIssued = await this.issueServiceRepository.findSchedulingExisting(scheduling_id)
         if (schedulingIdAlreadyIssued) {
             throw new ScheduleAlreadyOrderIssuedError()
+        }
+
+        const startDate = dayjs(start_date).startOf("date")
+        const endDate = dayjs(end_date).startOf("date")
+        if (endDate.isBefore(startDate)) {
+            throw new TimeNotAvailebleOrderServicesError()
         }
 
         const orderService = await this.issueServiceRepository.create({

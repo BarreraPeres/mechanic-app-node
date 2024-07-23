@@ -37,7 +37,6 @@ export class SchedulingUseCases {
 
     }: schedulingRequest): Promise<schedulingResponse> {
 
-        //const scheduledDate = parseISO(scheduled_for);
         const status = "SCHEDULED"
 
         const conflictingSchedule = await this.schedulingRepository.findConflictingSchedule(scheduled_for, status)
@@ -53,17 +52,12 @@ export class SchedulingUseCases {
 
         const mechanic = await this.mechanicRepository.findById(mechanic_id)
 
-        // const mechanic = await prisma.mechanic.findUnique({
-        //     where: {
-        //         id: mechanic_id
-        //     }
-        // })
         if (!mechanic) {
             throw new ResourceNotFoundError()
         }
 
         const scheduling = await this.schedulingRepository.create({
-            scheduled_for,//: new Date(scheduledDate),
+            scheduled_for,
             description,
             mechanic_id,
             user_id,
