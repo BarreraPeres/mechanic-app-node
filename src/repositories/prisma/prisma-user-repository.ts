@@ -1,5 +1,5 @@
 import { Prisma, User } from "@prisma/client";
-import { UserRepository } from "../user-repository";
+import { findByUserParms, UserRepository } from "../user-repository";
 import { prisma } from "../../config/prisma";
 
 export class PrismaUserRepository implements UserRepository {
@@ -20,6 +20,30 @@ export class PrismaUserRepository implements UserRepository {
             }
         })
         return user
+    }
+
+    async findByUser({ CpfOrEmail }: findByUserParms) {
+        const email = CpfOrEmail.email?.toString()
+        const cpf = CpfOrEmail.cpf?.toString()
+        const user = await prisma.user.findFirst({
+            where: {
+                OR: [
+                    {
+                        cpf
+                    },
+                    {
+                        email
+                    }
+                ]
+            }
+        })
+
+        if (!user) {
+            return null
+        }
+
+        return user
+
     }
 
 }
