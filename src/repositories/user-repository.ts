@@ -14,4 +14,5 @@ export interface UserRepository {
     create(data: Prisma.UserCreateInput): Promise<User>
     findByCpfOrEmail(email: string, cpf: string): Promise<User | null>
     findByUser(parms: findByUserParms): Promise<User | null>
+    findById(userId: string): Promise<User | null>
 }

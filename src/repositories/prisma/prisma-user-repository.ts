@@ -3,6 +3,7 @@ import { findByUserParms, UserRepository } from "../user-repository";
 import { prisma } from "../../config/prisma";
 
 export class PrismaUserRepository implements UserRepository {
+
     async create(data: Prisma.UserCreateInput) {
         const user = await prisma.user.create({
             data
@@ -44,6 +45,18 @@ export class PrismaUserRepository implements UserRepository {
 
         return user
 
+    }
+
+    async findById(userId: string) {
+        const user = await prisma.user.findUnique({
+            where: {
+                id: userId
+            }
+        })
+        if (!user) {
+            return null
+        }
+        return user
     }
 
 }
