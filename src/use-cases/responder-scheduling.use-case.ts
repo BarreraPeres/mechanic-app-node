@@ -1,25 +1,23 @@
-
-import { prisma } from "../config/prisma"
 import { OrderServiceRepository } from "../repositories/order-service-repository";
 import { SchedulingRepository } from "../repositories/scheduling-repository";
 import { ResourceNotFoundError } from "./errors/resource-not-found-error";
 
 
-interface responseSchedulingRequest {
+interface responderSchedulingRequest {
     accepted: boolean
     id: string
 }
 
-interface responseSchedulingResponse {
+interface responderSchedulingResponse {
     status: string;
 }
 
-export class ResponseSchedulingUseCases {
+export class ResponderSchedulingUseCases {
     constructor(
         public schedulingRepository: SchedulingRepository,
         public orderService: OrderServiceRepository
     ) { }
-    async execute({ accepted, id }: responseSchedulingRequest): Promise<responseSchedulingResponse> {
+    async execute({ accepted, id }: responderSchedulingRequest): Promise<responderSchedulingResponse> {
 
         const updateStatus = accepted ? "SCHEDULED" : "REJECTED"
 

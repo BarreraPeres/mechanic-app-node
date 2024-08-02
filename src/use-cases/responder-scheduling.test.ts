@@ -1,19 +1,19 @@
 
 import { describe, expect, it, beforeEach } from "vitest";
-import { ResponseSchedulingUseCases } from "./responder-scheduling.use-case";
+import { ResponderSchedulingUseCases } from "./responder-scheduling.use-case";
 import { InMemoryScheduleRepository } from "../repositories/in-memory/in-memory-scheduling-repository";
 import { InMemoryOrderServiceRepository } from "../repositories/in-memory/in-memory-order-service-repository";
 import { ResourceNotFoundError } from "./errors/resource-not-found-error";
 
 let orderService: InMemoryOrderServiceRepository
 let schedulingRepository: InMemoryScheduleRepository
-let sut: ResponseSchedulingUseCases
+let sut: ResponderSchedulingUseCases
 
 describe("Responder Scheduling Use Cases", async () => {
     beforeEach(() => {
         orderService = new InMemoryOrderServiceRepository()
         schedulingRepository = new InMemoryScheduleRepository()
-        sut = new ResponseSchedulingUseCases(schedulingRepository, orderService)
+        sut = new ResponderSchedulingUseCases(schedulingRepository, orderService)
 
         schedulingRepository.create({
             id: "scheduling_id",

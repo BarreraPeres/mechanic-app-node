@@ -21,7 +21,7 @@ interface schedulingResponse {
     scheduling: Scheduling
 }
 
-export class SchedulingUseCases {
+export class CreateSchedulingUseCase {
     constructor(
         public schedulingRepository: SchedulingRepository,
         public vehicleRepository: VehicleRepository,

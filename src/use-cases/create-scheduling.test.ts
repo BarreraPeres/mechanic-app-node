@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { SchedulingUseCases } from "./create-scheduling.use-case";
+import { CreateSchedulingUseCase } from "./create-scheduling.use-case";
 import { InMemoryScheduleRepository } from "../repositories/in-memory/in-memory-scheduling-repository";
 import { ScheduledTimeExistsError } from "./errors/scheduled-time-exists-error";
 import { InMemoryVehicleRepository } from "../repositories/in-memory/in-memory-vehicle-repository";
@@ -9,14 +9,14 @@ import { InMemoryMechanicRepository } from "../repositories/in-memory/in-memory-
 let vehicleRepository: InMemoryVehicleRepository
 let schedulingRepository: InMemoryScheduleRepository
 let mechanicRepository: InMemoryMechanicRepository
-let sut: SchedulingUseCases
+let sut: CreateSchedulingUseCase
 
 describe("Create Scheduling Use Case", async () => {
     beforeEach(() => {
         vehicleRepository = new InMemoryVehicleRepository()
         schedulingRepository = new InMemoryScheduleRepository()
         mechanicRepository = new InMemoryMechanicRepository()
-        sut = new SchedulingUseCases(schedulingRepository, vehicleRepository, mechanicRepository)
+        sut = new CreateSchedulingUseCase(schedulingRepository, vehicleRepository, mechanicRepository)
 
         vi.useFakeTimers()
 
