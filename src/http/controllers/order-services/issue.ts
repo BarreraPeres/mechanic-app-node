@@ -1,14 +1,12 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
-import { IssueServiceUseCases } from "../../../use-cases/issue-order-service.use-case";
-import { PrismaOrderServiceRepository } from "../../../repositories/prisma/prisma-order-service-repository";
-import { PrismaSchedulingRepository } from "../../../repositories/prisma/prisma-scheduling-repository";
 import { ResourceNotFoundError } from "../../../use-cases/errors/resource-not-found-error";
 import { TimeNotAvailebleOrderServicesError } from "../../../use-cases/errors/time-not-avalieble-order-services-error";
 import { ScheduleAlreadyOrderIssuedError } from "../../../use-cases/errors/schedule-already-order-issued-error";
+import { MakeIssueOrderServiceUseCase } from "../../../use-cases/factories/make-issue-order-service.use-case";
 
 
-export async function issueService(request: FastifyRequest, reply: FastifyReply) {
+export async function issue(request: FastifyRequest, reply: FastifyReply) {
     const schemaBody = z.object({
         value: z.number().int().positive(),
         description: z.string().min(4),
@@ -26,9 +24,7 @@ export async function issueService(request: FastifyRequest, reply: FastifyReply)
 
     const { scheduling_id } = schemaParms.parse(request.params)
 
-    const schedulingRepository = new PrismaSchedulingRepository()
-    const prismaOrderServiceRepository = new PrismaOrderServiceRepository()
-    const issueServiceUseCases = new IssueServiceUseCases(prismaOrderServiceRepository, schedulingRepository)
+    const issueServiceUseCases = MakeIssueOrderServiceUseCase()
 
     try {
         const { orderService } = await issueServiceUseCases.execute({

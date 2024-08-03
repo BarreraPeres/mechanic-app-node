@@ -1,11 +1,14 @@
 import { FastifyInstance } from "fastify";
-import { issueService } from "./issue-service";
-import { avaliebleTimes } from "./get-avalieble-times";
-
+import { issue } from "./issue";
+import { history } from "./history";
+import { jwtVerifyUserRole } from "../../hooks/jwt-verify-user-role";
+import { jwtVerify } from "../../hooks/jwt-verify";
 
 export async function orderServicesRoutes(app: FastifyInstance) {
-
     //employee
-    app.post("/order-service/:scheduling_id/issue", issueService)
-    app.get("/times/:mechanicId", avaliebleTimes)
+    app.addHook("onRequest", jwtVerifyUserRole("EMPLOYEE"))
+
+    app.post("/order-service/:scheduling_id/issue", issue)
+    app.get("/order-services/:vehicleId/history", history)
+
 }
