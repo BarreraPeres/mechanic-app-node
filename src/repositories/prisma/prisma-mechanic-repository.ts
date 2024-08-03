@@ -38,7 +38,7 @@ export class PrismaMechanicRepository implements MechanicRepository {
 
     async findManyNearby({ latitude, longitude }: FindManyNearbyParms) {
         const mechanics = await prisma.$queryRaw<Mechanic[]>`
-        SELECT * FROM mechanic
+        SELECT * FROM mechanics
         WHERE ( 6371 * acos( cos( radians(${latitude}) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(${longitude}) ) + sin( radians(${latitude}) ) * sin( radians( latitude ) ) ) ) <= 10
         `
         return mechanics
