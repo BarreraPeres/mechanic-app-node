@@ -6,6 +6,7 @@ import { mechanicsRoutes } from "./http/controllers/mechanics/routes";
 import { userRoutes } from "./http/controllers/users/routes";
 import fastifyJwt from "@fastify/jwt";
 import fastifyCookie from "@fastify/cookie";
+import { vehiclesRoutes } from "./http/controllers/vehicles/routes";
 
 
 export const app = fastify()
@@ -26,5 +27,6 @@ app.register(orderServicesRoutes)
 app.register(schedulesRoutes)
 app.register(mechanicsRoutes)
 app.register(userRoutes)
+app.register(vehiclesRoutes)
 
 app.setErrorHandler(errorHandler)
