@@ -1,17 +1,14 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
-import { SchedulingUseCases } from "../../../use-cases/create-scheduling.use-case";
-import { PrismaSchedulingRepository } from "../../../repositories/prisma/prisma-scheduling-repository";
 import { ScheduledTimeExistsError } from "../../../use-cases/errors/scheduled-time-exists-error";
 import { ResourceNotFoundError } from "../../../use-cases/errors/resource-not-found-error";
-import { PrismaVehicleRepository } from "../../../repositories/prisma/prisma-vehicle-repository";
-import { PrismaMechanicRepository } from "../../../repositories/prisma/prisma-mechanic-repository";
+import { MakeCreateSchedulingUseCase } from "../../../use-cases/factories/make-create-scheduling.use-case";
 
 export async function create(request: FastifyRequest, reply: FastifyReply) {
 
     const scheduleSchemaBody = z.object({
         user_id: z.string().uuid(),
-        scheduled_for: z.coerce.date(),//.string().refine((date) => !isNaN(Date.parse(date)), { message: "Invalid date format" }),
+        scheduled_for: z.coerce.date(),
         vehicle_id: z.string().uuid(),
         mechanic_id: z.string(),
         description: z.string().min(5),
@@ -20,10 +17,8 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
 
     const { user_id, scheduled_for, vehicle_id, mechanic_id, description, type } = scheduleSchemaBody.parse(request.body)
 
-    const vehicleRepository = new PrismaVehicleRepository()
-    const prismaRepository = new PrismaSchedulingRepository()
-    const mechanicRepository = new PrismaMechanicRepository()
-    const schedulingUseCases = new SchedulingUseCases(prismaRepository, vehicleRepository, mechanicRepository)
+
+    const schedulingUseCases = MakeCreateSchedulingUseCase()
 
     try {
         const { scheduling } = await schedulingUseCases.execute({
@@ -35,10 +30,9 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
             type
 
         })
+
         return reply.status(201).send({
-            scheduling: scheduling.id,
-            scheduled_for: scheduling.scheduled_for,
-            status: scheduling.status
+            scheduling
         })
 
     } catch (error) {

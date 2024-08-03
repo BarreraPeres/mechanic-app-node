@@ -1,13 +1,16 @@
 import { FastifyInstance } from "fastify";
 import { create } from "./create";
-import { clientRespondScheduling } from "./client-respond-scheduling";
-import { availableTimes } from "../order-services/get-avalieble-times";
+import { response } from "./response";
+import { history } from "./history";
+import { jwtVerify } from "../../hooks/jwt-verify";
+
 
 
 export async function schedulesRoutes(app: FastifyInstance) {
+    app.addHook("onRequest", jwtVerify)
+
     app.post("/scheduling", create)
-    //employee
+    app.patch("/scheduling/:id/response", response)
 
-    app.patch("/scheduling/:id/respond", clientRespondScheduling)
-
+    app.get("/schedules/history", history)
 }
