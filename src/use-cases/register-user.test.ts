@@ -2,7 +2,8 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { RegisterUserUseCases } from "./register-user.use-cases";
 import { InMemoryUserRepository } from "../repositories/in-memory/in-memory-user-repository";
 import { UserAlreadyExistsError } from "./errors/user-already-exists-error";
-import { compare } from "bcryptjs";
+import pgk from "bcryptjs"
+const { compare } = pgk
 
 let userRepository: InMemoryUserRepository
 let sut: RegisterUserUseCases
