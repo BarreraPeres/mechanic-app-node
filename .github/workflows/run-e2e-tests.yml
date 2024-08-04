@@ -1,0 +1,33 @@
+name: Run E2E Tests
+
+on: [push]
+
+jobs: 
+    run-e2e-tests:
+        name: Run E2E Tests
+        runs-on: ubuntu-latest
+
+        services:
+            postgres:
+              image: docker.io/bitnami/postgresql:16
+              ports:
+                - 5433:5432
+              env:
+                POSTGRES_USERNAME: docker
+                POSTGRES_PASSWORD: docker
+                POSTGRES_DATABASE: db-mechanics-pg
+
+        steps: 
+            - uses: actions/checkout@v4
+
+            - uses: actions/setup-node@v4
+              with:
+                node-version: 20
+                cache: 'npm'
+
+            - run: npm ci
+
+            - run: npm run test:e2e
+              env: 
+                DATABASE_URL: postgresql://docker:docker@db:5432/db-mechanics-pg?schema=public
+
