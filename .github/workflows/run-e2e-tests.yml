@@ -29,5 +29,5 @@ jobs:
 
             - run: npm run test:e2e
               env: 
-                DATABASE_URL: postgresql://docker:docker@db:5432/db-mechanics-pg?schema=public
+                DATABASE_URL: "postgresql://docker:docker@localhost:5433/db-mechanics-pg?schema=public"
 
