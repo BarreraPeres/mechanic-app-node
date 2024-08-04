@@ -1,0 +1,28 @@
+# docker run --name db-mechanics-pg -e POSTGRESQL_USERNAME=docker -e POSTGRESQL_PASSWORD=docker -e POSTGRESQL_DATABAS
+# E=db-mechanics-pg -p 5433:5432 docker.io/bitnami/postgresql:16  
+
+version: "3"
+
+services:
+  db:
+    image: docker.io/bitnami/postgresql:16
+    ports:
+      - "5433:5432"
+    volumes:
+      - db_data:/var/lib/pg
+    environment:
+      POSTGRESQL_USERNAME: docker
+      POSTGRESQL_PASSWORD: docker
+      POSTGRESQL_DATABASE: db-mechanics-pg
+
+  app:
+    build: .
+    ports:
+      - "3333:3333"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql://docker:docker@db:5432/db-mechanics-pg?schema=public
+    command: [ "npm", "run", "start:deploy" ]
+volumes:
+  db_data:

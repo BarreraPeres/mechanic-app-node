@@ -4,6 +4,11 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx --watch src/server.ts",
+    "build": "tsup src --format esm -d build",
+    "db:generate": "npx prisma generate",
+    "db:migrate": "npx prisma migrate deploy",
+    "start": "node build/server.mjs",
+    "start:deploy": "run-s db:generate  db:migrate start",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",

@@ -3,8 +3,8 @@
 
 
 ## Requistos Funcionais 
-- [] Deve ser possível se cadastrar
-- [] Deve ser possível se autenticar
+- [x] Deve ser possível se cadastrar
+- [x] Deve ser possível se autenticar
 - [x] Deve ser possível registrar veículos 
 - [x] Deve ser possível solicitar o agendamento de um serviço 
 - [x] Deve ser possível escolher a data e o horário disponíveis.
@@ -20,16 +20,16 @@
 
 
 ## Regras De Negócio
-- [] Não deve ser possível cadastrar dois usuários com o mesmo e-mail.
+- [x] Não deve ser possível cadastrar dois usuários com o mesmo e-mail.
 - [x] Cada veículo deve estar associado a exatamente um usuário, mas um usuário pode ter múltiplos veículos.
 - [x] Não deve ser possivel, o pedido de agendamento, conflitar com um agentamento com status pedente
 - [x] O sistema verifica a disponibilidade dos técnicos e do espaço.
 
     
 ## Requisitos Não Funcionais
-- [] Devem ser implementados testes automatizados cobrindo pelo menos 80% do código.
-- [] A senha do usuário precisa estar criptografada
-- [] O usuário deve ser identificado por um JWT (JSON Web Token)
+- [x] Devem ser implementados testes automatizados cobrindo pelo menos 80% do código.
+- [x] A senha do usuário precisa estar criptografada
+- [x] O usuário deve ser identificado por um JWT (JSON Web Token)
 
 
 ## tecnologias
