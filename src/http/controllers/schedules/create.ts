@@ -7,7 +7,6 @@ import { MakeCreateSchedulingUseCase } from "../../../use-cases/factories/make-c
 export async function create(request: FastifyRequest, reply: FastifyReply) {
 
     const scheduleSchemaBody = z.object({
-        user_id: z.string().uuid(),
         scheduled_for: z.coerce.date(),
         vehicle_id: z.string().uuid(),
         mechanic_id: z.string(),
@@ -15,14 +14,14 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
         type: z.enum(["MAINTENANCE", "REPAIR", "INSPECTION"])
     })
 
-    const { user_id, scheduled_for, vehicle_id, mechanic_id, description, type } = scheduleSchemaBody.parse(request.body)
+    const { scheduled_for, vehicle_id, mechanic_id, description, type } = scheduleSchemaBody.parse(request.body)
 
 
     const schedulingUseCases = MakeCreateSchedulingUseCase()
 
     try {
         const { scheduling } = await schedulingUseCases.execute({
-            user_id,
+            user_id: request.user.sub,
             scheduled_for,
             vehicle_id,
             mechanic_id,

@@ -8,17 +8,17 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
         plate: z.string(),
         model: z.string(),
         year: z.number(),
-        user_id: z.string().uuid(),
     })
 
-    const { model, plate, user_id, year, } = vehicleRegisterBody.parse(request.body)
+
+    const { model, plate, year, } = vehicleRegisterBody.parse(request.body)
 
     const registerVehicleUseCase = MakeRegisterVehicleUseCase()
 
     try {
 
         const { vehicle } = await registerVehicleUseCase.execute({
-            model, plate, user_id, year,
+            model, plate, user_id: request.user.sub, year,
         })
 
         return reply.status(201).send({
