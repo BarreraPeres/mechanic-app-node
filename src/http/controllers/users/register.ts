@@ -2,6 +2,7 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
 import { MakeRegisterUserUseCase } from "../../../use-cases/factories/make-register-user.use-case";
 import { UserAlreadyExistsError } from "../../../use-cases/errors/user-already-exists-error";
+import { KafkaProducer } from "../../../kafka/producer";
 
 export async function register(request: FastifyRequest, reply: FastifyReply) {
     const registerBody = z.object({
@@ -16,9 +17,22 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
 
     try {
 
-        const user = await registerUserUseCase.execute({
+        const { user } = await registerUserUseCase.execute({
             password, cpf, email, name
         })
+
+        /**
+         * register users in chat-mechanic(mongoDB)
+         */
+        const kafkaProducer = new KafkaProducer()
+        await kafkaProducer.exec('login-user', {
+            external_id: user.id,
+            email: user.email,
+            name: user.name,
+            role: user.role
+        })
+
+
 
         return reply.status(201).send({ user })
 
