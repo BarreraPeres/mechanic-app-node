@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web Chat.io</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.1.2/tailwind.min.css"
         integrity="sha512-RntatPOhEcQEA81gC/esYoCkGkL7AYV7TeTPoU+R9zE44/yWxVvLIBfBSaMu78rhoDd73ZeRHXRJN5+aPEK53Q=="
@@ -17,25 +18,25 @@
     <div class="w-screen h-screen">
         <div class="flex flex-1 text-white">
             <!-- LEFT -->
-            <div class="w-3/12 h-screen bg-gray-900 position-relative">
-                <div class="p-7 text-xl bg-gray-900">Mechanics
+            <div class="w-3/12 h-screen bg-gray-900 position-relative ">
+                <div>
                 </div>
-                <div id="users" class="m-3">
+                <div id="mechanics" class="m-3">
                     <div class="bg-green w-4"></div>
                     <ul id="users_list">
-                        <li class="user_name_list" id="user_${user.id}" id_user="${user.id}">
+                        <!-- <li class="user_name_list" id="user_${user.id}" id_user="${user.id}">
                             <img src="https://www.truro-penwith.ac.uk/app/uploads/2022/12/Basic-car-mechanics.jpg"
                                 class="nav_avatar" />
                             <strong>Mechanic JavaScript</strong>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
 
                 <div class="footer w-3/12 absolute bottom-0">
                     <div class="user_logged">
-                        <img src="https://w7.pngwing.com/pngs/419/473/png-transparent-computer-icons-user-profile-login-user-heroes-sphere-black-thumbnail.png"
+                        <!-- <img src="https://w7.pngwing.com/pngs/419/473/png-transparent-computer-icons-user-profile-login-user-heroes-sphere-black-thumbnail.png"
                             class="avatar_user_logged" />
-                        <strong id="user_logged">User</strong>
+                        <strong id="user_logged">User</strong> -->
                     </div>
                 </div>
             </div>
@@ -44,7 +45,7 @@
             <div class="w-9/12 bg-gray-700" id="c_message">
                 <div class="message_user" id="message_user">
 
-                    <span class="user_name user_name_date">
+                    <!-- <span class="user_name user_name_date">
                         <img src="https://w7.pngwing.com/pngs/419/473/png-transparent-computer-icons-user-profile-login-user-heroes-sphere-black-thumbnail.png"
                             class="img_user" />
                         <strong>User</strong>
@@ -52,9 +53,9 @@
                     </span>
                     <div class="messages">
                         <span class="chat_message"> Olá gostaria de um agendamento</span>
-                    </div>
+                    </div> -->
 
-                    <span class="user_name user_name_date">
+                    <!-- <span class="user_name user_name_date">
                         <img src="https://www.truro-penwith.ac.uk/app/uploads/2022/12/Basic-car-mechanics.jpg"
                             class="img_user" />
                         <strong>Mechanic JavaScript</strong>
@@ -62,7 +63,7 @@
                     </span>
                     <div class="messages">
                         <span class="chat_message">Boa tarde, qual seria o seu problema?</span>
-                    </div>
+                    </div> -->
 
 
                 </div>
@@ -76,7 +77,6 @@
                 p-2
                 rounded
                 focus:outline-none
-
               ">
             </div>
         </div>
@@ -84,6 +84,5 @@
 </body>
 <script src="/socket.io/socket.io.js"></script>
 <script src="client/chat.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
 
 </html>

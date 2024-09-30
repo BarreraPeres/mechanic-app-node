@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/mechanic.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Home</title>
+
+</head>
+
+<body>
+
+
+
+    <div class="header">
+        <img src="images/logo.png" alt="Logo">
+        <div>
+            <button>Perfil</button>
+            <button id="create-mechanic">Registre sua Mecânica</button>
+        </div>
+    </div>
+
+    <div class="search-bar">
+        <input type="text" placeholder="Buscar mecânicas...">
+        <button>Buscar</button>
+    </div>
+
+    <div class="mechanic-list" id="mechanic-list">
+        <!-- <div class="mechanic-card">
+            <h3><img src="https://www.truro-penwith.ac.uk/app/uploads/2022/12/Basic-car-mechanics.jpg"> Mecânica 1</h3>
+            <p>Avaliação: ★★★★☆</p>
+            <p>Endereço: Rua Exemplo, 123</p>
+            <p>Distância: 2 km</p>
+
+            <button class="talkButton">Conversar</button>
+            <button>Agendar</button> 
+    </div>-->
+
+    </div>
+
+    <div class="map">
+        <!-- Aqui poderia ser integrado um mapa interativo -->
+        <p>Mapa interativo mostrando a localização das mecânicas.</p>
+    </div>
+
+    <script>
+
+        function SearchMechanics() {
+            axios.get("http://localhost:3333/mechanics/search")
+                .then(response => {
+
+                    const mechanics = response.data.mechanics
+                    renderMechanics(mechanics)
+                }).catch(e => {
+                    console.log(e)
+                })
+        }
+
+        function renderMechanics(mechanics) {
+            const mechanicsList = document.getElementById("mechanic-list")
+            mechanics.forEach(item => {
+                mechanicsList.innerHTML += `
+                    <div class="mechanic-card" id="${item.id}" mechanic_id="${item.employees[0].id}" name="${item.name}" phone="${item.phone}" lat="${item.latitude}" lon="${item.longitude}" >
+             <h3><img src="https://www.truro-penwith.ac.uk/app/uploads/2022/12/Basic-car-mechanics.jpg"> ${item.name}</h3>
+                <p>Telefone: ${item.phone}</p>
+                <p>Endereço: Rua Exemplo, 123</p>
+                <p>Distância: ${item.latitude} à ${item.longitude}</p>
+
+                <button class="talkButton" >Conversar</button>
+                <button>Agendar</button>
+            `
+            })
+
+
+            document.querySelectorAll(".mechanic-card").forEach(button => {
+                button.addEventListener("click", (event) => {
+                    const acessToken = localStorage.getItem("acessToken")
+
+                    const mechanicId = event.currentTarget.getAttribute("id")
+                    const mechanicEmployeeId = event.currentTarget.getAttribute("mechanic_id")
+
+                    const queryParams = `?id=${encodeURIComponent(mechanicId)}&mechanicEmployeeId=${encodeURIComponent(mechanicEmployeeId)}`
+                    window.location.href = `http://localhost:4000${queryParams}`
+                })
+            })
+
+
+        }
+        document.getElementById("create-mechanic").addEventListener("click", (event) => {
+            window.location.href = "register-mechanic.html"
+        })
+
+
+        SearchMechanics()
+
+    </script>
+
+</body>
+
+</html>

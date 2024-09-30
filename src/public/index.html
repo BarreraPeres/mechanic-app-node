@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/login.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Login</title>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="username">Email ou CPF:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Senha:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <button type="submit" class="button">Entrar</button>
+        </form>
+
+        <form action="register.html" class="register-container">
+            <button type="submit" class="button register-button">Não tem conta? Register-se</button>
+        </form>
+
+    </div id="responseForm">
+
+
+
+
+</body>
+
+<script>
+    document.getElementById("registerForm").addEventListener("submit", (event) => {
+        event.preventDefault()
+
+        axios.post("http://localhost:3333/login", {
+            username: document.getElementById("username").value,
+            password: document.getElementById("password").value
+        }).then(response => {
+
+            localStorage.setItem("acessToken", response.data.acessToken)
+
+            axios.get("http://localhost:3333/me").then(res => {
+                if (res.data.user.role === "CLIENT") {
+                    window.location.href = "mechanic.html"
+                }
+                else (
+                    window.location.href = "mechanic-home.html"
+                )
+            })
+
+        }).catch(e => {
+            console.log(e)
+        })
+    })
+
+</script>
+
+</html>

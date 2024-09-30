@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/mechanic.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Home Mechanics</title>
+</head>
+
+<body>
+
+    <div class="header">
+        <img src="images/logo.png" alt="Logo">
+        <div>
+            <button>Perfil</button>
+            <button id="edit-mechanic">Editar Mecânica</button>
+            <button id="logout">Sair</button>
+        </div>
+    </div>
+
+    <div class="dashboard">
+        <div class="sidebar">
+            <ul>
+                <li><button id="view-messages">Ver Mensagens</button></li>
+                <li><button id="issue-services">Emitir Serviços</button></li>
+                <li><button id="view-services">Ver Serviços</button></li>
+            </ul>
+        </div>
+
+        <div class="content" id="content">
+            <h2>Bem-vindo(a), <span id="user-name">Nome do Usuário</span></h2>
+            <p>Aqui você pode gerenciar os agendamentos, responder a clientes e atualizar as informações da mecânica.
+            </p>
+
+
+            <div id="messages">
+                <h3>Mensagens</h3>
+                <div id="messages-list">
+                    <!-- Lista de mensagens será renderizada aqui -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+
+
+        async function loadMessages() {
+            const acessToken = localStorage.getItem("acessToken")
+
+            await axios.get("http://localhost:4000/mechanic/chatRooms", {
+                withCredentials: true // shipping the cookiee
+            }).then(response => {
+
+                const data = {
+                    messages: response.data.messages.flat(),
+                    user: response.data.user
+                }
+                console.log(data)
+
+                renderMessages(data);
+            }).catch(e => {
+                console.error(e);
+            })
+        }
+
+        function renderMessages(data) {
+            const messagesList = document.getElementById("messages-list")
+            messagesList.innerHTML = ""
+
+            data.messages.forEach(message => {
+                messagesList.innerHTML += `
+                    <div class="message-card" room_id="${message.room_id}" name="${data.user.name}">
+                    <h4>De: ${data.user.name}</h4>
+                         <p>Mensagem: ${message.text}</p>
+                        <button class="reply-message">Responder</button>
+                    </div>
+                `
+            })
+
+
+            document.querySelectorAll(".message-card").forEach(button => {
+                button.addEventListener("click", (event) => {
+                    const room_id = event.currentTarget.getAttribute("room_id")
+                    const name = event.currentTarget.getAttribute("name")
+
+                    const queryParams = `?room_id=${encodeURIComponent(room_id)}`
+                    window.location.href = `http://localhost:4000${queryParams}`
+
+                })
+            })
+        }
+
+
+        document.getElementById("view-messages").addEventListener("click", () => {
+            loadMessages()
+        })
+
+
+
+
+    </script>
+
+</body>
+
+</html>
