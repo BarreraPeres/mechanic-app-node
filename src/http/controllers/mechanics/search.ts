@@ -4,7 +4,7 @@ import { MakeSearchMechanicUseCase } from "../../../use-cases/factories/make-sea
 
 export async function search(request: FastifyRequest, reply: FastifyReply) {
     const mechanicQuery = z.object({
-        query: z.string(),//.nullish().optional(),
+        query: z.string().nullish().optional(),//.nullish().optional(),
         page: z.string().nullish().default("0").transform(Number)
     })
 
@@ -17,4 +17,5 @@ export async function search(request: FastifyRequest, reply: FastifyReply) {
     })
 
     return reply.status(200).send({ mechanics })
-}   
+}
+

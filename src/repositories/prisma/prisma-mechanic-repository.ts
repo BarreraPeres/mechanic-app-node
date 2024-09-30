@@ -1,12 +1,20 @@
 import { Mechanic, Prisma } from "@prisma/client";
 import { FindManyNearbyParms, MechanicRepository } from "../mechanic-repository";
 import { prisma } from "../../config/prisma";
+import { randomUUID } from "node:crypto";
 
 
 export class PrismaMechanicRepository implements MechanicRepository {
     async create(data: Prisma.MechanicCreateInput) {
         const mechanic = await prisma.mechanic.create({
-            data
+            data: {
+                latitude: data.latitude,
+                longitude: data.latitude,
+                phone: data.phone,
+                name: data.name,
+                employees: data.employees,
+                id: data.id || randomUUID()
+            }
         });
         return mechanic
     }
@@ -28,6 +36,16 @@ export class PrismaMechanicRepository implements MechanicRepository {
                 name: {
                     contains: query
                 },
+
+            },
+            include: {
+                employees: {
+                    select: {
+                        name: true,
+                        id: true,
+                        role: true
+                    }
+                }
             },
             take: 10,
             skip: page * 10

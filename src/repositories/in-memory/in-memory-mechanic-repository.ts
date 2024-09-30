@@ -14,7 +14,8 @@ export class InMemoryMechanicRepository implements MechanicRepository {
             latitude: new Prisma.Decimal(data.latitude.toString()),
             longitude: new Prisma.Decimal(data.longitude.toString()),
             schedules: data.schedules,
-            order_services: data.order_services
+            order_services: data.order_services,
+            employees: data.employees
         }
         this.items.push(mechanic)
         return mechanic

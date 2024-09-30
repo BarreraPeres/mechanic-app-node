@@ -25,7 +25,6 @@ describe("Register Controller (e2e)", async () => {
 
         expect(response.status).toEqual(201)
         expect(response.body).toBeDefined()
-
     })
 
 

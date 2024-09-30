@@ -13,7 +13,9 @@ export class InMemoryUserRepository implements UserRepository {
             email: data.email,
             cpf: data.cpf,
             password_hash: data.password_hash,
-            role: data.role ?? "CLIENT"
+            role: data.role ?? "CLIENT",
+            mechanic_id: data.mechanic_id ?? null
+            // mechanic?.connect?.id ?? null
         }
         this.items.push(user)
 

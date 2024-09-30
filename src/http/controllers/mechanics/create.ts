@@ -20,7 +20,7 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
     try {
 
         const { mechanic } = await createMechanic.execute({
-            latitude, longitude, name, phone
+            latitude, longitude, name, phone, id_user: request.user.sub
         })
 
         /**
@@ -35,8 +35,6 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
             latitude: mechanic.latitude,
             longitude: mechanic.longitude
         })
-
-
 
         return reply.status(201).send({
             mechanic

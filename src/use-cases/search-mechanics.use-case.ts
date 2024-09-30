@@ -2,7 +2,7 @@ import { Mechanic } from "@prisma/client"
 import { MechanicRepository } from "../repositories/mechanic-repository"
 
 interface SearchMechanicRequest {
-    query: string
+    query: string | undefined | null
     page: number
 }
 
