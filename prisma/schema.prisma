@@ -36,6 +36,9 @@ model User {
   vehicles  Vehicle[]
   schedules Scheduling[]
 
+  mechanic    Mechanic[] @relation(name: "MechanicToUser")
+  mechanic_id String? // remove after
+
   @@map("users")
 }
 
@@ -103,6 +106,7 @@ model Mechanic {
   longitude Decimal
 
   schedules      Scheduling[]
+  employees      User[]         @relation(name: "MechanicToUser")
   order_services OrderService[]
 
   @@map("mechanics")

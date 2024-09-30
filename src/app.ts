@@ -7,9 +7,16 @@ import { userRoutes } from "./http/controllers/users/routes";
 import fastifyJwt from "@fastify/jwt";
 import fastifyCookie from "@fastify/cookie";
 import { vehiclesRoutes } from "./http/controllers/vehicles/routes";
+import fastifyStatic from "@fastify/static";
+import { join } from "node:path";
 
 
 export const app = fastify()
+
+app.register(fastifyStatic, {
+    root: join(__dirname, "./public"),
+    prefix: "/"
+})
 
 app.register(fastifyJwt, {
     secret: "password-super-secret",
