@@ -26,5 +26,16 @@ export class PrismaVehicleRepository implements VehicleRepository {
         })
         return vehicle
     }
+    async findManyById(user_id: string) {
+        const vehicles = await prisma.vehicle.findMany({
+            where: {
+                user_id
+            }
+        })
+        if (!vehicles) {
+            return null
+        }
+        return vehicles
+    }
 
 }

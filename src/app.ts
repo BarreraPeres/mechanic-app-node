@@ -9,9 +9,16 @@ import fastifyCookie from "@fastify/cookie";
 import { vehiclesRoutes } from "./http/controllers/vehicles/routes";
 import fastifyStatic from "@fastify/static";
 import { join } from "node:path";
+import fastifyCors from "@fastify/cors";
 
 
 export const app = fastify()
+
+
+app.register(fastifyCors, {
+    origin: ["http://localhost:5173"],
+    credentials: true // to share the cookies
+})
 
 // app.register(fastifyStatic, {
 //     root: join(__dirname, "../public"),

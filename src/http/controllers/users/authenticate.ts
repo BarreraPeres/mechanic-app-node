@@ -21,7 +21,7 @@ export async function authenticate(request: FastifyRequest, reply: FastifyReply)
             username
         })
 
-        const acessToken = await reply.jwtSign(
+        const accessToken = await reply.jwtSign(
             {
                 role: user.role
             }, {
@@ -61,7 +61,7 @@ export async function authenticate(request: FastifyRequest, reply: FastifyReply)
             path: "/",
             secure: true,
             sameSite: true
-        }).send({ acessToken })
+        }).send({ accessToken })
 
     } catch (err) {
         if (err instanceof InvalidCredencialsError) {

@@ -28,6 +28,11 @@ export class InMemoryVehicleRepository implements VehicleRepository {
 
         return vehicle
     }
+    async findManyById(user_id: string) {
+        const vehicles = this.items.filter((vehicle) => vehicle.user_id === user_id) || null
+
+        return vehicles
+    }
 
 
 }

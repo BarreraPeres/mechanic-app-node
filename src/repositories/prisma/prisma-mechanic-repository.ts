@@ -9,7 +9,7 @@ export class PrismaMechanicRepository implements MechanicRepository {
         const mechanic = await prisma.mechanic.create({
             data: {
                 latitude: data.latitude,
-                longitude: data.latitude,
+                longitude: data.longitude,
                 phone: data.phone,
                 name: data.name,
                 employees: data.employees,
