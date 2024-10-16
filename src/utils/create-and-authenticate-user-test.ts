@@ -22,7 +22,7 @@ export async function CreateAndAuthenticateUserTest(app: FastifyInstance, role: 
             username: "esperanca@gmail.com"
         })
 
-    const { acessToken } = authenticateUser.body
+    const { accessToken } = authenticateUser.body
 
-    return { acessToken }
+    return { accessToken }
 }
