@@ -12,11 +12,11 @@ describe("Register Vehicle Controller (e2e)", async () => {
     })
 
     it("should be able to register a vehicle", async () => {
-        const { acessToken } = await CreateAndAuthenticateUserTest(app, "CLIENT")
+        const { accessToken } = await CreateAndAuthenticateUserTest(app, "CLIENT")
         const user = await prisma.user.findFirstOrThrow()
         const responseRegister = await request(app.server)
             .post("/vehicle")
-            .auth(acessToken, { type: "bearer" })
+            .auth(accessToken, { type: "bearer" })
             .send({
                 plate: "cis-1999",
                 model: "gol",

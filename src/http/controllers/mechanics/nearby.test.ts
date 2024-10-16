@@ -14,28 +14,7 @@ describe("Fetch Nearby Mechanics Controller (e2e)", async () => {
 
 
     it("should fetch mechanics nearby for user ", async () => {
-        const { acessToken } = await CreateAndAuthenticateUserTest(app, "CLIENT")
-
-        // await request(app.server)
-        //     .post("/mechanic")
-        //     .auth(acessToken, { type: "bearer" })
-        //     .send({
-        //         name: "mechanic nearby",
-        //         phone: "123456",
-        //         latitude: -23.3037956,
-        //         longitude: -45.9712603
-        //     })
-
-        // await request(app.server)
-        //     .post("/mechanic")
-        //     .auth(acessToken, { type: "bearer" })
-        //     .send({
-        //         name: "mechanic far",
-        //         phone: "123456",
-        //         latitude: -27.0610928,
-        //         longitude: -49.5229501,
-        //     })
-
+        const { accessToken } = await CreateAndAuthenticateUserTest(app, "CLIENT")
 
         await prisma.mechanic.createMany({
             data: [
@@ -60,10 +39,8 @@ describe("Fetch Nearby Mechanics Controller (e2e)", async () => {
                 latitude: -23.3037956,
                 longitude: -45.9712603,
             })
-            .auth(acessToken, { type: "bearer" })
+            .auth(accessToken, { type: "bearer" })
             .send()
-
-
 
         expect(responseNearby.statusCode).toBe(200)
         expect(responseNearby.body.mechanics).toEqual([

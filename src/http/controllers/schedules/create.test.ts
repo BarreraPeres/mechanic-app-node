@@ -13,12 +13,12 @@ describe("Create Schedule Controller (2e2)", async () => {
     })
 
     it("should be able to create a new scheduling", async () => {
-        const { acessToken } = await CreateAndAuthenticateUserTest(app, "CLIENT")
+        const { accessToken } = await CreateAndAuthenticateUserTest(app, "CLIENT")
         const user = await prisma.user.findFirstOrThrow()
         const { mechanic, vehicle } = await CreateVehicleAndMechanicTest(app)
         const responseCreate = await request(app.server)
             .post("/scheduling")
-            .auth(acessToken, { type: "bearer" })
+            .auth(accessToken, { type: "bearer" })
             .send({
                 user_id: user.id,
                 scheduled_for: new Date(),

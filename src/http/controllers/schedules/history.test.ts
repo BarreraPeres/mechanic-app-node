@@ -16,7 +16,7 @@ beforeAll(async () => {
 describe("Fetch History Schedulings Controller (e2e)", async () => {
 
     it("should be able to feth history of schedules", async () => {
-        const { acessToken } = await CreateAndAuthenticateUserTest(app, "CLIENT")
+        const { accessToken } = await CreateAndAuthenticateUserTest(app, "CLIENT")
 
         const user = await prisma.user.findFirstOrThrow()
         const { mechanic, vehicle } = await CreateVehicleAndMechanicTest(app)
@@ -45,7 +45,7 @@ describe("Fetch History Schedulings Controller (e2e)", async () => {
         })
         const responseHistorys = await request(app.server)
             .get("/schedules/history")
-            .auth(acessToken, { type: "bearer" })
+            .auth(accessToken, { type: "bearer" })
             .send()
 
         expect(responseHistorys.statusCode).toBe(200)

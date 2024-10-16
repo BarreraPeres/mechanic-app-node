@@ -15,7 +15,7 @@ describe("Avalieble Times Controller (e2e)", async () => {
     })
 
     it("should be hours avaliebles for mechanic", async () => {
-        const { acessToken } = await CreateAndAuthenticateUserTest(app)
+        const { accessToken } = await CreateAndAuthenticateUserTest(app, "CLIENT")
 
         const mechanic = await prisma.mechanic.create({
             data: {
@@ -28,7 +28,7 @@ describe("Avalieble Times Controller (e2e)", async () => {
 
         const responseTimes = await request(app.server)
             .get(`/times/${mechanic.id}`)
-            .auth(acessToken, { type: "bearer" })
+            .auth(accessToken, { type: "bearer" })
             .send()
 
 

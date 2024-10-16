@@ -42,7 +42,7 @@ describe("Refresh Token Controller (e2e)", async () => {
 
         expect(refreshResponse.statusCode).toBe(200)
         expect(refreshResponse.body).toEqual({
-            acessToken: expect.any(String)
+            accessToken: expect.any(String)
         })
         expect(refreshResponse.get("Set-Cookie")).toEqual([
             expect.stringContaining("refreshToken=")

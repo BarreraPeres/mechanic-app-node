@@ -15,7 +15,7 @@ describe("Search Mechanics Controller (e2e)", async () => {
     })
 
     it("should return list of mechanics ", async () => {
-        const { acessToken } = await CreateAndAuthenticateUserTest(app, "CLIENT")
+        const { accessToken } = await CreateAndAuthenticateUserTest(app, "CLIENT")
 
         await prisma.mechanic.createMany({
             data: [
@@ -38,7 +38,7 @@ describe("Search Mechanics Controller (e2e)", async () => {
             .query({
                 query: "mechanic",
             })
-            .auth(acessToken, { type: "bearer" })
+            .auth(accessToken, { type: "bearer" })
             .send()
 
         expect(mechanics.statusCode).toEqual(200)

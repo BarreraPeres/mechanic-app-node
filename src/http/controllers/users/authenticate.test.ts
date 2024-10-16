@@ -32,7 +32,7 @@ describe("Authenticate Controller (e2e)", async () => {
 
         expect(user.status).toBe(200)
         expect(user.body).toEqual({
-            acessToken: expect.any(String)
+            accessToken: expect.any(String)
         })
 
     })

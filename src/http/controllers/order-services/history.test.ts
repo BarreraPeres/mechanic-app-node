@@ -16,7 +16,7 @@ describe("History Services Vehicle Controller (e2e)", async () => {
 
     it("should be possible to search the history of services the vehicle", async () => {
 
-        const { acessToken } = await CreateAndAuthenticateUserTest(app, "EMPLOYEE")
+        const { accessToken } = await CreateAndAuthenticateUserTest(app, "EMPLOYEE")
 
         const { vehicle, mechanic } = await CreateVehicleAndMechanicTest(app)
 
@@ -74,7 +74,7 @@ describe("History Services Vehicle Controller (e2e)", async () => {
 
         const responseHistory = await request(app.server)
             .get(`/order-services/${vehicle.id}/history`)
-            .auth(acessToken, { type: "bearer" })
+            .auth(accessToken, { type: "bearer" })
             .send({
                 page: "0"
             })

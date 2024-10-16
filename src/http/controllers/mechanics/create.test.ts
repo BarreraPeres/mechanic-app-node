@@ -13,11 +13,11 @@ describe("Create Mechanic Controller (e2e)", async () => {
 
 
     it("should create a new mechanic", async () => {
-        const { acessToken } = await CreateAndAuthenticateUserTest(app, "BOSS")
+        const { accessToken } = await CreateAndAuthenticateUserTest(app, "BOSS")
 
         const mechanicResponse = await request(app.server)
             .post("/mechanic")
-            .auth(acessToken, { type: "bearer" })
+            .auth(accessToken, { type: "bearer" })
             .send({
                 name: "mechanic",
                 phone: "123456",

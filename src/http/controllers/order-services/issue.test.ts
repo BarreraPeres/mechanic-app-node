@@ -13,12 +13,12 @@ describe("Issue Order Service Controller (e2e)", async () => {
     })
 
     it("should be possible to issue order service", async () => {
-        const { acessToken } = await CreateAndAuthenticateUserTest(app, "EMPLOYEE")
+        const { accessToken } = await CreateAndAuthenticateUserTest(app, "EMPLOYEE")
         const user = await prisma.user.findFirstOrThrow()
         const { mechanic, vehicle } = await CreateVehicleAndMechanicTest(app)
         const schedulingResponse = await request(app.server)
             .post("/scheduling")
-            .auth(acessToken, { type: "bearer" })
+            .auth(accessToken, { type: "bearer" })
             .send({
                 user_id: user.id,
                 scheduled_for: new Date(),
@@ -32,7 +32,7 @@ describe("Issue Order Service Controller (e2e)", async () => {
 
         const responseIssue = await request(app.server)
             .post(`/order-service/${scheduling.id}/issue`)
-            .auth(acessToken, { type: "bearer" })
+            .auth(accessToken, { type: "bearer" })
             .send({
                 value: 2100,
                 description: "some description",

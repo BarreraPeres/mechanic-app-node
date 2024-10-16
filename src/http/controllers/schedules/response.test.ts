@@ -15,7 +15,7 @@ describe("Response Scheduling", async () => {
 
     it("should be possible to client responder the sheduling", async () => {
 
-        const { acessToken } = await CreateAndAuthenticateUserTest(app, "CLIENT")
+        const { accessToken } = await CreateAndAuthenticateUserTest(app, "CLIENT")
         const user = await prisma.user.findFirstOrThrow()
         const { mechanic, vehicle } = await CreateVehicleAndMechanicTest(app)
 
@@ -49,7 +49,7 @@ describe("Response Scheduling", async () => {
 
         const response = await request(app.server)
             .patch(`/scheduling/${scheduling.id}/response`)
-            .auth(acessToken, { type: "bearer" })
+            .auth(accessToken, { type: "bearer" })
             .send({
                 accepted: true,
             })
