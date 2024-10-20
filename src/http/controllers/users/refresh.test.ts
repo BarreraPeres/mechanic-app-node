@@ -7,8 +7,8 @@ describe("Refresh Token Controller (e2e)", async () => {
         await app.ready()
     })
 
-    afterAll(() => {
-        app.close()
+    afterAll(async () => {
+        await app.close()
     })
 
     it("should be possible refresh the token", async () => {

@@ -8,8 +8,8 @@ describe("Create Schedule Controller (2e2)", async () => {
     beforeAll(async () => {
         await app.ready()
     })
-    afterAll(() => {
-        app.close()
+    afterAll(async () => {
+        await app.close()
     })
 
     it("should be able to create a new scheduling", async () => {

@@ -5,7 +5,7 @@ import { CreateAndAuthenticateUserTest } from "../../../utils/create-and-authent
 import { prisma } from "../../../config/prisma";
 import { CreateVehicleAndMechanicTest } from "../../../utils/create-vehicle-and-mechanic-test";
 describe("Issue Order Service Controller (e2e)", async () => {
-    afterAll(() => {
+    afterAll(async () => {
         app.close()
     })
     beforeAll(async () => {

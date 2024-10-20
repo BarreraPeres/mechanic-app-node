@@ -10,8 +10,8 @@ describe("Avalieble Times Controller (e2e)", async () => {
         await app.ready()
     })
 
-    afterAll(() => {
-        app.close()
+    afterAll(async () => {
+        await app.close()
     })
 
     it("should be hours avaliebles for mechanic", async () => {

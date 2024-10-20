@@ -5,8 +5,8 @@ import { prisma } from "../../../config/prisma";
 import { CreateAndAuthenticateUserTest } from "../../../utils/create-and-authenticate-user-test";
 import { CreateVehicleAndMechanicTest } from "../../../utils/create-vehicle-and-mechanic-test";
 
-afterAll(() => {
-    app.close()
+afterAll(async () => {
+    await app.close()
 })
 
 beforeAll(async () => {

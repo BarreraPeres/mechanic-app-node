@@ -9,8 +9,8 @@ describe("Response Scheduling", async () => {
     beforeAll(async () => {
         await app.ready()
     })
-    afterAll(() => {
-        app.close()
+    afterAll(async () => {
+        await app.close()
     })
 
     it("should be possible to client responder the sheduling", async () => {

@@ -10,8 +10,8 @@ describe("History Services Vehicle Controller (e2e)", async () => {
         await app.ready()
     })
 
-    afterAll(() => {
-        app.close()
+    afterAll(async () => {
+        await app.close()
     })
 
     it("should be possible to search the history of services the vehicle", async () => {

@@ -8,7 +8,7 @@ beforeAll(async () => {
 })
 
 afterAll(async () => {
-    await app.close
+    await app.close()
 })
 
 describe("Register Controller (e2e)", async () => {
