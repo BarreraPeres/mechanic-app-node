@@ -3,6 +3,7 @@ import z from "zod";
 import { MakeAuthenticateUserCase } from "../../../use-cases/factories/make-authenticate-user.use-case";
 import { InvalidCredencialsError } from "../../../use-cases/errors/invalid-credencials-error";
 import { KafkaProducer } from "../../../kafka/producer";
+import dayjs from "dayjs";
 
 export async function authenticate(request: FastifyRequest, reply: FastifyReply) {
 
@@ -37,7 +38,6 @@ export async function authenticate(request: FastifyRequest, reply: FastifyReply)
             {
                 sign: {
                     sub: user.id,
-                    expiresIn: "7d"
                 }
             }
         )
@@ -55,12 +55,13 @@ export async function authenticate(request: FastifyRequest, reply: FastifyReply)
             })
         }
 
-
+        const sevenDays = dayjs().add(7, "day").toDate()
         return reply.setCookie("refreshToken", refreshToken, {
             httpOnly: true,
             path: "/",
             secure: true,
-            sameSite: true
+            sameSite: true,
+            expires: sevenDays
         }).send({ accessToken })
 
     } catch (err) {

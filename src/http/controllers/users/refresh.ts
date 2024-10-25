@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { FastifyReply, FastifyRequest } from "fastify";
 
 export async function refresh(request: FastifyRequest, reply: FastifyReply) {
@@ -20,14 +21,16 @@ export async function refresh(request: FastifyRequest, reply: FastifyReply) {
         {
             sign: {
                 sub: request.user.sub,
-                expiresIn: "7d"
             }
         }
     )
+
+    const sevenDays = dayjs().add(7, "day").toDate()
     return reply.setCookie("refreshToken", refreshToken, {
         path: "/",
         secure: true,
         sameSite: true,
-        httpOnly: true
+        httpOnly: true,
+        expires: sevenDays
     }).send({ accessToken })
 } 
