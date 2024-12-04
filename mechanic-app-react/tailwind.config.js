@@ -9,7 +9,11 @@ export default {
     flowbite.content()
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        "sans": ["Ginto", "ui-sans-serif", "system-ui"]
+      }
+    },
   },
   plugins: [
     flowbite.plugin()
