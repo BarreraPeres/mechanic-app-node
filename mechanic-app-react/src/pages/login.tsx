@@ -77,7 +77,16 @@ export function Login({ status }: LoginProps) {
 
                     <div className="flex flex-col gap-4 mt-10">
                         <Button >Entrar</Button>
-                        <Button className="group"> <span className="text-sm text-green-400 group-hover:text-green-600">Não tem conta? </span>Registre-se</Button>
+                        <Button
+                            onClick={() => {
+                                window.location.href = "/register"
+                            }}
+                            className="group">
+                            <a
+                                href="/register"
+                                className="text-sm text-green-400 group-hover:text-green-600">Não tem conta?
+                            </a>Registre-se
+                        </Button>
                     </div>
                 </form>
             </div>

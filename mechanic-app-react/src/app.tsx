@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { setupAxiosInterceptors } from "./lib/axios"
 import { isAuthenticatedService } from "./services/is-authenticated.service";
 import { useQuery } from "@tanstack/react-query";
+import { Register } from "./pages/register";
 
 
 export function App() {
@@ -20,8 +21,20 @@ export function App() {
 
 
   function handleStatus(status: number) {
-    status === 200 &&
-      navigate("/home")
+    switch (status) {
+      case 200: navigate("/home")
+        break;
+      case 201: navigate("/login")
+        break;
+      case 404:
+        navigate("/login")
+        break;
+      case 500:
+        navigate("/login")
+        break;
+      default:
+        break;
+    }
   }
 
   const PrivateRoute = () => {
@@ -36,6 +49,7 @@ export function App() {
   return (
     <>
       <Routes>
+        <Route path="/register" element={<Register status={handleStatus} />} />
         <Route path="/login" element={<Login status={handleStatus} />} />
         <Route path="/" element={<PrivateRoute />} >
           <Route path="/home" element={<Home />} />
