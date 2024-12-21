@@ -82,10 +82,10 @@ export function HeaderMap({ setShowLocationUser, position }: HeaderProps) {
                                         className: "block text-sm text-zinc-300 border border-emerald-800 rounded-lg bg-emerald-900 focus:ring-emerald-950 focus:border-emerald-950 p-3 ps-10 w-[303px]",
                                     })}
                                     />
-                                    <div className="absolute">
+                                    <div className=" flex-col absolute mt-[400px]">
                                         {suggestions.map(s => (
-                                            <div className="p-2 bg-zinc-950 rounded-lg"{...getSuggestionItemProps(s)}>
-                                                <span >{s.description}</span>
+                                            <div className="p-2 bg-zinc-950 rounded-lg "{...getSuggestionItemProps(s)}>
+                                                <span key={s.id} className="text-green-500">{s.description}</span>
                                             </div>
                                         ))}
                                     </div>
