@@ -4,8 +4,6 @@ import { FastifyReply, FastifyRequest } from "fastify";
 export async function refresh(request: FastifyRequest, reply: FastifyReply) {
     try {
 
-        request.cookies.refreshToken = "" // delete the cookie
-
         await request.jwtVerify({ onlyCookie: true, key: "refreshToken" })
 
         const { role } = request.user
@@ -26,6 +24,7 @@ export async function refresh(request: FastifyRequest, reply: FastifyReply) {
             }
         )
 
+        console.log(accessToken)
         const sevenDays = dayjs().add(7, "day").toDate()
         return reply.setCookie("refreshToken", refreshToken, {
             path: "/",
