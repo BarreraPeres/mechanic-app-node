@@ -1,11 +1,12 @@
-import { Prisma, Scheduling } from "@prisma/client";
+import { Mechanic, Prisma, Scheduling, Vehicle } from "@prisma/client";
 import { SchedulingRepository } from "../scheduling-repository";
 import { randomUUID } from "crypto";
-
 
 export class InMemoryScheduleRepository implements SchedulingRepository {
 
     public items: Scheduling[] = []
+    private vehicles: Vehicle[] = [];
+    private mechanics: Mechanic[] = [];
 
     async create(data: Prisma.SchedulingUncheckedCreateInput) {
         const scheduling = {
@@ -52,7 +53,13 @@ export class InMemoryScheduleRepository implements SchedulingRepository {
     }
 
     async findManyByUserId(userId: String) {
-        const schedules = this.items.filter(item => item.user_id === userId)
+        const schedules = this.items
+            .filter(item => item.user_id === userId)
+            .map(item => ({
+                ...item,
+                vehicle: this.vehicles.find(v => v.id === item.vehicle_id) || null,
+                mechanic: this.mechanics.find(m => m.id === item.mechanic_id) || null
+            }))
 
         return schedules
     }

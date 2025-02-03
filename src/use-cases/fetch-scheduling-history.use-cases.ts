@@ -1,5 +1,5 @@
 import { Scheduling } from "@prisma/client"
-import { SchedulingRepository } from "../repositories/scheduling-repository"
+import { SchedulingRepository, SchedulingResponseType } from "../repositories/scheduling-repository"
 
 
 
@@ -8,7 +8,7 @@ interface FetchSchedulingHistoryRequest {
 }
 
 interface FetchSchedulingHistoryRespose {
-    schedules: Scheduling[]
+    schedules: SchedulingResponseType[]
 }
 
 export class FetchSchedulingHistoryUseCases {

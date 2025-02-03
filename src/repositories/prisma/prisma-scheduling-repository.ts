@@ -49,6 +49,17 @@ export class PrismaSchedulingRepository implements SchedulingRepository {
         const shedules = await prisma.scheduling.findMany({
             where: {
                 user_id: userId
+            },
+            select: {
+                id: true,
+                request_at: true,
+                status: true,
+                scheduled_for: true,
+                type: true,
+                description: true,
+                user_id: true,
+                mechanic: true,
+                vehicle: true,
             }
         })
         return shedules
