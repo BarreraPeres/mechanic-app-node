@@ -6,7 +6,7 @@ import { setupAxiosInterceptors } from "./lib/axios"
 import { isAuthenticatedService } from "./services/is-authenticated.service";
 import { useQuery } from "@tanstack/react-query";
 import { Register } from "./pages/register";
-
+import { Appointments } from "./pages/appoinments";
 
 export function App() {
   const navigate = useNavigate()
@@ -53,6 +53,7 @@ export function App() {
         <Route path="/login" element={<Login status={handleStatus} />} />
         <Route path="/" element={<PrivateRoute />} >
           <Route path="/home" element={<Home />} />
+          <Route path="/appointments" element={<Appointments />} />
         </Route>
       </Routes>
 

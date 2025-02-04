@@ -11,7 +11,7 @@ export function Sidebar() {
                     Início
                 </a>
 
-                <a className="p-4 gap-2 flex items-center hover:text-zinc-500" href="">
+                <a className="p-4 gap-2 flex items-center hover:text-zinc-500" href="/appointments">
                     <CalendarCog />
                     Agendamentos
                 </a>
