@@ -1,4 +1,4 @@
-import { Navigate, Outlet, Route, Routes, useNavigate } from "react-router-dom";
+import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import { Home } from "./pages/home";
 import { Login } from "./pages/login";
 import { useEffect } from "react";
@@ -7,9 +7,10 @@ import { isAuthenticatedService } from "./services/is-authenticated.service";
 import { useQuery } from "@tanstack/react-query";
 import { Register } from "./pages/register";
 import { Appointments } from "./pages/appoinments";
+import { Cars } from "./pages/cars";
+import { Layout } from "./components/layout";
 
 export function App() {
-  const navigate = useNavigate()
   useEffect(() => {
     setupAxiosInterceptors()
   }, [])
@@ -17,20 +18,22 @@ export function App() {
   const { isLoading, data } = useQuery({
     queryKey: ["verify refresh token in cookies"],
     queryFn: isAuthenticatedService,
+    staleTime: 1000 * 60 * 60 * 24
   })
+  console.log("data", data)
 
 
   function handleStatus(status: number) {
     switch (status) {
-      case 200: navigate("/home")
+      case 200: window.location.href = "/home"
         break;
-      case 201: navigate("/login")
+      case 201: window.location.href = "/login"
         break;
       case 404:
-        navigate("/login")
+        window.location.href = "/login"
         break;
       case 500:
-        navigate("/login")
+        window.location.href = "/login"
         break;
       default:
         break;
@@ -40,7 +43,7 @@ export function App() {
   const PrivateRoute = () => {
     const path = window.location.pathname
     if (path === "/") {
-      navigate("/login")
+      window.location.href = "/login"
     }
     const isAuthenticated = data
     if (isLoading) {
@@ -52,14 +55,18 @@ export function App() {
   return (
     <>
       <Routes>
-        <Route path="/register" element={<Register status={handleStatus} />} />
         <Route path="/login" element={<Login status={handleStatus} />} />
-        <Route path="/" element={<PrivateRoute />} >
-          <Route path="/home" element={<Home />} />
-          <Route path="/appointments" element={<Appointments />} />
-        </Route>
-      </Routes>
+        <Route path="/register" element={<Register status={handleStatus} />} />
 
+        <Route path="/" element={<PrivateRoute />} >
+          <Route element={<Layout />} >
+            <Route path="/home" element={<Home />} />
+            <Route path="/appointments" element={<Appointments />} />
+            <Route path="/cars" element={<Cars />} />
+          </Route>
+        </Route>
+
+      </Routes >
     </>
   )
 }

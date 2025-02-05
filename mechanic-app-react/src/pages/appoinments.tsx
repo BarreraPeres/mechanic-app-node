@@ -47,8 +47,7 @@ export function Appointments() {
 
 
     return (
-        <div className="h-full gap-8 p-20">
-
+        <div>
             <div className="flex flex-col">
                 <h1 className="text-lg font-bold">Sua Agenda</h1>
                 <p className="flex justify-start items-start text-zinc-300">Consulte Seus Agendamentos</p>
