@@ -28,7 +28,7 @@ export function MapInteractive() {
     const { data: nearbyMechanics } = useQuery({
         queryKey: ["get nearby mechanics"],
         queryFn: () => GetMechanicsNearbyService({ latitude: position!.lat, longitude: position!.lng }),
-        staleTime: 1000 * 60, // 60 seconds
+        staleTime: 1000 * 60 * 60 * 24, // 24 horas
         enabled: !!position
     })
 

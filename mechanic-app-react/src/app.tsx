@@ -38,11 +38,14 @@ export function App() {
   }
 
   const PrivateRoute = () => {
+    const path = window.location.pathname
+    if (path === "/") {
+      navigate("/login")
+    }
     const isAuthenticated = data
     if (isLoading) {
       return (<div>Loading...</div>)
     }
-
     return isAuthenticated ? <Outlet /> : <Navigate to="/login" />
   }
 

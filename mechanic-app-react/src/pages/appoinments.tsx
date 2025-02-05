@@ -36,9 +36,9 @@ export function Appointments() {
 
 
     const { data } = useQuery({
-        queryKey: ["get nearby mechanics"],
+        queryKey: ["fetch scheduling history"],
         queryFn: () => FetchSchedulingHistoryService(),
-        staleTime: 1000 * 60
+        staleTime: 1000 * 60 // 1 minutes
     })
 
     if (!data) {
