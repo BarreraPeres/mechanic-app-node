@@ -6,7 +6,7 @@ export function Sidebar() {
 
             <nav className="flex flex-col text-zinc-300 text-sm font-semibold">
 
-                <a className="p-4 gap-2 flex items-center hover:text-zinc-500" href="">
+                <a className="p-4 gap-2 flex items-center hover:text-zinc-500" href="/home">
                     <Home />
                     Início
                 </a>
@@ -16,7 +16,7 @@ export function Sidebar() {
                     Agendamentos
                 </a>
 
-                <a className="p-4 gap-2 flex items-center hover:text-zinc-500" href="">
+                <a className="p-4 gap-2 flex items-center hover:text-zinc-500" href="/cars">
                     <Car />
                     Carros
                 </a>
