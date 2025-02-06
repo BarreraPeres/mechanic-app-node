@@ -18,7 +18,7 @@ app.register(fastifyCors, {
 })
 
 app.register(fastifyJwt, {
-    secret: "password-super-secret",
+    secret: env.JWT_SECRET,
     cookie: {
         cookieName: "refreshToken",
         signed: false

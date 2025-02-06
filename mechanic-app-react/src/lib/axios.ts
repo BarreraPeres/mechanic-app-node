@@ -3,9 +3,6 @@ import { refreshTokenService } from "../services/refresh-token.service";
 
 export const instanceAxios = axios.create({
     baseURL: "http://localhost:3333",
-    headers: {
-        'Content-Type': 'application/json',
-    },
     withCredentials: true,
 })
 
@@ -37,11 +34,21 @@ export function setupAxiosInterceptors() {
                 console.log("refreshToken")
                 if (accessToken) {
                     localStorage.setItem("accessToken", accessToken)
-                    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
+                    instanceAxios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
+                    //originalConfig.headers["Authorization"] = `Bearer ${accessToken}`
                     return instanceAxios(originalConfig)
                 }
 
                 return Promise.reject(e)
+            }
+
+            if (e.response?.status === 419 && e.config) {
+                const originalConfig = e.config
+                window.Error("session expired")
+                window.location.href = "/login"
+
+                return instanceAxios(originalConfig)
+
             }
         }
     )
