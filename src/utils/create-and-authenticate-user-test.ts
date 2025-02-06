@@ -4,7 +4,12 @@ import { prisma } from "../config/prisma";
 import bcrjs from "bcryptjs"
 const { hash } = bcrjs
 
-export async function CreateAndAuthenticateUserTest(app: FastifyInstance, role: "CLIENT" | "BOSS" | "EMPLOYEE") {
+interface CreateAndAuthenticateUserTestResponse {
+    accessToken: string,
+    refreshToken: string[]
+}
+
+export async function CreateAndAuthenticateUserTest(app: FastifyInstance, role: "CLIENT" | "BOSS" | "EMPLOYEE"): Promise<CreateAndAuthenticateUserTestResponse> {
 
     await prisma.user.create({
         data: {
@@ -22,7 +27,13 @@ export async function CreateAndAuthenticateUserTest(app: FastifyInstance, role: 
             username: "esperanca@gmail.com"
         })
 
+    const refreshToken = authenticateUser.get("Set-Cookie")
+
+    if (!refreshToken) {
+        throw new Error("Refresh token not found")
+    }
+
     const { accessToken } = authenticateUser.body
 
-    return { accessToken }
+    return { accessToken, refreshToken }
 }

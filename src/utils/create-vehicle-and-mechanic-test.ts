@@ -8,6 +8,7 @@ export async function CreateVehicleAndMechanicTest(app: FastifyInstance) {
     const vehicle = await prisma.vehicle.create({
         data: {
             model: "gol",
+            brand: "volkswagenn",
             plate: "cis-9999",
             user_id: user.id,
             year: 1999

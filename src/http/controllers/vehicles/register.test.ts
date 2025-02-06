@@ -19,6 +19,7 @@ describe("Register Vehicle Controller (e2e)", async () => {
             .auth(accessToken, { type: "bearer" })
             .send({
                 plate: "cis-1999",
+                brand: "volkswagenn",
                 model: "gol",
                 year: 1999,
                 user_id: user.id

@@ -3,6 +3,16 @@ import { VehicleRepository } from "../vehicle-repository";
 import { randomUUID } from "crypto";
 
 export class InMemoryVehicleRepository implements VehicleRepository {
+    update(v: Vehicle): Promise<Vehicle> {
+        const vehicle = {
+            ...v,
+            plate: v.plate,
+            model: v.model,
+            year: v.year,
+            brand: v.brand
+        }
+        return Promise.resolve(vehicle)
+    }
     public items: Vehicle[] = []
 
     async create(data: Prisma.VehicleUncheckedCreateInput) {
@@ -19,8 +29,8 @@ export class InMemoryVehicleRepository implements VehicleRepository {
         return vehicle
     }
 
-    async findById(id: string, user_id: string) {
-        const vehicle = this.items.find(item => item.id === id && item.user_id === user_id) || null
+    async findById(id: string) {
+        const vehicle = this.items.find(item => item.id === id) || null
         return vehicle
     }
 

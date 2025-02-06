@@ -44,7 +44,7 @@ export class CreateSchedulingUseCase {
             throw new ScheduledTimeExistsError()
         }
 
-        const vehicle = await this.vehicleRepository.findById(vehicle_id, user_id)
+        const vehicle = await this.vehicleRepository.findById(vehicle_id)
         if (!vehicle) {
             throw new ResourceNotFoundError()
         }
