@@ -11,6 +11,7 @@ export class InMemoryVehicleRepository implements VehicleRepository {
             plate: data.plate,
             model: data.model,
             year: data.year,
+            brand: data.brand,
             user_id: data.user_id || randomUUID().toString()
         }
         this.items.push(vehicle)

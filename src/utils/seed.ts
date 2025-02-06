@@ -53,6 +53,7 @@ async function seed() {
                 id: "vehicle_1",
                 model: "gol",
                 plate: "plate-1",
+                brand: "volkswagen",
                 user_id: "user_1",
                 year: 1999,
             },

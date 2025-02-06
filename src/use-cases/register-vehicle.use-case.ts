@@ -7,6 +7,7 @@ interface RegisterVehicleRequest {
     model: string
     year: number
     user_id: string
+    brand: string
 }
 
 interface RegisterVehicleResponse {
@@ -17,12 +18,12 @@ export class RegisterVehicleUseCase {
     constructor(
         public vehicleRepository: VehicleRepository
     ) { }
-
     async execute({
         model,
         plate,
         user_id,
-        year
+        year,
+        brand
     }: RegisterVehicleRequest): Promise<RegisterVehicleResponse> {
 
         const VehicleRegistered = await this.vehicleRepository.findByPlate(plate)
@@ -34,7 +35,8 @@ export class RegisterVehicleUseCase {
             model,
             plate,
             user_id,
-            year
+            year,
+            brand
         })
 
         return { vehicle }

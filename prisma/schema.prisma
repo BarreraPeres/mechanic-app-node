@@ -87,6 +87,7 @@ model Vehicle {
   id    String @id @default(uuid())
   plate String @unique
   model String
+  brand String
   year  Int
 
   user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
