@@ -1,6 +1,12 @@
 import { CalendarCog, Car, Home, LogOut } from "lucide-react";
+import { makeLogout } from "../services/make-logout.service";
 
 export function Sidebar() {
+    async function handleLogout() {
+        await makeLogout()
+        window.location.href = "/"
+    }
+
     return (
         <aside className="flex w-64 p-6">
 
@@ -21,7 +27,7 @@ export function Sidebar() {
                     Carros
                 </a>
 
-                <a className="p-4 gap-2 flex items-center hover:text-zinc-500" href="">
+                <a className="p-4 gap-2 flex items-center hover:text-zinc-500" onClick={() => handleLogout()}>
                     <LogOut />
                     Sair
                 </a>
