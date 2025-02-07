@@ -1,7 +1,7 @@
-import { Pencil, PencilLineIcon } from "lucide-react"
-import { GetVehiclesService } from "../services/get-vehicles.service"
+import { Pencil } from "lucide-react"
+import { GetVehiclesService } from "../services/vehicle/get-vehicles.service"
 import { useQuery } from "@tanstack/react-query"
-
+import CarPNG from "/car.png"
 export function Cars() {
     const { data, isLoading } = useQuery({
         queryKey: ['vehicles'],
@@ -58,18 +58,18 @@ export function Cars() {
                                         ">
                                         <img
                                             className="flex rounded-md"
-                                            src="https://placehold.co/300x200">
+                                            src={CarPNG}>
                                         </img>
 
                                         <span
                                             className="
                                                 text-sm
                                                 flex
+                                                flex-1
                                                 text-green-400
                                                 ">
                                             Ano: {v.year}
                                         </span>
-
 
                                         <p className="font-bold">
                                             Placa:
@@ -94,14 +94,17 @@ export function Cars() {
                                         ">
                                             <p className="
                                                     text-sm
+                                                    font-semibold
                                                     text-zinc-300
                                                 ">
-                                                {v.model}
+                                                {v.model}  {v.brand}
                                             </p>
 
                                             <button
-                                                className="
-                                                ">
+                                                onClick={() =>
+                                                    window.location.href = `/car/${v.id}/update`
+                                                }
+                                            >
                                                 <Pencil
                                                     size={15}
                                                 />

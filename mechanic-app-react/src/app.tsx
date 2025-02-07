@@ -9,6 +9,7 @@ import { Register } from "./pages/register";
 import { Appointments } from "./pages/appoinments";
 import { Cars } from "./pages/cars";
 import { Layout } from "./components/layout";
+import { UpdateVehicle } from "./components/update-vehicle";
 
 export function App() {
   useEffect(() => {
@@ -63,6 +64,7 @@ export function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/appointments" element={<Appointments />} />
             <Route path="/cars" element={<Cars />} />
+            <Route path="/car/:id/update" element={<UpdateVehicle />} />
           </Route>
         </Route>
 

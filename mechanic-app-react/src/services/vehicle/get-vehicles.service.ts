@@ -1,4 +1,4 @@
-import { instanceAxios } from "../lib/axios";
+import { instanceAxios } from "../../lib/axios";
 
 interface GetVehiclesServiceResponse {
     vehicles: {
@@ -6,6 +6,7 @@ interface GetVehiclesServiceResponse {
         model: string,
         plate: string,
         user_id: string,
+        brand: string,
         year: string
     }[]
 }
