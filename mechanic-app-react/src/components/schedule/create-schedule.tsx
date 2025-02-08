@@ -1,19 +1,19 @@
 import { X } from 'lucide-react';
-import { Mechanic } from "../services/search-mechanics.service";
-import { Button } from "./ui/button";
-import { DialogTitle } from "./ui/dialog";
+import { Mechanic } from "../../services/search-mechanics.service";
+import { Button } from "../ui/button";
+import { DialogTitle } from "../ui/dialog";
 import { Datepicker } from "flowbite-react";
-import { datepickerTheme } from "./styles/datapicker";
-import { TimePicker } from "./ui/timepicker";
+import { datepickerTheme } from "../styles/datapicker";
+import { TimePicker } from "../ui/timepicker";
 import { DialogClose } from '@radix-ui/react-dialog';
 import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CreateScheduleService } from "../services/create-schedule.service";
+import { CreateScheduleService } from "../../services/create-schedule.service";
 import dayjs from "dayjs";
-import { Input } from "./ui/input";
-import { DropDown } from "./ui/dropdown";
-import { RadioGroup, RadioGroupIndicator, RadioGroupItem } from "./ui/radio-group";
+import { Input } from "../ui/input";
+import { DropDown } from "../ui/dropdown";
+import { RadioGroup, RadioGroupIndicator, RadioGroupItem } from "../ui/radio-group";
 
 
 

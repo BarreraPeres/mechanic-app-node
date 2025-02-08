@@ -8,8 +8,8 @@ import { useQuery } from "@tanstack/react-query";
 import { Register } from "./pages/register";
 import { Appointments } from "./pages/appoinments";
 import { Cars } from "./pages/cars";
-import { Layout } from "./components/layout";
-import { UpdateVehicle } from "./components/update-vehicle";
+import { Layout } from "./layout";
+import { UpdateVehicle } from "./components/vehicle/update-vehicle";
 
 export function App() {
   useEffect(() => {

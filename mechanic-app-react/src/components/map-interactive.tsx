@@ -6,7 +6,7 @@ import { Mechanic } from "../services/search-mechanics.service";
 import { Button } from "./ui/button";
 import { DialogTrigger, Dialog, DialogContent } from "./ui/dialog";
 import { useState } from "react";
-import { CreateSchedule } from "./create-schedule";
+import { CreateSchedule } from "./schedule/create-schedule";
 import { GetMechanicsNearbyService } from "../services/get-mechanics-nearby.service";
 import { HeaderMap } from "./header-map";
 

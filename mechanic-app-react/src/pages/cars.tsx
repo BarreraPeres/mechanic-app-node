@@ -2,6 +2,7 @@ import { Pencil } from "lucide-react"
 import { GetVehiclesService } from "../services/vehicle/get-vehicles.service"
 import { useQuery } from "@tanstack/react-query"
 import CarPNG from "/car.png"
+
 export function Cars() {
     const { data, isLoading } = useQuery({
         queryKey: ['vehicles'],
@@ -40,10 +41,15 @@ export function Cars() {
                             return (
                                 <div
                                     className="
+                                shadow-md
+                                shadow-zinc-900
+                                hover:shadow-lg
+                                transition 
+                                duration-300
                                 bg-zinc-950
                                 rounded-lg
-                                w-[170px]
-                                h-[270px]
+                                w-[230px]
+                                h-auto
                                  flex
                                  flex-col
                                 ">
@@ -54,24 +60,40 @@ export function Cars() {
                                         flex-col
                                         items-start
                                         justify-start
-                                        p-4
+                                        p-6
                                         ">
+
                                         <img
-                                            className="flex rounded-md"
-                                            src={CarPNG}>
-                                        </img>
+                                            className="flex rounded-md object-cover mb-4"
+                                            src={CarPNG} />
+
+                                        <p className="font-bold text-green-500">
+                                            Marca:
+                                        </p>
 
                                         <span
                                             className="
-                                                text-sm
-                                                flex
-                                                flex-1
-                                                text-green-400
-                                                ">
-                                            Ano: {v.year}
+                                        text-zinc-300
+                                        flex
+                                        text-sm
+                                        ">
+                                            {v.brand}
                                         </span>
 
-                                        <p className="font-bold">
+                                        <p className="font-bold text-green-500">
+                                            Ano:
+                                        </p>
+
+                                        <span
+                                            className="
+                                        text-zinc-300
+                                        flex
+                                        text-sm
+                                        ">
+                                            {v.year}
+                                        </span>
+
+                                        <p className="font-bold text-green-500">
                                             Placa:
                                         </p>
 
@@ -83,7 +105,7 @@ export function Cars() {
                                         ">
                                             {v.plate}
                                         </span>
-                                        <p className="font-bold">
+                                        <p className="font-bold text-green-500">
                                             Modelo:
                                         </p>
 
@@ -92,13 +114,13 @@ export function Cars() {
                                             justify-between
                                              w-full
                                         ">
-                                            <p className="
-                                                    text-sm
-                                                    font-semibold
-                                                    text-zinc-300
+                                            <span className="
+                                                text-sm
+                                                flex
+                                                text-zinc-300
                                                 ">
-                                                {v.model}  {v.brand}
-                                            </p>
+                                                {v.model}
+                                            </span>
 
                                             <button
                                                 onClick={() =>

@@ -1,11 +1,11 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { Button } from "../components/ui/button";
-import { GetVehicleByIdService } from "../services/vehicle/get-vehicle-by-id.service";
+import { Button } from "../ui/button";
+import { GetVehicleByIdService } from "../../services/vehicle/get-vehicle-by-id.service";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { UpdateVehicleService } from "../services/vehicle/update-vehicle.service";
+import { UpdateVehicleService } from "../../services/vehicle/update-vehicle.service";
 
 const UpdateVehicleForm = z.object({
     model: z.string().min(1, "Informe o modelo do veículo"),

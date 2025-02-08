@@ -14,6 +14,19 @@ googleMapsScript.async = true;
 document.head.appendChild(googleMapsScript);
 
 
+declare global {
+  interface Window {
+    error: (err: any, silent?: boolean) => void;
+  }
+}
+
+window.error = (err, silent = false) => {
+  console.error(err);
+  if (!silent) {
+    window.alert(err.message);
+  }
+};
+
 createRoot(document.getElementById('root') as HTMLElement).render(
   <BrowserRouter>
     <QueryClientProvider client={client}>
