@@ -57,7 +57,12 @@ export function ScheduleCard({ schedules }: ScheduleCardProps) {
 
     return (
 
-        <div>
+        <div
+            className="
+            grid
+            grid-cols-4
+            gap-4
+        ">
             {schedules.map((s) => {
                 if (!s.vehicle || !s.mechanic) return
                 const navigate = useNavigate()
@@ -69,7 +74,8 @@ export function ScheduleCard({ schedules }: ScheduleCardProps) {
                 days = (days + "da" + " " + date + " de " + year)
 
                 return (
-                    <div className="
+                    <div>
+                        <div className="
                         flex 
                         flex-col
                         p-4
@@ -77,69 +83,66 @@ export function ScheduleCard({ schedules }: ScheduleCardProps) {
                         w-[240px]
                         bg-zinc-950
                         rounded-lg">
-                        <div
-                            key={s.request_at.toString()}
-                            className="flex justify-between gap-3">
-                            <div className="font-bold gap-1">
-                                Serviço
+                            <div
+                                key={s.request_at.toString()}
+                                className="flex justify-between gap-3">
+                                <div className="font-bold gap-1">
+                                    Serviço
+                                </div>
+                                <div
+                                    className={StatusBadge(s.status)[0]}
+                                >
+                                    {StatusBadge(s.status)[1]}
+                                </div>
                             </div>
                             <div
-                                className={StatusBadge(s.status)[0]}
-                            >
-                                {StatusBadge(s.status)[1]}
-                            </div>
-                        </div>
-                        <div
-                            className="
-                            w-auto 
-                            ">
-                            <span
                                 className="
+                            w-auto 
+                            flex
+                            flex-col
+                            gap-1
+                            ">
+                                <span
+                                    className="
                                 text-sm
-                                mb-2
+                                mt-2
                                 flex
                                 text-green-400
                                 ">
-                                Solicitado para {days}
-                            </span>
+                                    Solicitado para {days}
+                                </span>
 
-                            <div
-                                className="
-                                flex
-                                flex-col">
-                                <label
+                                <p
                                     className="
-                                    block
+                                    flex
                                     mt-2 
                                     font-bold
                                     ">
                                     Tipo do Serviço:
-                                </label>
+                                </p>
                                 <span
                                     className=
                                     {TypeBadge(s.type)[0]}
                                 >
                                     {TypeBadge(s.type)[1]}
                                 </span>
-                            </div>
-                            <label
-                                className="
+
+                                <label
+                                    className="
                                 font-bold
                                 ">
-                                Oficina:
-                            </label>
-                            <span
-                                className="
+                                    Oficina:
+                                </label>
+                                <span
+                                    className="
                                 flex
                                 font-sans
                                 text-sm
                                 text-zinc-300
                                 ">
-                                {s.mechanic.name}
-                            </span>
+                                    {s.mechanic.name}
+                                </span>
 
-
-                            <div className="flex w-full justify-between">
                                 <label
                                     className="
                                 block
@@ -156,6 +159,7 @@ export function ScheduleCard({ schedules }: ScheduleCardProps) {
                                 ">
                                     {s.description}
                                 </p>
+
                                 <div
                                     className="
                                 flex
@@ -169,8 +173,7 @@ export function ScheduleCard({ schedules }: ScheduleCardProps) {
                                 </div>
                             </div>
                         </div>
-
-                    </div >
+                    </div>
                 )
             }
             )}

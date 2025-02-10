@@ -28,22 +28,28 @@ export function HeaderMap({ setShowLocationUser, position }: HeaderProps) {
         if (!pos) {
             return (<div>Loading coords...</div>)
         }
-        position(pos.lat, pos.lng) //latlng.lat, latlng.lng
+        position(pos.lat, pos.lng)
     }
 
     return (
         <Dialog>
             <div className="top-12 right-28 mt-10 absolute z-[9999] flex flex-row gap-2">
                 <DialogTrigger asChild>
-                    <Button className="text-current p-1 text-sm" variant="secondary">
-                        <MapPin /> My Position
+                    <Button className="p-1 text-sm font-normal" variant="secondary">
+                        Localização <MapPin size={17} />
                     </Button>
                 </DialogTrigger>
 
                 <DialogContent>
 
                     <div className="p-4 gap-2">
-                        <DialogClose>
+                        <DialogClose
+                            className="
+                            flex
+                            justify-end
+                            w-full
+                            "
+                        >
                             <X className="size-5" />
                         </DialogClose>
 
@@ -64,7 +70,7 @@ export function HeaderMap({ setShowLocationUser, position }: HeaderProps) {
                                 }
                             })}
                         >
-                            <MapPin /> My Current Position
+                            <MapPin /> Ir para minha posição atual
                         </Button>
 
                         <label htmlFor="search"></label>
@@ -84,24 +90,49 @@ export function HeaderMap({ setShowLocationUser, position }: HeaderProps) {
                                     />
                                     <div className=" flex-col absolute mt-[400px]">
                                         {suggestions.map(s => (
-                                            <div className="p-2 bg-zinc-950 rounded-lg "{...getSuggestionItemProps(s)}>
-                                                <span key={s.id} className="text-green-500">{s.description}</span>
+                                            <div className="
+                                            p-2
+                                            bg-zinc-950
+                                            rounded-lg
+                                               "{...getSuggestionItemProps(s)}>
+                                                <span
+                                                    key={s.id}
+                                                    className="text-green-500
+                                                    ">
+                                                    {s.description}
+                                                </span>
                                             </div>
                                         ))}
                                     </div>
                                 </div>
                             </div>
-
                         )}
-
                         </PlacesAutocomplete>
                     </div>
-
                 </DialogContent>
-
-                <DropDown title="Expandir Raio de Busca" className="p-2 text-sm font-medium ring-0 tracking-tight outline-none text-current bg-gradient-to-r from-zinc-900 to-emerald-900 text-zinc-50" >
+                <DropDown title="Expandir Raio de Busca"
+                    className="
+                    p-2
+                    text-sm
+                    font-normal
+                    ring-0
+                    tracking-tight
+                    outline-none
+                    text-current
+                    bg-gradient-to-r
+                    from-zinc-900
+                    to-emerald-900
+                    text-zinc-50" >
                     <RadioGroup>
-                        <RadioGroupItem size="xs" className="text-xs font-medium p-2 gap-1 items-stretch" value="10">
+                        <RadioGroupItem
+                            size="xs"
+                            className="
+                            text-xs
+                            font-normal 
+                            p-2
+                            gap-1
+                            items-stretch"
+                            value="10">
                             20 km
                             <RadioGroupIndicator />
                         </RadioGroupItem>
