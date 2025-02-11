@@ -1,6 +1,6 @@
 import { MapContainer, Marker, TileLayer, Popup } from "react-leaflet";
 import { LocationUser } from "../lib/location-user.leaflet";
-import { CalendarClock, CalendarSearch, MessageSquareText } from 'lucide-react';
+import { CalendarClock, CalendarSearch, PhoneCall } from 'lucide-react';
 import { useQuery } from "@tanstack/react-query";
 import { Mechanic } from "../services/search-mechanics.service";
 import { Button } from "./ui/button";
@@ -9,6 +9,7 @@ import { useState } from "react";
 import { CreateSchedule } from "./schedule/create-schedule";
 import { GetMechanicsNearbyService } from "../services/get-mechanics-nearby.service";
 import { HeaderMap } from "./header-map";
+import { MechanicCard } from "./mechanic/mechanic-card";
 
 export function MapInteractive() {
     const [selectedMechanic, setSelectedMechanic] = useState<Mechanic | null>(null)
@@ -38,9 +39,19 @@ export function MapInteractive() {
 
     return (
         <Dialog>
-            <div className="h-screen overflow-hidden flex flex-1 items-center justify-center">
+            <div className="
+                h-screen
+                overflow-hidden
+                flex 
+                flex-1
+                items-center 
+                justify-center
+               ">
 
-                <HeaderMap setShowLocationUser={setShowLocationUser} position={HandleCurrentLocation} />
+                <HeaderMap
+                    setShowLocationUser={setShowLocationUser}
+                    position={HandleCurrentLocation}
+                />
 
                 <MapContainer
                     center={[-23.2928764, -45.9413343]} // coords iniciais brasilian
@@ -53,41 +64,84 @@ export function MapInteractive() {
                     />
 
                     {showLocationUser &&
-                        <LocationUser location={HandleCurrentLocation} position={position!} />
+                        <LocationUser
+                            location={HandleCurrentLocation}
+                            position={position!}
+                        />
                     }
 
                     {position &&
-                        <LocationUser location={HandleCurrentLocation} position={position} />
+                        <LocationUser
+                            location={HandleCurrentLocation}
+                            position={position}
+                        />
                     }
 
                     {
                         nearbyMechanics.mechanics.map((m) => {
-                            const position = { lat: m.latitude, lng: m.longitude }
+                            const positionOfMechanic = { lat: m.latitude, lng: m.longitude }
                             return (
-                                <Marker key={m.id} position={position}>
+                                <Marker key={m.id} position={positionOfMechanic}>
                                     <Popup maxWidth={165} maxHeight={310}>
-                                        <div id="mechanic_card" className="flex flex-col w-full overscroll-none">
-                                            <img className="rounded-2xl flex relative shadow-lg shadow-yellow-300 " src="https://via.placeholder.com/600x400" />
-                                            <img className="w-16 h-16 my-16 absolute  rounded-full shadow-lg shadow-yellow-300" src="https://via.placeholder.com/64" />
-                                            <div className="text-xs mt-10">
-                                                <div className="flex flex-col gap-0.5">
-                                                    <h2 className="text-sm text-zinc-800 font-semibold ">{m.name} </h2>
-                                                    <span className="text-zinc-600 text-sm ">Endereço: {m.latitude} </span>
-                                                    <span className="text-zinc-600 text-sm ">Telefone: {m.phone}</span>
-                                                </div>
-                                                <div className="flex items-center justify-between gap-1 mt-2">
+                                        <div id="mechanic_card"
+                                            className="
+                                            flex
+                                            h-auto
+                                            flex-col
+                                            overscroll-none
+                                            w-auto
+                                            ">
 
-                                                    <DialogTrigger asChild>
-                                                        <Button className="flex items-center bg-yellow-900 rounded-xl p-1 hover:bg-emerald-800"
-                                                            onClick={() => setSelectedMechanic(m)}
-                                                        >
-                                                            <CalendarSearch />
-                                                        </Button>
-                                                    </DialogTrigger>
+                                            <MechanicCard
+                                                positionOfUser={position}
+                                                key={m.id}
+                                                mechanic={m}>
+                                            </MechanicCard>
+                                            <div className="
+                                            flex 
+                                            items-center 
+                                            justify-between 
+                                            gap-1
+                                             mt-1">
 
-                                                    <a className="flex items-center bg-yellow-500 rounded-xl p-1 hover:bg-emerald-800"><CalendarClock /></a>
-                                                    <a className="flex items-center bg-yellow-500 rounded-xl p-1 hover:bg-emerald-800" href="http://localhost:4000/"> <MessageSquareText /> </a>
-                                                </div>
+                                                <DialogTrigger asChild>
+                                                    <Button className="
+                                                            flex 
+                                                            items-center
+                                                            bg-green-900
+                                                            rounded-xl p-1
+                                                            hover:bg-emerald-800"
+                                                        onClick={() => setSelectedMechanic(m)}
+                                                    >
+                                                        <CalendarSearch />
+                                                    </Button>
+                                                </DialogTrigger>
+
+                                                <Button className="
+                                                    flex 
+                                                    items-center
+                                                    bg-green-900
+                                                    rounded-xl 
+                                                    p-1
+                                                    hover:bg-emerald-800
+                                                   ">
+                                                    <CalendarClock />
+                                                </Button>
+                                                <Button
+
+                                                    className="
+                                                    flex
+                                                    items-center
+                                                    bg-green-900
+                                                    rounded-xl 
+                                                    p-1
+                                                    hover:bg-emerald-800
+                                                    "
+                                                    onClick={() => {
+                                                        window.open(`https://wa.me/${m.phone}`)
+                                                    }}>
+                                                    <PhoneCall />
+                                                </Button>
                                             </div>
                                         </div>
                                     </Popup>
