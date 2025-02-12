@@ -10,6 +10,8 @@ import { Appointments } from "./pages/appoinments";
 import { Cars } from "./pages/cars";
 import { Layout } from "./layout";
 import { UpdateVehicle } from "./components/vehicle/update-vehicle";
+import { AvailableTimes } from "./components/mechanic/available-times";
+import { RegisterSchedule } from "./components/schedule/register-schedule";
 
 export function App() {
   useEffect(() => {
@@ -65,6 +67,8 @@ export function App() {
             <Route path="/appointments" element={<Appointments />} />
             <Route path="/cars" element={<Cars />} />
             <Route path="/car/:id/update" element={<UpdateVehicle />} />
+            <Route path="/mechanic/:id" element={<AvailableTimes />} />
+            <Route path="/register-schedule/:id" element={<RegisterSchedule />} />
           </Route>
         </Route>
 

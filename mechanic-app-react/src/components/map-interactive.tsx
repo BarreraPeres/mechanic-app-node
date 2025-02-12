@@ -1,6 +1,6 @@
 import { MapContainer, Marker, TileLayer, Popup } from "react-leaflet";
 import { LocationUser } from "../lib/location-user.leaflet";
-import { CalendarClock, CalendarSearch, PhoneCall } from 'lucide-react';
+import { CalendarClock, CalendarSearch, PhoneCall, Send } from 'lucide-react';
 import { useQuery } from "@tanstack/react-query";
 import { Mechanic } from "../services/search-mechanics.service";
 import { Button } from "./ui/button";
@@ -10,6 +10,7 @@ import { CreateSchedule } from "./schedule/create-schedule";
 import { GetMechanicsNearbyService } from "../services/get-mechanics-nearby.service";
 import { HeaderMap } from "./header-map";
 import { MechanicCard } from "./mechanic/mechanic-card";
+import { Popover } from "flowbite-react";
 
 export function MapInteractive() {
     const [selectedMechanic, setSelectedMechanic] = useState<Mechanic | null>(null)
@@ -36,7 +37,6 @@ export function MapInteractive() {
     if (!nearbyMechanics) {
         return (<div>Loading...</div>)
     }
-
     return (
         <Dialog>
             <div className="
@@ -91,7 +91,6 @@ export function MapInteractive() {
                                             overscroll-none
                                             w-auto
                                             ">
-
                                             <MechanicCard
                                                 positionOfUser={position}
                                                 key={m.id}
@@ -116,8 +115,8 @@ export function MapInteractive() {
                                                         <CalendarSearch />
                                                     </Button>
                                                 </DialogTrigger>
-
-                                                <Button className="
+                                                <Button
+                                                    className="
                                                     flex 
                                                     items-center
                                                     bg-green-900
@@ -125,8 +124,40 @@ export function MapInteractive() {
                                                     p-1
                                                     hover:bg-emerald-800
                                                    ">
-                                                    <CalendarClock />
+                                                    <Popover
+                                                        content={
+                                                            <div
+                                                                className="
+                                                            flex
+                                                            bg-white
+                                                            w-40
+                                                            h-10
+                                                            text-zinc-900
+                                                            font-semibold
+                                                            items-center
+                                                            "
+                                                            >
+                                                                Ver Horários Dísponivéis Hoje
+                                                                <Button
+                                                                    onClick={() => {
+                                                                        window.location.href = `/mechanic/${m.id}`
+                                                                    }}
+                                                                    className="
+                                                                        size-8
+                                                                    ">
+                                                                    <Send
+                                                                        className="absolute"
+                                                                        size={19}
+                                                                    />
+
+                                                                </Button>
+                                                            </div>
+                                                        }
+                                                    >
+                                                        <CalendarClock />
+                                                    </Popover>
                                                 </Button>
+
                                                 <Button
 
                                                     className="
