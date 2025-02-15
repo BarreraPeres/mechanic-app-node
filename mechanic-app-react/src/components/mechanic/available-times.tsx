@@ -6,25 +6,25 @@ import dayjs from "dayjs";
 import { Clock, Plus } from "lucide-react";
 import { Button } from "../ui/button";
 import { useState } from "react";
+import { Skeleton } from "../ui/skeleton";
 
 
 export function AvailableTimes() {
     const { id } = useParams()
     const [showTime, setTime] = useState<string>("")
     const navigate = useNavigate()
-    console.log("showTime", showTime)
 
     if (!id) { return <div>Loading...</div> }
 
-    const { data: times } = useQuery({
+    const { data: times, isLoading } = useQuery({
         queryKey: ["get times by mechanic id"],
         queryFn: () => GetTimesByMechanicIdService({ mechanicId: id }),
-        enabled: !!id
+        staleTime: 1000 * 60 * 60 * 24, // 24 hours
     })
-
-    if (!times) { return <div>Loading...</div> }
-
     const today = dayjs().format("dddd, D MMMM " + dayjs().format("YYYY"))
+
+    if (!times || !times.avaliebleTimes || isLoading) { return (<Skeleton />) }
+
 
     return (
         <div>
