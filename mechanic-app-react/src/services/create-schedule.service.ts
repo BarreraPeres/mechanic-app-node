@@ -14,13 +14,17 @@ export async function CreateScheduleService({
     scheduled_for,
     type,
     vehicle_id }: CreateScheduleServiceBody) {
-    await instanceAxios.post("/scheduling",
-        {
-            description,
-            mechanic_id,
-            scheduled_for,
-            type,
-            vehicle_id
-        }
-    )
+    try {
+        await instanceAxios.post("/scheduling",
+            {
+                description,
+                mechanic_id,
+                scheduled_for,
+                type,
+                vehicle_id
+            }
+        )
+    } catch (err) {
+        window.error(err)
+    }
 }
