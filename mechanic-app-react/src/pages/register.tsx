@@ -58,9 +58,15 @@ export function Register({ status }: registerProps) {
                 </div>
 
                 <div
-                    className="flex flex-1 gap-3 justify-center items-center mt-4
-                    font-serif text-xl font-bold
-                    text-zinc-200
+                    className="
+                    flex
+                    flex-1
+                    gap-3
+                    justify-center
+                    items-center
+                    mt-4
+                    font-bold text-xl 
+                    text-zinc-300
                 ">
                     <Icon />
                     Cadastre-se gratuitamente

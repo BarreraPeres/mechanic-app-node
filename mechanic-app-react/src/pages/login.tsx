@@ -43,10 +43,37 @@ export function Login({ status }: LoginProps) {
 
 
     return (
-        <main className="flex flex-col justify-center items-center mt-10">
-            <div className="bg-zinc-800 w-[500px] h-[580px] rounded-lg ">
-                <div className="flex flex-col justify-center items-center mb-10 mt-10">
+        <main className="
+                flex
+                flex-col
+                justify-center
+                items-center
+                mt-10
+            ">
+            <div className="
+                bg-zinc-800
+                w-[500px]
+                h-[580px]
+                rounded-lg 
+               ">
+                <div
+                    className="
+                    flex 
+                    flex-col
+                    justify-center 
+                    items-center
+                    mb-10
+                    mt-10
+                    ">
                     <Icon />
+                </div>
+                <div className="flex flex-col items-start ml-7">
+                    <strong
+                        className="
+                        text-zinc-300 
+                        font-bold 
+                        text-xl 
+                    ">Acesse Sua Conta</strong>
                 </div>
                 <form
                     onSubmit={handleSubmit(handleLogin)}
@@ -58,24 +85,24 @@ export function Login({ status }: LoginProps) {
                             type="text"
                             required
                             autoComplete="username"
-                            placeholder="Seu Email ou cpf..."
+                            placeholder="Seu e-mail ou cpf"
                             {...register("username")}
                         />
 
                     </div>
                     <div className="flex flex-col gap-2 text-sm text-zinc-400">
-                        <label htmlFor="password">Sua Senha</label>
+                        <label htmlFor="password">Senha</label>
                         <Input
                             id="password"
                             type="password"
-                            placeholder="Senha..."
+                            placeholder="Sua senha"
                             autoComplete="current-password"
                             required
                             {...register("password")}
                         />
                     </div>
 
-                    <div className="flex flex-col gap-4 mt-10">
+                    <div className="flex flex-col gap-4 mt-5">
                         <Button >Entrar</Button>
                         <Button
                             onClick={() => {
@@ -84,9 +111,44 @@ export function Login({ status }: LoginProps) {
                             className="group">
                             <a
                                 href="/register"
-                                className="text-sm text-green-400 group-hover:text-green-600">Não tem conta?
-                            </a>Registre-se
+                                className="
+                                text-sm
+                                text-green-400
+                                group-hover:text-green-600
+                                  ">
+                                Não tem conta?
+                            </a>
+                            Registre-se
                         </Button>
+                        <div
+                            className="
+                            flex-1
+                            flex
+                            items-center
+                            text-zinc-200
+                            text-sm
+                            font-bold 
+                                ">
+                            Você é um mecânico?
+                            <Button
+                                className="
+                                flex 
+                                flex-1
+                                 ml-48
+                                "
+                                onClick={() => {
+                                    window.location.href = "/register-mechanic"
+                                }}>
+                                <a
+                                    href="/register-mechanic"
+                                    className="
+                                    text-sm
+                                     text-zinc-300 
+                                     ">
+                                    Registre-se
+                                </a>
+                            </Button>
+                        </div>
                     </div>
                 </form>
             </div>
