@@ -1,31 +1,33 @@
-import { Button } from "../ui/button";
+import { Button } from "../ui/button.js";
 import { Datepicker } from "flowbite-react";
-import { datepickerTheme } from "../styles/datapicker";
-import { TimePicker } from "../ui/timepicker";
+import { datepickerTheme } from "../styles/datapicker.js";
+import { TimePicker } from "../ui/timepicker.js";
 import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CreateScheduleService } from "../../services/create-schedule.service";
+import { CreateScheduleService } from "../../services/create-schedule.service.js";
 import dayjs from "dayjs";
-import { Input } from "../ui/input";
-import { RadioGroup, RadioGroupIndicator, RadioGroupItem } from "../ui/radio-group";
+import { Input } from "../ui/input.js";
+import { RadioGroup, RadioGroupIndicator, RadioGroupItem } from "../ui/radio-group.js";
 import { useParams } from 'react-router-dom';
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { GetVehiclesService } from "../../services/vehicle/get-vehicles.service";
-import { Skeleton } from "../ui/skeleton";
+import { GetVehiclesService } from "../../services/vehicle/get-vehicles.service.js";
+import { Skeleton } from "../ui/skeleton.js";
+
+const yesterday = dayjs().add(-1, "day").toDate()
 
 const createScheduleForm = z.object({
-    scheduled_for: z.date(),
+    scheduled_for: z.date().min(yesterday, { message: `Insira uma data válida` }),
     time: z.string(),
     description: z.string().min(1, "Informe a descrição"),
     vehicle_id: z.string(),
     type: z.string().min(1, "Informe o tipo do serviço"),
 })
 
-type RegisterScheduleForm = z.infer<typeof createScheduleForm>
+type CreateSchedulePageForm = z.infer<typeof createScheduleForm>
 
 
-export function RegisterSchedule() {
+export function CreateSchedulePage() {
     const queryClient = useQueryClient()
 
     const parms = useParams()
@@ -38,12 +40,12 @@ export function RegisterSchedule() {
         staleTime: 1000 * 60 * 60 * 24, // 24 hours
     })
 
-    const { handleSubmit, control, register, reset, formState } = useForm<RegisterScheduleForm>({
+    const { handleSubmit, control, register, reset, formState } = useForm<CreateSchedulePageForm>({
         resolver: zodResolver(createScheduleForm)
     })
 
 
-    async function HandleCreateScheduling(data: RegisterScheduleForm) {
+    async function HandleCreateScheduling(data: CreateSchedulePageForm) {
         try {
             let schedule_for = dayjs(data.scheduled_for)
             const segunds = parseInt(data.time.split(':')[1])
@@ -68,7 +70,7 @@ export function RegisterSchedule() {
             alert("Erro Ao Criar Agendamento")
         } finally {
             reset()
-            window.location.href = "/schedules"
+            window.location.href = "/appointments"
         }
     }
 

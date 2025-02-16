@@ -1,4 +1,4 @@
-import CarPNG from "../../../public/car.png"
+import CarPNG from "/car.png"
 
 export function Skeleton() {
     return (

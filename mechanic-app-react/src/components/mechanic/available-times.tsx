@@ -113,7 +113,7 @@ export function AvailableTimes() {
                 </div>
 
                 <Button
-                    onClick={() => navigate(`/register-schedule/${id}&${showTime}`)}
+                    onClick={() => navigate(`/create-schedule/${id}&${showTime}`)}
                 >
                     Cadastrar
                     <Plus

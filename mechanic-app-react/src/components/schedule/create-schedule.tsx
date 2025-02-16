@@ -14,12 +14,15 @@ import dayjs from "dayjs";
 import { Input } from "../ui/input";
 import { DropDown } from "../ui/dropdown";
 import { RadioGroup, RadioGroupIndicator, RadioGroupItem } from "../ui/radio-group";
+import { useQuery } from '@tanstack/react-query';
+import { GetVehiclesService } from '../../services/vehicle/get-vehicles.service';
+import { Skeleton } from '../ui/skeleton';
 
-
+const yesterday = dayjs().add(-1, "day").toDate()
 
 const createScheduleForm = z.object({
-    scheduled_for: z.date(), //.max(new Date("1900-01-01"), { message: "Informe a data desejada" }),
-    time: z.string(),
+    scheduled_for: z.date().min(yesterday, { message: `Insira uma data válida` }), //.max(new Date("1900-01-01"), { message: "Informe a data desejada" }),
+    time: z.string().max(1, { message: "Informe o horário desejado" }),
     description: z.string().min(1, "Informe a descrição"),
     vehicle_id: z.string(),
     type: z.string().min(1, "Informe o tipo do serviço"),
@@ -37,26 +40,43 @@ export function CreateSchedule({ mechanic_id }: CreateScheduleProps) {
         resolver: zodResolver(createScheduleForm)
     })
 
+    const { data: Vehicles, isLoading } = useQuery({
+        queryKey: ["get vehicles"],
+        queryFn: () => GetVehiclesService(),
+        staleTime: 1000 * 60 * 60 * 24, // 24 hours
+    })
+
+
     async function HandleCreateScheduling(data: CreateScheduleForm) {
         if (!mechanic_id) return
 
-        let schedule_for = dayjs(data.scheduled_for)
-        const segunds = parseInt(data.time.split(':')[1])
-        const minutes = parseInt(data.time)
-        schedule_for = schedule_for.add(segunds, "seconds").add(minutes, "minute")
-        const datas = schedule_for.toDate();
+        try {
+            let schedule_for = dayjs(data.scheduled_for)
+            const segunds = parseInt(data.time.split(':')[1])
+            const minutes = parseInt(data.time)
+            schedule_for = schedule_for.add(segunds, "seconds").add(minutes, "minute")
+            const datas = schedule_for.toDate();
 
-        await CreateScheduleService({
-            scheduled_for: datas,
-            description: data.description,
-            mechanic_id: mechanic_id.id,
-            type: data.type,
-            vehicle_id: data.vehicle_id
-        })
+            await CreateScheduleService({
+                scheduled_for: datas,
+                description: data.description,
+                mechanic_id: mechanic_id.id,
+                type: data.type,
+                vehicle_id: data.vehicle_id
+            })
 
-        alert("Solicitação de agendamento enviada!")
+            alert("Solicitação de agendamento enviada!")
 
-        reset()
+            reset()
+        } catch (err) {
+            window.error(err)
+        } finally {
+            reset()
+        }
+    }
+
+    if (!Vehicles || !Vehicles.vehicles || isLoading) {
+        return (<Skeleton />)
     }
 
     return (
@@ -86,6 +106,11 @@ export function CreateSchedule({ mechanic_id }: CreateScheduleProps) {
                                 )
                             }}
                         />
+                        {
+                            formState.errors.scheduled_for && (
+                                <p className="text-red-500 text-sm">{formState.errors.scheduled_for.message}</p>
+                            )
+                        }
                         <DialogTitle>
                             Escolha a hora desejada
                         </DialogTitle>
@@ -126,27 +151,20 @@ export function CreateSchedule({ mechanic_id }: CreateScheduleProps) {
                                     render={({ field }) => {
                                         return (
                                             <DropDown title="Carros">
-                                                <RadioGroup onValueChange={field.onChange}>
-                                                    <RadioGroupItem
-                                                        size="default"
-                                                        value="2974876a-d527-47a6-ba65-0bbba176097a">
-                                                        <RadioGroupIndicator />
-                                                        <span>carro 1</span>
-                                                    </RadioGroupItem>
+                                                <RadioGroup
+                                                    onValueChange={field.onChange}
+                                                >
+                                                    {Vehicles.vehicles.map((v) => {
+                                                        return (
+                                                            <RadioGroupItem
+                                                                size="sm"
+                                                                value={v.id}>
+                                                                <RadioGroupIndicator />
+                                                                <span>{v.model}/{v.plate}</span>
+                                                            </RadioGroupItem>
+                                                        )
+                                                    })}
 
-                                                    <RadioGroupItem
-                                                        size="default"
-                                                        value="2">
-                                                        <RadioGroupIndicator />
-                                                        <span>carro 2</span>
-                                                    </RadioGroupItem>
-
-                                                    <RadioGroupItem
-                                                        size="default"
-                                                        value="3">
-                                                        <RadioGroupIndicator />
-                                                        <span>carro 3</span>
-                                                    </RadioGroupItem>
 
                                                 </RadioGroup>
                                             </DropDown>

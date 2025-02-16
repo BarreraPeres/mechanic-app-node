@@ -1,5 +1,5 @@
 import { Button } from "../ui/button";
-import CarPng from "../../../public/car.png"
+
 export function EmptySchedule() {
     return (
         <div className="flex flex-col items-center justify-center mt-10 ml-[300px] gap-4 overflow-hidden">
