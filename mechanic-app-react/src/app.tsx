@@ -12,7 +12,10 @@ import { Layout } from "./layout";
 import { UpdateVehicle } from "./components/vehicle/update-vehicle";
 import { AvailableTimes } from "./components/mechanic/available-times";
 import { CreateSchedulePage } from "./components/schedule/create-schedule-page";
-import { LoginMechanic } from "./pages/mechanic/login";
+import { RegisterMechanic } from "./pages/mechanic/register";
+import { MechanicApp } from "./pages/mechanic-app";
+import { Questions } from "./pages/mechanic/questions";
+import { Dashboard } from "./pages/mechanic/dashboard";
 
 export function App() {
   useEffect(() => {
@@ -24,8 +27,6 @@ export function App() {
     queryFn: isAuthenticatedService,
     staleTime: 1000 * 60 * 60 * 24
   })
-  console.log("data", data)
-
 
   function handleStatus(status: number) {
     switch (status) {
@@ -45,10 +46,6 @@ export function App() {
   }
 
   const PrivateRoute = () => {
-    const path = window.location.pathname
-    if (path === "/") {
-      window.location.href = "/login"
-    }
     const isAuthenticated = data
     if (isLoading) {
       return (<div>Loading...</div>)
@@ -59,10 +56,14 @@ export function App() {
   return (
     <>
       <Routes>
+        <Route path="/" element={< MechanicApp />} />
         <Route path="/login" element={<Login status={handleStatus} />} />
         <Route path="/register" element={<Register status={handleStatus} />} />
+        <Route path="/questions" element={< Questions />} />
 
-        <Route path="/" element={<PrivateRoute />} >
+        <Route element={<PrivateRoute />} >
+          <Route path="/register-mechanic" element={< RegisterMechanic />} />
+          <Route path="/dashboard" element={< Dashboard />} />
           <Route element={<Layout />} >
             <Route path="/home" element={<Home />} />
             <Route path="/appointments" element={<Appointments />} />

@@ -227,7 +227,7 @@ export function MechanicApp() {
                                 Cadastre sua oficina e expanda seus negócios. Gerencie agendamentos de forma eficiente e aumente sua visibilidade.
                             </p>
                             <Button
-                                onClick={() => window.location.href = '/register-mechanic'}
+                                onClick={() => window.location.href = '/questions'}
                                 className="w-80">Cadastre-se</Button>
                         </div>
 
