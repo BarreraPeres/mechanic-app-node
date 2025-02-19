@@ -51,8 +51,15 @@ export function Register({ status }: registerProps) {
 
 
     return (
-        <main className="flex flex-col justify-center items-center mt-10 mb-10">
-            <div className="bg-zinc-800 w-[500px] h-[700px] rounded-lg ">
+        <main className="
+        flex
+        flex-col
+        justify-center
+        items-center
+        min-h-screen
+        bg-gradient-to-r from-zinc-900 to-emerald-900    
+        ">
+            <div className="bg-zinc-800 w-[500px] h-[700px] rounded-lg mt-10 mb-10">
                 <div>
 
                 </div>

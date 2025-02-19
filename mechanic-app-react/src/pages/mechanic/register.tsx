@@ -157,8 +157,14 @@ export function RegisterMechanic() {
                     items-start
                     font-bold
                     leading-tight
-                    text-zinc-400
                     justify-start
+                    bg-gradient-to-r 
+                    from-green-600
+                    via-green-500
+                    to-green-900
+                    inline-block 
+                    text-transparent
+                    bg-clip-text
          ">
                     Cadastre Sua Oficina Mecânica
                 </p>

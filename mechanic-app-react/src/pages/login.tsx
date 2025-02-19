@@ -48,7 +48,8 @@ export function Login({ status }: LoginProps) {
                 flex-col
                 justify-center
                 items-center
-                mt-10
+                h-screen
+                bg-gradient-to-r from-zinc-900 to-emerald-900  
             ">
             <div className="
                 bg-zinc-800
