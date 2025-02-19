@@ -8,20 +8,7 @@ export const instanceAxios = axios.create({
 
 export function setupAxiosInterceptors() {
     instanceAxios.interceptors.request.use(
-        async (config) => {
-            const accessToken = localStorage.getItem("accessToken")
-            if (accessToken) {
-                config.headers['Authorization'] = `Bearer ${accessToken}`
-            }
-            return config
-        },
-        (error) => {
-            console.error(error)
-        }
-    )
-
-
-
+    ) // this way works, dont overwrite refresh token
 
     instanceAxios.interceptors.response.use(
         async (response) => {
@@ -35,7 +22,6 @@ export function setupAxiosInterceptors() {
                 if (accessToken) {
                     localStorage.setItem("accessToken", accessToken)
                     instanceAxios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
-                    //originalConfig.headers["Authorization"] = `Bearer ${accessToken}`
                     return instanceAxios(originalConfig)
                 }
 
