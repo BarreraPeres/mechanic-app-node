@@ -5,7 +5,7 @@ import { TimePicker } from "../ui/timepicker.js";
 import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CreateScheduleService } from "../../services/create-schedule.service.js";
+import { CreateScheduleService } from "../../services/schedule/create-schedule.service.js";
 import dayjs from "dayjs";
 import { Input } from "../ui/input.js";
 import { RadioGroup, RadioGroupIndicator, RadioGroupItem } from "../ui/radio-group.js";

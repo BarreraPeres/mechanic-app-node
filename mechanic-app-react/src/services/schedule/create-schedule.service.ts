@@ -1,4 +1,4 @@
-import { instanceAxios } from "../lib/axios";
+import { instanceAxios } from "../../lib/axios";
 
 export interface CreateScheduleServiceBody {
     scheduled_for: Date

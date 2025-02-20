@@ -5,7 +5,7 @@ import { Input } from "../components/ui/input";
 
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod";
-import { RegisterUserService } from "../services/register-user.service";
+import { RegisterUserService } from "../services/user/register-user.service";
 
 interface registerProps {
     status: (s: number) => void

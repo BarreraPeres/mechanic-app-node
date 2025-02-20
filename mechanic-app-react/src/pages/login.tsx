@@ -5,7 +5,7 @@ import { Input } from "../components/ui/input";
 
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginUserService } from "../services/login-user.service";
+import { LoginUserService } from "../services/user/login-user.service";
 
 interface LoginProps {
     status: (s: number) => void
@@ -40,7 +40,6 @@ export function Login({ status }: LoginProps) {
             }
         }
     }
-
 
     return (
         <main className="
@@ -138,10 +137,10 @@ export function Login({ status }: LoginProps) {
                                  ml-48
                                 "
                                 onClick={() => {
-                                    window.location.href = "/register-mechanic"
+                                    window.location.href = "/questions"
                                 }}>
                                 <a
-                                    href="/register-mechanic"
+                                    href="/questions"
                                     className="
                                     text-sm
                                      text-zinc-300 

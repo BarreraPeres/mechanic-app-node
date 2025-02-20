@@ -1,4 +1,4 @@
-import { instanceAxios } from "../lib/axios"
+import { instanceAxios } from "../../lib/axios"
 
 type LoginUserBody = {
     username: string,

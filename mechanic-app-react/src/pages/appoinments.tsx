@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import ptBR from 'dayjs/locale/pt-br'
 import utc from 'dayjs/plugin/utc'
-import { FetchSchedulingHistoryService } from "../services/fetch-scheduling-history.service";
+import { FetchSchedulingHistoryService } from "../services/schedule/fetch-scheduling-history.service";
 import { useQuery } from "@tanstack/react-query";
 import { ScheduleCard } from "../components/schedule/schedule-card";
 

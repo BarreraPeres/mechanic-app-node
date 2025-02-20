@@ -1,4 +1,4 @@
-import { instanceAxios } from "../lib/axios";
+import { instanceAxios } from "../../lib/axios";
 
 export async function makeLogout(): Promise<boolean> {
     const res = await instanceAxios.get("/logout")

@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { refreshTokenService } from "../services/refresh-token.service";
+import { refreshTokenService } from "../services/user/refresh-token.service";
 
 export const instanceAxios = axios.create({
     baseURL: "http://localhost:3333",
