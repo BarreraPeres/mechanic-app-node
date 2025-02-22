@@ -63,6 +63,18 @@ describe("Responder Scheduling Use Cases", async () => {
             })
         ).rejects.toBeInstanceOf(ResourceNotFoundError)
     })
+    it("status must be schedule in schedule and order service", async () => {
+        await sut.execute({
+            accepted: true,
+            id: "scheduling_id"
+        })
+
+        const orderServices = orderService.items
+        const schedules = schedulingRepository.items
+
+        expect(schedules[0].status).toEqual("SCHEDULED")
+        expect(orderServices[0].status).toEqual("SCHEDULED")
+    })
 
 })
 

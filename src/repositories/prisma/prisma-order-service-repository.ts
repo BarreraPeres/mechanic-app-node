@@ -43,7 +43,7 @@ export class PrismaOrderServiceRepository implements OrderServiceRepository {
     async save(schedulingId: string, UpdateStatus: string) {
         const response = await prisma.orderService.update({
             where: {
-                id: schedulingId
+                scheduling_id: schedulingId
             },
             data: {
                 status: UpdateStatus
