@@ -25,12 +25,12 @@ export class ResponderSchedulingUseCases {
         if (!scheduleSave) {
             throw new ResourceNotFoundError()
         }
-        console.log("scheduleSave", scheduleSave)
+
         const orderSave = await this.orderService.save(id, updateStatus)
         if (!orderSave) {
             throw new ResourceNotFoundError()
         }
-        console.log("orderSave", orderSave)
+
         return { status: scheduleSave.status }
     }
 

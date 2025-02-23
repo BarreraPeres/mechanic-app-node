@@ -60,8 +60,6 @@ describe("Create Mechanic Use Case", async => {
             name: "Mechanic Javascript",
             phone: "phone"
         })
-        console.log(mechanic2)
-        console.log(mechanic1)
 
         expect(mechanic1.id).toBeDefined()
         expect(mechanic1.id).toEqual(expect.any(String))

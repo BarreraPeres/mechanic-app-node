@@ -69,7 +69,6 @@ describe("Fetch Order Services Controller (e2e)", async () => {
                 page: "0"
             })
 
-        console.log("responseHistory.body", responseHistory.body)
         expect(responseHistory.statusCode).toBe(200)
         expect(responseHistory.body.orderServices.orderServices).toHaveLength(1)
     })

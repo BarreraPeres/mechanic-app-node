@@ -30,7 +30,6 @@ interface FetchSchedulingHistoryResponse {
 export async function FetchSchedulingHistoryService(): Promise<FetchSchedulingHistoryResponse> {
     const res = await instanceAxios.get("/schedules/history")
     const { data } = res
-    console.log(data)
 
     return data
 } 
