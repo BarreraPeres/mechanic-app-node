@@ -5,6 +5,7 @@ import { ResourceNotFoundError } from "./errors/resource-not-found-error"
 
 interface AvaliebleRequest {
     mechanicId: string
+    page: number
 }
 
 interface AvaliebleResponse {
@@ -18,15 +19,18 @@ export class AvaliebleUseCase {
     ) { }
 
     async execute({
-        mechanicId
+        mechanicId,
+        page
     }: AvaliebleRequest): Promise<AvaliebleResponse> {
-
+        page
+        if (!page) {
+            page = 0
+        }
         const mechanic = await this.mechanicRepository.findById(mechanicId)
         if (!mechanic) {
             throw new ResourceNotFoundError()
         }
-
-        const orderService = await this.orderServiceRepository.findManyByMechanicId(mechanicId)
+        const orderService = await this.orderServiceRepository.findManyByMechanicId(mechanicId, page)
         if (!orderService) {
             throw new ResourceNotFoundError()
         }

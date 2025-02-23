@@ -44,7 +44,8 @@ describe("Avalieble Times Mechanic Use Case", async () => {
     })
     it("Should be show the hours avalieble", async () => {
         const { avaliebleTimes } = await sut.execute({
-            mechanicId: "mechanic_id"
+            mechanicId: "mechanic_id",
+            page: 0
         })
         expect(avaliebleTimes).toEqual([
             "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
@@ -72,7 +73,8 @@ describe("Avalieble Times Mechanic Use Case", async () => {
         })
 
         const { avaliebleTimes } = await sut.execute({
-            mechanicId: "mechanic_id"
+            mechanicId: "mechanic_id",
+            page: 0
         })
 
         expect(avaliebleTimes).toEqual([
@@ -85,7 +87,8 @@ describe("Avalieble Times Mechanic Use Case", async () => {
     it("should not be possible to availble time with mechanic inexistent", async () => {
 
         await expect(() => sut.execute({
-            mechanicId: "mechanic_inexistent"
+            mechanicId: "mechanic_inexistent",
+            page: 0
         })
         ).rejects.toBeInstanceOf(ResourceNotFoundError)
     })

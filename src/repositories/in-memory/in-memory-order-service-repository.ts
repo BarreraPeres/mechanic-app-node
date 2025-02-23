@@ -51,8 +51,20 @@ export class InMemoryOrderServiceRepository implements OrderServiceRepository {
 
     }
 
-    async findManyByMechanicId(mechanicId: string) {
-        const orderService = this.items.filter(item => item.mechanic_id === mechanicId) || null
+    async findManyByMechanicId(mechanicId: string, page: number, status?: string) {
+        let orderService
+        if (status) {
+            orderService =
+                this.items.filter(item => item.status === status)
+                    .slice(page * 10, (page + 1) * 10)
+                || null
+
+            return orderService
+        }
+        orderService =
+            this.items.filter(item => item.mechanic_id === mechanicId)
+                .slice(page * 10, (page + 1) * 10)
+            || null
         return orderService
     }
 

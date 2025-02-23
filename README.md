@@ -17,6 +17,7 @@
 - [x] Deve ser possível buscar mecânicas proximas (até 10km)
 - [x] Deve ser possível cadastrar mecânicas
 - [x] Deve ser possível buscar mecânicas pelo nome
+- [x] Deve ser possivel buscar ordens de serviços, caso queira pelo status, paginado.
 
 
 ## Regras De Negócio

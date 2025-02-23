@@ -57,13 +57,27 @@ export class PrismaOrderServiceRepository implements OrderServiceRepository {
         return response
     }
 
-    async findManyByMechanicId(mechanicId: string) {
-        const OrderService = await prisma.orderService.findMany({
-            where: {
-                mechanic_id: mechanicId
-            }
-        })
-        return OrderService
+    async findManyByMechanicId(mechanicId: string, page: number, status?: string) {
+        if (status) {
+            const OrderService = await prisma.orderService.findMany({
+                where: {
+                    mechanic_id: mechanicId,
+                    status: status
+                },
+                take: 10,
+                skip: page * 10
+            })
+            return OrderService
+        } else {
+            const OrderService = await prisma.orderService.findMany({
+                where: {
+                    mechanic_id: mechanicId,
+                },
+                take: 10,
+                skip: page * 10
+            })
+            return OrderService
+        }
     }
 
     async findManyByVehicleId(vehicleId: string, page: number) {
