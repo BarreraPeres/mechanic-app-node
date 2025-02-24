@@ -1,9 +1,9 @@
-import { Prisma, User } from "@prisma/client";
+import { Mechanic, Prisma, User } from "@prisma/client";
 import { findByUserParms, UserRepository } from "../user-repository";
 import { randomUUID } from "crypto";
 
 export class InMemoryUserRepository implements UserRepository {
-
+    public mechanic: Mechanic[] = []
     public items: User[] = []
 
     async create(data: Prisma.UserCreateInput) {
@@ -14,11 +14,14 @@ export class InMemoryUserRepository implements UserRepository {
             cpf: data.cpf,
             password_hash: data.password_hash,
             role: data.role ?? "CLIENT",
-            mechanic_id: data.mechanic_id ?? null
-            // mechanic?.connect?.id ?? null
+            mechanic_id: data.mechanic_id ?? null,
+            mechanic: data.mechanic,
         }
-        this.items.push(user)
 
+        this.items.push(user)
+        if (user.mechanic?.create) {
+            this.mechanic.push(user.mechanic.create as any)
+        }
         return user
     }
 
@@ -39,6 +42,25 @@ export class InMemoryUserRepository implements UserRepository {
         const user = this.items.find(item => item.id === userId) || null
 
         return user
+    }
+
+    async findMechanicsByUserId(userId: string) {
+        const user = this.items
+            .find(item => item.id === userId)
+
+        if (!user) return null
+
+        const mechanic = this.mechanic.filter(item => item.id === user.mechanic_id)
+
+        if (!mechanic) return null
+
+        const userWithMechanic = {
+            ...user,
+            mechanic: mechanic
+        }
+
+        return userWithMechanic
+
     }
 
 

@@ -22,8 +22,8 @@ export async function fetch(request: FastifyRequest, reply: FastifyReply) {
 
         const orderServices = await fetchOrderService.execute({
             mechanicId,
-            status
-
+            status,
+            page
         })
 
         return reply.send({

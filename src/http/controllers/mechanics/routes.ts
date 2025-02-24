@@ -5,6 +5,7 @@ import { jwtVerify } from "../../hooks/jwt-verify";
 import { nearby } from "./nearby";
 import { times } from "./times";
 import { jwtVerifyUserRole } from "../../hooks/jwt-verify-user-role";
+import { get } from "./get";
 
 export async function mechanicsRoutes(app: FastifyInstance) {
     app.addHook("onRequest", jwtVerify)
@@ -12,6 +13,7 @@ export async function mechanicsRoutes(app: FastifyInstance) {
 
     app.get("/mechanics/search", search)
     app.get("/times/:mechanicId", times)
+    app.get("/mechanics", get)
 
     app.get("/mechanics/nearby", nearby)
 

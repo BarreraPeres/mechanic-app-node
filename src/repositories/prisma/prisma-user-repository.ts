@@ -59,4 +59,20 @@ export class PrismaUserRepository implements UserRepository {
         return user
     }
 
+    async findMechanicsByUserId(userId: string) {
+        const user = await prisma.user.findUnique({
+            where: {
+                id: userId
+            },
+            include: {
+                mechanic: true,
+            }
+        })
+        if (!user?.mechanic || !user) {
+            return null
+        }
+        return user
+
+    }
+
 }
