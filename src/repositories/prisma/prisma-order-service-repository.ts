@@ -1,4 +1,4 @@
-import { OrderService, Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { OrderServiceRepository } from "../order-service-repository";
 import { prisma } from "../../config/prisma";
 
@@ -62,20 +62,32 @@ export class PrismaOrderServiceRepository implements OrderServiceRepository {
             const OrderService = await prisma.orderService.findMany({
                 where: {
                     mechanic_id: mechanicId,
-                    status: status
+                    status: status,
+                },
+                include: {
+                    vehicle: true
                 },
                 take: 10,
                 skip: page * 10
             })
+            if (!OrderService) {
+                return null
+            }
             return OrderService
         } else {
             const OrderService = await prisma.orderService.findMany({
                 where: {
                     mechanic_id: mechanicId,
                 },
+                include: {
+                    vehicle: true
+                },
                 take: 10,
                 skip: page * 10
             })
+            if (!OrderService) {
+                return null
+            }
             return OrderService
         }
     }

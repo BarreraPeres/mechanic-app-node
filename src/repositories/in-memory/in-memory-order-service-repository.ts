@@ -1,12 +1,16 @@
 
-import { Prisma, OrderService } from "@prisma/client";
-import { OrderServiceRepository } from "../order-service-repository";
+import { OrderService, Vehicle } from "@prisma/client";
+import { OrderServiceCreateTypeWithVehicle, OrderServiceRepository } from "../order-service-repository";
 import { randomUUID } from "crypto";
+
+
+
 
 export class InMemoryOrderServiceRepository implements OrderServiceRepository {
     public items: OrderService[] = []
+    public vehicles: Vehicle[] = []
 
-    async create(data: Prisma.OrderServiceUncheckedCreateInput) {
+    async create(data: OrderServiceCreateTypeWithVehicle) {
         const orderService = {
             id: data.id ?? randomUUID(),
             created_at: new Date(),
@@ -18,9 +22,13 @@ export class InMemoryOrderServiceRepository implements OrderServiceRepository {
             end_date: new Date(data.end_date),
             scheduling_id: data.scheduling_id ?? null,
             mechanic_id: data.mechanic_id ?? null,
-            vehicle_id: data.vehicle_id ?? null
+            vehicle_id: data.vehicle_id ?? null,
+            vehicle: data.vehicle ?? null,
         }
         this.items.push(orderService)
+        if (data.vehicle) {
+            this.vehicles.push(data.vehicle)
+        }
         return orderService
     }
 
@@ -57,6 +65,10 @@ export class InMemoryOrderServiceRepository implements OrderServiceRepository {
             orderService =
                 this.items.filter(item => item.status === status)
                     .slice(page * 10, (page + 1) * 10)
+                    .map(item => ({
+                        ...item,
+                        vehicle: this.vehicles.find(v => v.id === item.vehicle_id) || null
+                    }))
                 || null
 
             return orderService
@@ -64,6 +76,10 @@ export class InMemoryOrderServiceRepository implements OrderServiceRepository {
         orderService =
             this.items.filter(item => item.mechanic_id === mechanicId)
                 .slice(page * 10, (page + 1) * 10)
+                .map(item => ({
+                    ...item,
+                    vehicle: this.vehicles.find(v => v.id === item.vehicle_id) || null
+                }))
             || null
         return orderService
     }

@@ -113,5 +113,38 @@ describe("Fetch Order-Service Use Case", async () => {
             expect.objectContaining({ mechanic_id: "mechanic 12" })
         ])
     })
+    it("should be possible to fetch order services with vehicles", async () => {
+
+        await orderServiceRepository.create({
+            vehicle_id: "vehicle_id",
+            scheduling_id: "id_2",
+            mechanic_id: `mechanic_id`,
+            description: "Oil change",
+            end_date: "2024-07-09T04:12:12.000Z",
+            status: "SCHEDULED",
+            start_date: "2024-07-05T04:12:12.000Z",
+            value: 100,
+            vehicle: {
+                id: "vehicle_id",
+                user_id: "user_id",
+                plate: "1234-csas",
+                model: "gol caixa",
+                brand: "brand",
+                year: 2020
+            }
+        })
+
+        const { orderServices } = await sut.execute({
+            mechanicId: "mechanic 1",
+            status: "SCHEDULED",
+            page: 0
+        })
+
+        console.log(orderServices)
+        expect(orderServices).toHaveLength(1)
+        expect(orderServices[0]).toEqual(
+            expect.objectContaining({ model: "gol caixa" }),
+        )
+    })
 
 })

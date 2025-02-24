@@ -1,5 +1,5 @@
 import { OrderService } from "@prisma/client"
-import { OrderServiceRepository } from "../repositories/order-service-repository"
+import { OrderServiceRepository, OrderServiceWithVehicle } from "../repositories/order-service-repository"
 import { ResourceNotFoundError } from "./errors/resource-not-found-error"
 
 interface FetchOrderServiceRequest {
@@ -9,7 +9,7 @@ interface FetchOrderServiceRequest {
 }
 
 interface FetchOrderServiceRespose {
-    orderServices: OrderService[]
+    orderServices: OrderServiceWithVehicle[]
 }
 
 export class FetchOrderServiceUseCases {
