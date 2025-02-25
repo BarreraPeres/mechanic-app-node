@@ -13,6 +13,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Status {
+  PENDING
+  SCHEDULED
+  FINISHED
+}
+
 enum Role {
   CLIENT
   EMPLOYEE
@@ -45,7 +51,7 @@ model User {
 model Scheduling {
   id            String   @id @default(uuid())
   request_at    DateTime @default(now())
-  status        String   @default("PENDING")
+  status        Status   @default(PENDING)
   scheduled_for DateTime
   type          Type
   description   String
@@ -66,7 +72,7 @@ model Scheduling {
 model OrderService {
   id          String   @id @default(uuid())
   created_at  DateTime @default(now())
-  status      String   @default("PENDING")
+  status      Status   @default(PENDING)
   description String?
   materials   String?
   value       Int

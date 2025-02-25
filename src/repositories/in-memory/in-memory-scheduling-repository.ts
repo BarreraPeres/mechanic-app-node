@@ -1,4 +1,4 @@
-import { Mechanic, Prisma, Scheduling, Vehicle } from "@prisma/client";
+import { $Enums, Mechanic, Prisma, Scheduling, Vehicle } from "@prisma/client";
 import { SchedulingRepository } from "../scheduling-repository";
 import { randomUUID } from "crypto";
 
@@ -41,7 +41,7 @@ export class InMemoryScheduleRepository implements SchedulingRepository {
 
     }
 
-    async save(scheduleId: string, updateStatus: string) {
+    async save(scheduleId: string, updateStatus: $Enums.Status) {
         const schedule = this.items.findIndex((item) => item.id === scheduleId)
 
         if (schedule >= 0) {

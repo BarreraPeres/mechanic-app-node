@@ -1,5 +1,5 @@
 
-import { OrderService, Vehicle } from "@prisma/client";
+import { $Enums, OrderService, Vehicle } from "@prisma/client";
 import { OrderServiceCreateTypeWithVehicle, OrderServiceRepository } from "../order-service-repository";
 import { randomUUID } from "crypto";
 
@@ -47,7 +47,7 @@ export class InMemoryOrderServiceRepository implements OrderServiceRepository {
         return scheduleAlreadyIssued
     }
 
-    async save(schedulingId: string, UpdateStatus: string) {
+    async save(schedulingId: string, UpdateStatus: $Enums.Status) {
         const order = this.items.findIndex((item) => item.scheduling_id === schedulingId)
 
         if (order >= 0) {

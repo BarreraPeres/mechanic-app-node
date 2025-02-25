@@ -1,4 +1,4 @@
-import { Prisma, Scheduling } from "@prisma/client";
+import { $Enums, Prisma, Scheduling } from "@prisma/client";
 import { SchedulingRepository } from "../scheduling-repository";
 import { prisma } from "../../config/prisma";
 
@@ -21,7 +21,7 @@ export class PrismaSchedulingRepository implements SchedulingRepository {
     }
 
 
-    async findConflictingSchedule(scheduledDate: Date, status: string) {
+    async findConflictingSchedule(scheduledDate: Date, status: $Enums.Status) {
         const conflictingSchedule = prisma.scheduling.findFirst({
             where: {
                 scheduled_for: scheduledDate,
@@ -31,7 +31,7 @@ export class PrismaSchedulingRepository implements SchedulingRepository {
         return conflictingSchedule
     }
 
-    async save(scheduleId: string, updateStatus: string) {
+    async save(scheduleId: string, updateStatus: $Enums.Status) {
         const response = await prisma.scheduling.update({
             where: { id: scheduleId },
             data: {

@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { $Enums, Prisma } from "@prisma/client";
 import { OrderServiceRepository } from "../order-service-repository";
 import { prisma } from "../../config/prisma";
 
@@ -40,7 +40,7 @@ export class PrismaOrderServiceRepository implements OrderServiceRepository {
         return scheduleAlreadyIssued
 
     }
-    async save(schedulingId: string, UpdateStatus: string) {
+    async save(schedulingId: string, UpdateStatus: $Enums.Status) {
         const response = await prisma.orderService.update({
             where: {
                 scheduling_id: schedulingId
@@ -57,7 +57,7 @@ export class PrismaOrderServiceRepository implements OrderServiceRepository {
         return response
     }
 
-    async findManyByMechanicId(mechanicId: string, page: number, status?: string) {
+    async findManyByMechanicId(mechanicId: string, page: number, status?: $Enums.Status) {
         if (status) {
             const OrderService = await prisma.orderService.findMany({
                 where: {
