@@ -10,7 +10,7 @@ export async function fetch(request: FastifyRequest, reply: FastifyReply) {
             mechanicId: z.string()
         })
         const fetchOrderServicesQuery = z.object({
-            status: z.enum(["PENDING", "SCHEDULED", "FINESHED"]).optional(),
+            status: z.enum(["PENDING", "SCHEDULED", "FINISHED"]).optional(),
             page: z.string().nullish().default("0").transform(Number)
         })
 

@@ -140,9 +140,8 @@ describe("Fetch Order-Service Use Case", async () => {
             page: 0
         })
 
-        console.log(orderServices)
         expect(orderServices).toHaveLength(1)
-        expect(orderServices[0]).toEqual(
+        expect(orderServices[0].vehicle).toEqual(
             expect.objectContaining({ model: "gol caixa" }),
         )
     })

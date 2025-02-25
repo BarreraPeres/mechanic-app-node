@@ -28,24 +28,9 @@ describe("Response Scheduling", async () => {
                 user_id: user.id,
                 vehicle_id: vehicle.id,
                 mechanic_id: mechanic.id,
-                status: "SHEDULED"
+                status: "SCHEDULED"
             }
         })
-
-        // const orderServiceOfShedule = await prisma.orderService.create({
-        //     data: {
-        //         vehicle_id: vehicle.id,
-        //         scheduling_id: scheduling.id,
-        //         mechanic_id: mechanic.id,
-        //         description: "Oil change",
-        //         end_date: new Date(),
-        //         status: "SCHEDULED",
-        //         start_date: new Date(),
-        //         value: 100
-        //     }
-        // })
-
-
 
         const response = await request(app.server)
             .patch(`/scheduling/${scheduling.id}/response`)
