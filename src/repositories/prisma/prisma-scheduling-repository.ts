@@ -45,24 +45,41 @@ export class PrismaSchedulingRepository implements SchedulingRepository {
         return response
     }
 
-    async findManyByUserId(userId: string) {
-        const shedules = await prisma.scheduling.findMany({
-            where: {
-                user_id: userId
-            },
-            select: {
-                id: true,
-                request_at: true,
-                status: true,
-                scheduled_for: true,
-                type: true,
-                description: true,
-                user_id: true,
-                mechanic: true,
-                vehicle: true,
+    async findManyByUserId(userId: string, page: number, status?: $Enums.Status) {
+        if (status) {
+            const shedules = await prisma.scheduling.findMany({
+                where: {
+                    user_id: userId,
+                    status: status
+                },
+                include: {
+                    mechanic: true,
+                    vehicle: true,
+                },
+                take: 10,
+                skip: page * 10
+            })
+            if (!shedules) {
+                return null
             }
-        })
-        return shedules
+            return shedules
+        } else {
+            const shedules = await prisma.scheduling.findMany({
+                where: {
+                    user_id: userId
+                },
+                include: {
+                    mechanic: true,
+                    vehicle: true,
+                },
+                take: 10,
+                skip: page * 10
+            })
+            if (!shedules) {
+                return null
+            }
+            return shedules
+        }
     }
 
 

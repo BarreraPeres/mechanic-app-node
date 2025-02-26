@@ -1,10 +1,11 @@
-import { Scheduling } from "@prisma/client"
+import { $Enums } from "@prisma/client"
 import { SchedulingRepository, SchedulingResponseType } from "../repositories/scheduling-repository"
-
-
+import { ResourceNotFoundError } from "./errors/resource-not-found-error"
 
 interface FetchSchedulingHistoryRequest {
-    userId: string
+    userId: string,
+    status?: $Enums.Status,
+    page: number
 }
 
 interface FetchSchedulingHistoryRespose {
@@ -17,10 +18,18 @@ export class FetchSchedulingHistoryUseCases {
     ) { }
 
     async execute({
-        userId
+        userId,
+        page,
+        status
     }: FetchSchedulingHistoryRequest): Promise<FetchSchedulingHistoryRespose> {
+        if (!page) {
+            page = 0
+        }
+        const schedules = await this.schedulingRepository.findManyByUserId(userId, page, status)
 
-        const schedules = await this.schedulingRepository.findManyByUserId(userId)
+        if (!schedules) {
+            throw new ResourceNotFoundError()
+        }
 
         return { schedules }
     }

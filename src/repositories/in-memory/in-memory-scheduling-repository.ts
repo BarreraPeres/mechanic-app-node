@@ -52,15 +52,26 @@ export class InMemoryScheduleRepository implements SchedulingRepository {
         return null
     }
 
-    async findManyByUserId(userId: String) {
-        const schedules = this.items
-            .filter(item => item.user_id === userId)
-            .map(item => ({
-                ...item,
-                vehicle: this.vehicles.find(v => v.id === item.vehicle_id) || null,
-                mechanic: this.mechanics.find(m => m.id === item.mechanic_id) || null
-            }))
-
-        return schedules
+    async findManyByUserId(userId: String, page: number, status?: string) {
+        if (status) {
+            return this.items
+                .filter(i => i.status === status)
+                .slice(page * 10, (page + 1) * 10)
+                .map(i => ({
+                    ...i,
+                    vehicle: this.vehicles.find(v => v.id === i.vehicle_id) || null,
+                    mechanic: this.mechanics.find(m => m.id === i.mechanic_id) || null
+                })) || null
+        }
+        else {
+            return this.items
+                .filter(item => item.user_id === userId)
+                .slice(page * 10, (page + 1) * 10)
+                .map(item => ({
+                    ...item,
+                    vehicle: this.vehicles.find(v => v.id === item.vehicle_id) || null,
+                    mechanic: this.mechanics.find(m => m.id === item.mechanic_id) || null
+                })) || null
+        }
     }
 }

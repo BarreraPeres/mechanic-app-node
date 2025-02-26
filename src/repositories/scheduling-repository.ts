@@ -1,4 +1,4 @@
-import { Prisma, Scheduling } from "@prisma/client";
+import { $Enums, Prisma, Scheduling } from "@prisma/client";
 
 
 export type SchedulingResponseType = {
@@ -30,5 +30,5 @@ export interface SchedulingRepository {
     findConflictingSchedule(scheduledDate: Date, status: string): Promise<Scheduling | null>
     findUniqueById(id: string): Promise<Scheduling | null>
     save(scheduleId: string, updateStatus: string): Promise<Scheduling | null>
-    findManyByUserId(userId: string): Promise<SchedulingResponseType[]>
+    findManyByUserId(userId: string, page: number, status?: $Enums.Status): Promise<SchedulingResponseType[] | null>
 }

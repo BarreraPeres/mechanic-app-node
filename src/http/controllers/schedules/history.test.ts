@@ -51,4 +51,62 @@ describe("Fetch History Schedulings Controller (e2e)", async () => {
         expect(responseHistorys.statusCode).toBe(200)
         expect(responseHistorys.body.schedules).toHaveLength(2)
     })
+
+    it("should be able to feth history of schedules by status PENDING", async () => {
+        const user = await prisma.user.findFirstOrThrow()
+        const mechanic = await prisma.mechanic.findFirstOrThrow()
+        const vehicle = await prisma.vehicle.findFirstOrThrow()
+
+        const login = await request(app.server)
+            .post("/login")
+            .send({
+                username: user.email,
+                password: "123456"
+            })
+
+        const { accessToken } = login.body
+
+        await prisma.scheduling.createMany({
+            data: [
+                {
+                    description: "“I need an oil change for my car",
+                    scheduled_for: "2024-07-09T04:12:12.000Z",
+                    type: "MAINTENANCE",
+                    request_at: "2024-07-05T04:12:12.000Z",
+                    user_id: user.id,
+                    vehicle_id: vehicle.id,
+                    mechanic_id: mechanic.id
+                },
+                {
+                    description: "“I need an oil change for my car",
+                    scheduled_for: "2024-07-09T04:12:12.000Z",
+                    type: "MAINTENANCE",
+                    request_at: "2024-07-05T04:12:12.000Z",
+                    user_id: user.id,
+                    vehicle_id: vehicle.id,
+                    mechanic_id: mechanic.id,
+                    status: "SCHEDULED"
+                }
+            ]
+        })
+
+        const responseHistorys = await request(app.server)
+            .get("/schedules/history?status=PENDING")
+            .auth(accessToken, { type: "bearer" })
+            .send()
+
+        expect(responseHistorys.statusCode).toBe(200)
+        expect(responseHistorys.body.schedules).toHaveLength(3)
+        expect(responseHistorys.body.schedules).toEqual([
+            expect.objectContaining({
+                status: "PENDING"
+            }),
+            expect.objectContaining({
+                status: "PENDING"
+            }),
+            expect.objectContaining({
+                status: "PENDING"
+            })
+        ])
+    })
 })
