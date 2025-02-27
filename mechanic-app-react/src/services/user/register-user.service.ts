@@ -5,6 +5,7 @@ type RegisterUserBody = {
     password: string,
     cpf: string,
     name: string
+    role: "CLIENT" | "EMPLOYEE" | "BOSS"
 }
 
 export type RegisterUserRes = {
@@ -16,12 +17,15 @@ export async function RegisterUserService({
     password,
     cpf,
     email,
-    name }: RegisterUserBody): Promise<RegisterUserRes> {
+    role,
+    name
+}: RegisterUserBody): Promise<RegisterUserRes> {
     const res = await instanceAxios.post("/register", {
         password,
         cpf,
         email,
-        name
+        name,
+        role
     }, {
         withCredentials: true
     })

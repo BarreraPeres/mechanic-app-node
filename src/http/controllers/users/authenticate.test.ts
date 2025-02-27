@@ -20,7 +20,8 @@ describe("Authenticate Controller (e2e)", async () => {
                 name: "arthur morgan",
                 password: "123456",
                 email: "arthurMorgan@gmail.com",
-                cpf: "123456"
+                cpf: "123456",
+                role: "CLIENT"
             })
 
         const user = await request(app.server)

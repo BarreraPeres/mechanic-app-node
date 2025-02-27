@@ -9,16 +9,17 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
         name: z.string().min(5),
         password: z.string().min(5),
         email: z.string().email(),
-        cpf: z.string()
+        cpf: z.string(),
+        role: z.enum(["CLIENT", "BOSS", "EMPLOYEE"])
     })
 
-    const { password, cpf, email, name } = registerBody.parse(request.body)
+    const { password, cpf, email, name, role } = registerBody.parse(request.body)
     const registerUserUseCase = MakeRegisterUserUseCase()
 
     try {
 
         const { user } = await registerUserUseCase.execute({
-            password, cpf, email, name
+            password, cpf, email, name, role
         })
 
         /**

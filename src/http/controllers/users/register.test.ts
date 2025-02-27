@@ -20,7 +20,8 @@ describe("Register Controller (e2e)", async () => {
                 name: "arthur morgan",
                 password: "123456",
                 email: "arthurMorgan@gmail.com",
-                cpf: "123456"
+                cpf: "123456",
+                role: "CLIENT"
             })
 
         expect(response.status).toEqual(201)

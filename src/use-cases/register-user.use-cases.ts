@@ -1,4 +1,4 @@
-import { User } from "@prisma/client"
+import { $Enums, User } from "@prisma/client"
 import { UserRepository } from "../repositories/user-repository"
 import { UserAlreadyExistsError } from "./errors/user-already-exists-error"
 import bcrjs from "bcryptjs"
@@ -8,6 +8,7 @@ interface RegisterUserRequest {
     email: string
     cpf: string
     password: string
+    role: $Enums.Role
 }
 
 interface RegisterUserResponse {
@@ -23,7 +24,8 @@ export class RegisterUserUseCases {
         name,
         cpf,
         email,
-        password
+        password,
+        role
     }: RegisterUserRequest): Promise<RegisterUserResponse> {
 
         const password_hash = await hash(password, 6)
@@ -39,6 +41,7 @@ export class RegisterUserUseCases {
             email,
             name,
             password_hash,
+            role
         })
 
         return { user }

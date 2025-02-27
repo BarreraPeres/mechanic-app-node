@@ -19,11 +19,13 @@ describe("Register User Use Cases", async () => {
             cpf: "123456",
             email: "josephBell@email.com",
             name: "joseph",
-            password: "123456"
+            password: "123456",
+            role: "CLIENT"
         })
 
         expect(user.id).toBeDefined()
         expect(user.id).toEqual(expect.any(String))
+        expect(user.role).toEqual("CLIENT")
     })
 
 
@@ -33,14 +35,16 @@ describe("Register User Use Cases", async () => {
             cpf: "123456",
             email: "josephBell@email.com",
             name: "joseph",
-            password: "123456"
+            password: "123456",
+            role: "CLIENT"
         })
 
         await expect(() => sut.execute({
             cpf: "123456",
             email: "josephBell@email.com",
             name: "joseph",
-            password: "123456"
+            password: "123456",
+            role: "CLIENT"
         })
         ).rejects.toBeInstanceOf(UserAlreadyExistsError)
     })
@@ -51,14 +55,16 @@ describe("Register User Use Cases", async () => {
             cpf: "123456",
             email: "josephBell@email.com",
             name: "joseph",
-            password: "123456"
+            password: "123456",
+            role: "CLIENT"
         })
 
         await expect(() => sut.execute({
             cpf: "123456",
             email: "josephBell1@email.com",
             name: "joseph",
-            password: "123456"
+            password: "123456",
+            role: "CLIENT"
         })
         ).rejects.toBeInstanceOf(UserAlreadyExistsError)
     })
@@ -70,7 +76,8 @@ describe("Register User Use Cases", async () => {
             cpf: "123456",
             email: "josephBell@email.com",
             name: "joseph",
-            password: "123456"
+            password: "123456",
+            role: "CLIENT"
         })
 
         const isPasswordHashed = await compare("123456", user.password_hash)
