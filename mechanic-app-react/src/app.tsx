@@ -3,7 +3,7 @@ import { Home } from "./pages/home";
 import { Login } from "./pages/login";
 import { useEffect } from "react";
 import { setupAxiosInterceptors } from "./lib/axios"
-import { isAuthenticatedService } from "./services/is-authenticated.service";
+import { isAuthenticatedService } from "./services/user/is-authenticated.service";
 import { useQuery } from "@tanstack/react-query";
 import { Register } from "./pages/register";
 import { Appointments } from "./pages/appoinments";
@@ -46,11 +46,19 @@ export function App() {
   }
 
   const PrivateRoute = () => {
-    const isAuthenticated = data
+    const isAuthenticated = data?.isAuthenticated
+
     if (isLoading) {
       return (<div>Loading...</div>)
     }
     return isAuthenticated ? <Outlet /> : <Navigate to="/login" />
+  }
+
+  const MechanicRoute = () => {
+    const role = data?.role
+    if (role === "EMPLOYEE" || role === "BOSS") {
+      return <Outlet />
+    }
   }
 
   return (
@@ -62,9 +70,13 @@ export function App() {
         <Route path="/questions" element={< Questions />} />
 
         <Route element={<PrivateRoute />} >
-          <Route path="/register-mechanic" element={< RegisterMechanic />} />
-          <Route path="/dashboard" element={< Dashboard />} />
           <Route element={<Layout />} >
+
+            <Route element={<MechanicRoute />}>
+              <Route path="/register-mechanic" element={< RegisterMechanic />} />
+              <Route path="/dashboard" element={< Dashboard />} />
+            </Route>
+
             <Route path="/home" element={<Home />} />
             <Route path="/appointments" element={<Appointments />} />
             <Route path="/cars" element={<Cars />} />

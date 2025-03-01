@@ -1,7 +1,12 @@
 import { CalendarCog, Car, Home, LogOut } from "lucide-react";
-import { makeLogout } from "../services/make-logout.service";
+import { makeLogout } from "../services/user/make-logout.service";
 
-export function Sidebar() {
+interface SidebarProps {
+    isMechanic: boolean
+}
+
+export function Sidebar({ isMechanic }: SidebarProps) {
+
     async function handleLogout() {
         await makeLogout()
         window.location.href = "/"
@@ -16,6 +21,13 @@ export function Sidebar() {
                     <Home />
                     Início
                 </a>
+
+                {isMechanic && (
+                    <a className="p-4 gap-2 flex items-center hover:text-zinc-500" href="/dashboard">
+                        <CalendarCog />
+                        Minha Oficina
+                    </a>
+                )}
 
                 <a className="p-4 gap-2 flex items-center hover:text-zinc-500" href="/appointments">
                     <CalendarCog />
