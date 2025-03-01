@@ -5,6 +5,7 @@ import { Dialog } from "./ui/dialog";
 import { Dropdown } from "flowbite-react";
 import { getMeProfileService } from "../services/user/get-me-profile.service";
 import { Skeleton } from "./ui/skeleton";
+import { Plus } from "lucide-react";
 
 
 export function Header() {
@@ -121,6 +122,7 @@ export function Header() {
                         ">
                             Notificações
                         </Dropdown.Item>
+
                         <Dropdown.Item
                             onClick={() => {
                                 window.location.href = "/pt-br/about"
@@ -131,7 +133,20 @@ export function Header() {
                          ">
                             Sobre
                         </Dropdown.Item>
+
                         <Dropdown.Divider />
+
+                        <Dropdown.Item
+                            onClick={() => {
+                                window.location.href = "/register-mechanic"
+                            }}
+                            className="
+                            text-white
+                            hover:text-green-600
+                        ">
+                            <Plus size={18} /> Adicionar Nova Oficina
+                        </Dropdown.Item>
+
                         <Dropdown.Item
                             onClick={handleLogout}
                             className="
@@ -140,9 +155,8 @@ export function Header() {
                          ">
                             Sair
                         </Dropdown.Item>
+
                     </Dropdown>
-
-
 
                 </div>
             </head >
