@@ -6,11 +6,23 @@ import { Input } from "../components/ui/input";
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginUserService } from "../services/user/login-user.service";
+import { Spinner } from "../components/ui/spinner";
+import { useState } from "react";
 
 interface LoginProps {
     status: (s: number) => void
 }
+
+function onLoading() {
+    return (
+        <>
+            <Spinner size="sm" />
+        </>
+    )
+}
+
 export function Login({ status }: LoginProps) {
+    const [isLoading, setIsLoading] = useState(false)
 
     const loginForm = z.object({
         username: z.string(),
@@ -23,21 +35,17 @@ export function Login({ status }: LoginProps) {
 
     async function handleLogin({ password, username }: LoginForm) {
         try {
+            setIsLoading(true)
             let res = await LoginUserService({
                 password,
                 username
             })
             localStorage.setItem("accessToken", res.accessToken)
-
             status(res.status)
-        } catch (e: any) {
-            if (e) {
-                e.status === 401 ? (
-                    alert("Unauthorized")
-                ) : (
-                    alert("invalid credencials!")
-                )
-            }
+        } catch (e) {
+            alert("Invalid Credentials")
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -103,7 +111,9 @@ export function Login({ status }: LoginProps) {
                     </div>
 
                     <div className="flex flex-col gap-4 mt-5">
-                        <Button >Entrar</Button>
+                        <Button >
+                            {isLoading ? onLoading() : "Entrar"}
+                        </Button>
                         <Button
                             onClick={() => {
                                 window.location.href = "/register"
@@ -131,6 +141,7 @@ export function Login({ status }: LoginProps) {
                                 ">
                             Você é um mecânico?
                             <Button
+                                onLoad={onLoading}
                                 className="
                                 flex 
                                 flex-1

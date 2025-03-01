@@ -2,21 +2,33 @@ import { z } from "zod";
 import { Icon } from "../components/icon";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
-
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterUserService } from "../services/user/register-user.service";
+import { useState } from "react";
+import { Spinner } from "../components/ui/spinner";
 
 interface registerProps {
     status: (s: number) => void
 }
+
+function onLoading() {
+    return (
+        <>
+            <Spinner size="default" />
+        </>
+    )
+}
+
 export function Register({ status }: registerProps) {
+    const [isLoading, setIsLoading] = useState(false)
 
     const registerForm = z.object({
         cpf: z.string().min(11, "O CPF deve ter 11 dígitos"),
         email: z.string().email("O email deve ser válido"),
         name: z.string().min(3, "O nome deve ter pelo menos 3 caracteres"),
         password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
+        role: z.enum(["EMPLOYEE", "BOSS", "CLIENT"]),
         confirmPassword: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
     }).refine((data) => data.password === data.confirmPassword, {
         message: "Senhas devem ser iguais",
@@ -25,17 +37,19 @@ export function Register({ status }: registerProps) {
 
 
     type registerType = z.infer<typeof registerForm>
-    const { handleSubmit, register, formState } = useForm<registerType>({
+    const { handleSubmit, register, formState, control } = useForm<registerType>({
         resolver: zodResolver(registerForm)
     })
 
-    async function handleRegister({ password, cpf, email, name }: registerType) {
+    async function handleRegister({ password, cpf, email, name, role }: registerType) {
         try {
+            setIsLoading(true)
             let res = await RegisterUserService({
                 cpf,
                 email,
                 name,
-                password
+                password,
+                role
             })
             status(res.status)
         } catch (e: any) {
@@ -46,9 +60,10 @@ export function Register({ status }: registerProps) {
                     alert("Internal Server Error!")
                 )
             }
+        } finally {
+            setIsLoading(false)
         }
     }
-
 
     return (
         <main className="
@@ -59,24 +74,29 @@ export function Register({ status }: registerProps) {
         min-h-screen
         bg-gradient-to-r from-zinc-900 to-emerald-900    
         ">
-            <div className="bg-zinc-800 w-[500px] h-[700px] rounded-lg mt-10 mb-10">
-                <div>
-
-                </div>
-
+            <div className="bg-zinc-800 w-[500px] max-w-full rounded-lg mt-10 mb-10">
                 <div
                     className="
-                    flex
-                    flex-1
-                    gap-3
                     justify-center
-                    items-center
                     mt-4
-                    font-bold text-xl 
-                    text-zinc-300
                 ">
-                    <Icon />
-                    Cadastre-se gratuitamente
+                    <div
+                        className="
+                        flex 
+                        flex-col 
+                        items-center
+                        gap-2
+                         ">
+                        <Icon />
+                        <p
+                            className="
+                            font-bold 
+                            text-xl  
+                           text-zinc-300
+                        ">
+                            Cadastre-se gratuitamente
+                        </p>
+                    </div>
                 </div>
                 <form
                     onSubmit={handleSubmit(handleRegister)}
@@ -134,7 +154,45 @@ export function Register({ status }: registerProps) {
                             </p>
                         )
                         }
-
+                    </div>
+                    <div className="flex flex-col gap-2 text-sm text-zinc-400">
+                        <label htmlFor="role">O Que Você é?</label>
+                        <Controller
+                            name="role"
+                            control={control}
+                            render={({ field }) => {
+                                return (
+                                    <select
+                                        {...field}
+                                        className="
+                                        p-4
+                                        w-full
+                                        caret-green-800
+                                        focus:border-green-800
+                                        focus:outline-green-800
+                                        focus:ring-green-500
+                                        bg-black border 
+                                        border-zinc-900
+                                        rounded-lg
+                                        placeholder-zinc-400
+                                        outline-none
+                                        text-sm
+                                        hover:bg-zinc-800
+                                        ring-zinc-900
+                                    ">
+                                        <option value="CLIENT">
+                                            Cliente, irei Procurar Oficinas
+                                        </option>
+                                        <option value="EMPLOYEE">
+                                            Empregado, trabalho para uma Oficina
+                                        </option>
+                                        <option value="BOSS">
+                                            Chefe, tenho uma Oficina
+                                        </option>
+                                    </select>
+                                )
+                            }}
+                        />
                     </div>
                     <div className="flex flex-col gap-2 text-sm text-zinc-400">
                         <label htmlFor="password">Sua Senha</label>
@@ -170,7 +228,9 @@ export function Register({ status }: registerProps) {
                     </div>
 
                     <div className="flex flex-col gap-3 -mt-4">
-                        <Button >Cadastrar-se</Button>
+                        <Button>
+                            {isLoading ? onLoading() : "Cadastrar-se"}
+                        </Button>
                         <Button
                             onClick={() => {
                                 window.location.href = "/login"
