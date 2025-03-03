@@ -26,9 +26,20 @@ interface FetchSchedulingHistoryResponse {
     }[]
 }
 
-
-export async function FetchSchedulingHistoryService(): Promise<FetchSchedulingHistoryResponse> {
-    const res = await instanceAxios.get("/schedules/history")
+interface FetchSchedulingHistoryServiceQuery {
+    page: number;
+    status?: string;
+}
+export async function FetchSchedulingHistoryService({
+    page,
+    status
+}: FetchSchedulingHistoryServiceQuery): Promise<FetchSchedulingHistoryResponse> {
+    let res;
+    if (!status) {
+        res = await instanceAxios.get(`/schedules/history?page=${page}`)
+    } else {
+        res = await instanceAxios.get(`/schedules/history?status=${status}&page=${page}`)
+    }
     const { data } = res
 
     return data

@@ -27,6 +27,7 @@ export interface OrderServiceCreateTypeWithVehicle extends Prisma.OrderServiceUn
 }
 export interface OrderServiceRepository {
     create(data: OrderServiceCreateTypeWithVehicle): Promise<OrderService>
+    findById(id: string): Promise<OrderService | null>
     findByDate(startDate: Date, endDate: Date): Promise<OrderService[]>;
     findSchedulingExisting(scheduling_id: string): Promise<OrderService | null>
     save(schedulingId: string, UpdateStatus: string): Promise<OrderService | null>

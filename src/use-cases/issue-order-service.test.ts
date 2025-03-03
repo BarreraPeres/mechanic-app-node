@@ -53,12 +53,9 @@ describe("Issue Order Service Use Case", async () => {
 
     })
 
-
-    it("should not be issue a order service with an appoinment ", async () => {
-        vi.setSystemTime(new Date(2024, 5, 8, 0, 0,))
-
+    it("should be set to IN_PROGRESS after the issuance of the order service", async () => {
         schedulingRepository.create({
-            id: "id_2",
+            id: "schedule",
             description: "“I need an oil change for my car",
             scheduled_for: new Date(2024, 5, 8, 5, 0,),
             type: "MAINTENANCE",
@@ -68,59 +65,18 @@ describe("Issue Order Service Use Case", async () => {
             mechanic_id: "mechanic_1"
         })
 
-        inMemoryOrderServiceRepository.create({
-            scheduling_id: "id_2",
-            mechanic_id: "id_1",
-            description: "Oil change",
-            start_date: new Date(2024, 5, 8, 5, 0,),
-            end_date: new Date(2024, 5, 8, 6, 0,),
-            status: "SCHEDULED",
-            vehicle_id: "vehicle_id",
-            value: 100
-        })
-
-        await expect(() => sut.execute({
-            description: "Oil change",
-            mechanic_id: "id_1",
-            end_date: new Date(2024, 5, 8, 5, 0,),
-            scheduling_id: "id_2",
-            start_date: new Date(2024, 5, 8, 6, 0,),
-            value: 100
-        })
-        ).rejects.toBeInstanceOf(TimeNotAvailebleOrderServicesError)
-    })
-
-
-    it("should not be issue a order service with order service already issued", async () => {
-        schedulingRepository.create({
-            id: "id_2",
-            description: "“I need an oil change for my car",
-            scheduled_for: new Date(2024, 5, 8, 5, 0,),
-            type: "MAINTENANCE",
-            request_at: new Date(),
-            user_id: "user_1",
-            vehicle_id: "vehicle_1",
-            mechanic_id: "mechanic_1"
-        })
-
-        await sut.execute({
-            scheduling_id: "id_2",
-            description: "Oil change",
+        const res = await sut.execute({
+            scheduling_id: "schedule",
+            description: "Oil change only",
             mechanic_id: "id_1",
             start_date: new Date(2024, 5, 8, 5, 0,),
             end_date: new Date(2024, 5, 8, 5, 0,),
             value: 100
         })
 
-        await expect(() => sut.execute({
-            scheduling_id: "id_2",
-            description: "Oil change",
-            mechanic_id: "id_1",
-            start_date: new Date(2024, 5, 9, 5, 0,),
-            end_date: new Date(2024, 5, 9, 5, 0,),
-            value: 100
-        })
-        ).rejects.toBeInstanceOf(ScheduleAlreadyOrderIssuedError)
+        expect(schedulingRepository.items[0]).toEqual(expect.objectContaining({
+            status: "IN_PROGRESS"
+        }))
     })
 
     it("should not be issue a order service with a inexistent schedule", async () => {

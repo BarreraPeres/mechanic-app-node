@@ -1,4 +1,4 @@
-import { $Enums, Prisma } from "@prisma/client";
+import { $Enums, OrderService, Prisma } from "@prisma/client";
 import { OrderServiceRepository } from "../order-service-repository";
 import { prisma } from "../../config/prisma";
 
@@ -9,6 +9,15 @@ export class PrismaOrderServiceRepository implements OrderServiceRepository {
         const orderService = prisma.orderService.create({
             data
         })
+        return orderService
+    }
+
+    async findById(id: string) {
+        const orderService = await prisma.orderService.findUnique({
+            where: {
+                id
+            }
+        }) || null
         return orderService
     }
 

@@ -7,6 +7,7 @@ import { randomUUID } from "crypto";
 
 
 export class InMemoryOrderServiceRepository implements OrderServiceRepository {
+
     public items: OrderService[] = []
     public vehicles: Vehicle[] = []
 
@@ -32,6 +33,11 @@ export class InMemoryOrderServiceRepository implements OrderServiceRepository {
         return orderService
     }
 
+    async findById(id: string) {
+        const orderService = this.items.find(item => item.id === id) || null
+
+        return orderService
+    }
     async findByDate(start_date: Date, end_date: Date) {
         return this.items.filter(item => {
             const orderStart = new Date(item.start_date)

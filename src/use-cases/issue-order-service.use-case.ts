@@ -26,15 +26,14 @@ export class IssueServiceUseCases {
         public schedulingRepository: SchedulingRepository
     ) { }
 
-    async checkAvailability(start_date: Date, end_date: Date): Promise<boolean> {
-        const orderServices = await this.issueServiceRepository.findByDate(start_date, end_date);
-        return orderServices.length === 0;
-    }
+    // async checkAvailability(start_date: Date, end_date: Date): Promise<boolean> {
+    //     const orderServices = await this.issueServiceRepository.findByDate(start_date, end_date);
+    //     return orderServices.length === 0;
+    // }
 
     async execute({
         description,
         scheduling_id,
-        mechanic_id,
         end_date,
         start_date,
         value
@@ -44,10 +43,10 @@ export class IssueServiceUseCases {
             throw new ResourceNotFoundError()
         }
 
-        const isAvailable = await this.checkAvailability(start_date, end_date)
-        if (!isAvailable) {
-            throw new TimeNotAvailebleOrderServicesError();
-        }
+        // const isAvailable = await this.checkAvailability(start_date, end_date)
+        // if (!isAvailable) {
+        //     throw new TimeNotAvailebleOrderServicesError();
+        // }
 
 
         const schedulingIdAlreadyIssued = await this.issueServiceRepository.findSchedulingExisting(scheduling_id)
@@ -67,9 +66,11 @@ export class IssueServiceUseCases {
             vehicle_id: scheduling.vehicle_id,
             description,
             scheduling_id,
-            start_date,//: startDate,
-            end_date//: endDate
+            start_date,
+            end_date
         })
+
+        await this.schedulingRepository.save(scheduling_id, "IN_PROGRESS")
 
 
         return { orderService }
