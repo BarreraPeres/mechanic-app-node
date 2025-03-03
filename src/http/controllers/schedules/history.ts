@@ -5,7 +5,7 @@ import z from "zod";
 export async function history(request: FastifyRequest, reply: FastifyReply) {
 
     const scheduleQuerySchema = z.object({
-        status: z.enum(["PENDING", "SCHEDULED", "FINISHED"]).optional(),
+        status: z.enum(["PENDING", "SCHEDULED", "FINISHED", "IN_PROGRESS", "CANCELED"]).optional(),
         page: z.string().nullish().default("0").transform(Number)
     })
 

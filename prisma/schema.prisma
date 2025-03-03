@@ -17,6 +17,8 @@ enum Status {
   PENDING
   SCHEDULED
   FINISHED
+  CANCELED
+  IN_PROGRESS
 }
 
 enum Role {
