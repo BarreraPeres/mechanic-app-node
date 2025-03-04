@@ -1,13 +1,12 @@
-import { OrderService } from "@prisma/client";
 import { ResourceNotFoundError } from "./errors/resource-not-found-error";
-import { OrderServiceRepository } from "../repositories/order-service-repository";
+import { OrderServiceRepository, OrderServiceWithVehicleAndMechanic } from "../repositories/order-service-repository";
 
 interface GetOrderServiceByIdRequest {
     orderServiceId: string
 }
 
 interface GetOrderServiceByIdResponse {
-    orderService: OrderService
+    orderService: OrderServiceWithVehicleAndMechanic
 }
 
 export class GetOrderServiceByIdUseCase {

@@ -16,6 +16,10 @@ export class PrismaOrderServiceRepository implements OrderServiceRepository {
         const orderService = await prisma.orderService.findUnique({
             where: {
                 id
+            },
+            include: {
+                mechanic: true,
+                vehicle: true
             }
         }) || null
         return orderService
@@ -74,7 +78,8 @@ export class PrismaOrderServiceRepository implements OrderServiceRepository {
                     status: status,
                 },
                 include: {
-                    vehicle: true
+                    vehicle: true,
+                    mechanic: true
                 },
                 take: 10,
                 skip: page * 10
@@ -89,7 +94,8 @@ export class PrismaOrderServiceRepository implements OrderServiceRepository {
                     mechanic_id: mechanicId,
                 },
                 include: {
-                    vehicle: true
+                    vehicle: true,
+                    mechanic: true
                 },
                 take: 10,
                 skip: page * 10

@@ -1,5 +1,5 @@
 import { $Enums, OrderService } from "@prisma/client"
-import { OrderServiceRepository, OrderServiceWithVehicle } from "../repositories/order-service-repository"
+import { OrderServiceRepository, OrderServiceWithVehicleAndMechanic } from "../repositories/order-service-repository"
 import { ResourceNotFoundError } from "./errors/resource-not-found-error"
 
 interface FetchOrderServiceRequest {
@@ -9,7 +9,7 @@ interface FetchOrderServiceRequest {
 }
 
 interface FetchOrderServiceRespose {
-    orderServices: OrderServiceWithVehicle[]
+    orderServices: OrderServiceWithVehicleAndMechanic[]
 }
 
 export class FetchOrderServiceUseCases {
