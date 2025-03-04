@@ -22,7 +22,7 @@ const yesterday = dayjs().add(-1, "day").toDate()
 
 const createScheduleForm = z.object({
     scheduled_for: z.date().min(yesterday, { message: `Insira uma data válida` }), //.max(new Date("1900-01-01"), { message: "Informe a data desejada" }),
-    time: z.string().max(1, { message: "Informe o horário desejado" }),
+    time: z.string().min(1, { message: "Informe o horário desejado" }),
     description: z.string().min(1, "Informe a descrição"),
     vehicle_id: z.string(),
     type: z.string().min(1, "Informe o tipo do serviço"),

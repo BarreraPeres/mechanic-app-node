@@ -3,7 +3,7 @@ import { instanceAxios } from "../../lib/axios"
 
 interface FetchOrderServiceBody {
     mechanicId: string
-    status?: "PENDING" | "SCHEDULED" | "FINISHED"
+    status?: string
     page?: number
 }
 export interface FetchOrderServiceRes {
@@ -34,8 +34,12 @@ export async function FetchOrderService({
     page,
     status
 }: FetchOrderServiceBody): Promise<FetchOrderServiceRes> {
-
-    const res = await instanceAxios.get(`/order-services/${mechanicId}?status=${status}&page=${page}`)
+    let res;
+    if (!status) {
+        res = await instanceAxios.get(`/order-services/${mechanicId}?page=${page}`)
+    } else {
+        res = await instanceAxios.get(`/order-services/${mechanicId}?status=${status}&page=${page}`)
+    }
 
     return res.data.orderServices
 }   

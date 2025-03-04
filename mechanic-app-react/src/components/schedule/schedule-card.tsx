@@ -36,12 +36,12 @@ export function ScheduleCard({ schedules }: ScheduleCardProps) {
     }
 
     function StatusBadge(status: string): string[] {
-        if (status === 'SCHEDULED') {
+        if (status === 'SCHEDULED' || status === 'IN_PROGRESS') {
             return ["bg-green-500 text-green-100 rounded-lg text-sm w-20 h-6 flex items-center justify-center", "Agendado"]
         } else if (status === 'PENDING') {
             return ["bg-amber-500 text-yellow-200  rounded-lg text-sm w-20 h-6 flex items-center justify-center", "Pendente"]
         } else {
-            return ["bg-blue-500 text-blue-100 rounded-lg text-sm w-20 h-6 flex items-center justify-center", "Finalizado"]
+            return ["bg-red-500 text-red-100 rounded-lg text-sm w-20 h-6 flex items-center justify-center", "Finalizado"]
         }
     };
 

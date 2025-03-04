@@ -28,7 +28,32 @@ const IssueOrderServiceForm = z.object({
 
 type issueOrderServiceForm = z.infer<typeof IssueOrderServiceForm>
 
+export function renderStatus(status: string): { color: string, nameInPortuguese: string } {
+    if (status === "PENDING") {
+        const color = "bg-yellow-100 text-yellow-800"
+        const nameInPortuguese = "Pendente"
+        return {
+            color,
+            nameInPortuguese
+        }
+    } else if (status === "IN_PROGRESS") {
+        const color = "bg-green-100 text-green-800"
+        const nameInPortuguese = "Aceito"
 
+        return {
+            color,
+            nameInPortuguese
+        }
+    } else {
+        const color = "bg-red-100 text-red-800"
+        const nameInPortuguese = "Finalizado"
+        return {
+            color,
+            nameInPortuguese
+        }
+    }
+
+}
 export function Dashboard() {
     const [schedule, setSchedule] = useState<any>("")
     const { handleSubmit, register, formState } = useForm<issueOrderServiceForm>({
@@ -44,6 +69,8 @@ export function Dashboard() {
                 schedule_id
             }
             await IssueOrderService(data)
+            refetchSchedule()
+            refetchServices()
             alert("O Serviço foi proposto, o cliente será notificado, aguarde a resposta")
         } catch (err) {
             window.error(err)
@@ -56,7 +83,7 @@ export function Dashboard() {
     const { data: mechanics } = useQuery({
         queryKey: ["get mechanics"],
         queryFn: () => GetMechanicsService(),
-        staleTime: 1000 * 60 // 1 minutes
+        staleTime: 1000 * 60 * 24 // 1 day
     })
     useEffect(() => {
         if (mechanics) {
@@ -65,17 +92,20 @@ export function Dashboard() {
         }
     }, [mechanics])
 
-    const { data: schedules } = useQuery({
+    const { data: schedules, refetch: refetchSchedule } = useQuery({
         queryKey: ["fetch scheduling history"],
-        queryFn: () => FetchSchedulingHistoryService(),
-        staleTime: 1000 * 60 // 1 minutes
+        queryFn: () => FetchSchedulingHistoryService({
+            page: 0,
+            status: "PENDING",
+        }),
+        staleTime: 1000 * 60 // 1 minute
     })
-    const { data: OrderServices, isLoading, refetch } = useQuery({
+    const { data: OrderServices, refetch: refetchServices } = useQuery({
         queryKey: ["fetch orderService"],
         queryFn: () => FetchOrderService({
             mechanicId: mechanic.id,
             page: 0,
-            status: "PENDING",
+            // status: "PENDING",
         }),
         enabled: !!mechanic
     })
@@ -140,8 +170,8 @@ export function Dashboard() {
                                     < RadioGroupItem
                                         key={m.id}
                                         value={m.id}
-                                        onChange={() => { refetch(), setMechanic(m) }}
-                                        onClick={() => { refetch(), setMechanic(m) }}
+                                        onChange={() => { refetchServices(), setMechanic(m) }}
+                                        onClick={() => { refetchServices(), setMechanic(m) }}
                                         className="
                                         text-xs
                                         font-normal
@@ -175,7 +205,7 @@ export function Dashboard() {
                                         </div>
                                     </div>
                                     <div>
-                                        {schedules.schedules.map((s) => (
+                                        {schedules.schedules.length > 0 ? (schedules.schedules.map((s) => (
                                             <div key={s.id} className="mb-4 p-4  rounded-lg bg-zinc-950">
                                                 <div className="flex justify-between items-center">
                                                     <div>
@@ -198,11 +228,15 @@ export function Dashboard() {
                                                       ">
                                                             <Calendar className="w-4 h-4 mr-2" />
                                                             <span>
-                                                                pedido em {dayjs(s.request_at.toString()).format("dddd, D MMMM ")}
+                                                                pedido em { }
+                                                                {dayjs(s.request_at.toString())
+                                                                    .format("dddd, D MMMM ")}
                                                             </span>
                                                             <Clock className="w-4 h-4 ml-4 mr-2" />
                                                             <span>
-                                                                solicitado para {dayjs(s.scheduled_for.toString()).format("dddd, D MMMM ")}
+                                                                solicitado para { }
+                                                                {dayjs(s.scheduled_for.toString())
+                                                                    .format("dddd, D MMMM ")}
                                                             </span>
                                                         </div>
                                                     </div>
@@ -236,7 +270,20 @@ export function Dashboard() {
                                                     </div>
                                                 </div>
                                             </div>
-                                        ))}
+                                        ))) : (
+                                            <div
+                                                className="
+                                            flex 
+                                            items-center 
+                                            justify-center
+                                            h-64">
+                                                <p className="
+                                            text-zinc-400
+                                            ">
+                                                    Nenhuma solicitação de serviço.
+                                                </p>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </>
@@ -249,11 +296,12 @@ export function Dashboard() {
                                      flex items-center
                                      mb-4   
                                      ">
-                                            Serviços em Andamento
+                                            <Clock className="mr-2" />
+                                            Meus Serviços
                                         </div>
                                     </div>
                                     <div>
-                                        {!isLoading || !OrderServices ? (
+                                        {OrderServices.orderServices?.length > 0 ? (
                                             OrderServices.orderServices?.map((os) => (
                                                 <div key={os.id}
                                                     className="
@@ -296,35 +344,47 @@ export function Dashboard() {
                                                                 <Calendar
                                                                     className="w-4 h-4 mr-2" />
                                                                 <span>
-                                                                    Aceito Em {dayjs(os.start_date.toString()).format("dddd, D MMMM, HH:mm")}
+                                                                    Aceito Em { }
+                                                                    {dayjs(os.start_date.toString())
+                                                                        .format("dddd, D MMMM, HH:mm")}
                                                                 </span>
                                                                 <Clock
                                                                     className="w-4 h-4 ml-4 mr-2" />
                                                                 <span>
-                                                                    Para {dayjs(os.end_date.toString()).format("dddd, D MMMM, HH:mm")}
+                                                                    Para { }
+                                                                    {dayjs(os.end_date.toString())
+                                                                        .format("dddd, D MMMM, HH:mm")}
                                                                 </span>
                                                             </div>
-                                                            <p className="mt-2 text-gray-700">{os.materials}</p>
+                                                            <p className="mt-2 text-gray-700">
+                                                                {os.materials}
+                                                            </p>
                                                         </div>
-                                                        <div className="flex items-center">
-                                                            <span
-                                                                className=
-                                                                {`
-                                                            px-3
-                                                            py-1
-                                                            rounded-full
-                                                            text-sm
-                                                                ${os.status === 'SCHEDULED'
-                                                                        ? 'bg-yellow-100 text-yellow-800'
-                                                                        : 'bg-green-100 text-green-800'
-                                                                    }`}>
-                                                                {os.status === 'SCHEDULED'
-                                                                    ? 'Em Andamento'
-                                                                    : 'Concluído'
-                                                                }
-                                                            </span>
-                                                            <ChevronRight className="w-5 h-5 ml-2 text-gray-400" />
-                                                        </div>
+                                                        <a
+                                                            href={`/dashboard/${os.id}`}
+                                                        >
+                                                            <div className="flex items-center">
+                                                                <span
+                                                                    className=
+                                                                    {`
+                                                                px-3
+                                                                py-1
+                                                                rounded-full
+                                                                text-sm
+                                                                ${renderStatus(os.status).color}`}
+                                                                >
+                                                                    {renderStatus(os.status).nameInPortuguese}
+                                                                </span>
+                                                                <ChevronRight
+                                                                    className="
+                                                                    w-5
+                                                                    h-5
+                                                                    ml-2
+                                                                    text-gray-400"
+                                                                />
+                                                            </div>
+                                                        </a>
+
                                                     </div>
                                                 </div>
                                             ))
@@ -504,7 +564,7 @@ export function Dashboard() {
                         </DialogContent>
                     </div>
                 </Dialog>
-            </div>
+            </div >
         </div >
     );
 };

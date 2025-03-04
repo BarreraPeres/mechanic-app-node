@@ -13,7 +13,9 @@ export function Appointments() {
 
     const { data } = useQuery({
         queryKey: ["fetch scheduling history"],
-        queryFn: () => FetchSchedulingHistoryService(),
+        queryFn: () => FetchSchedulingHistoryService({
+            page: 0,
+        }),
         staleTime: 1000 * 60 // 1 minutes
     })
 
