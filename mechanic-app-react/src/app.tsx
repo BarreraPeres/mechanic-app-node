@@ -16,6 +16,7 @@ import { RegisterMechanic } from "./pages/mechanic/register";
 import { MechanicApp } from "./pages/mechanic-app";
 import { Questions } from "./pages/mechanic/questions";
 import { Dashboard } from "./pages/mechanic/dashboard";
+import { DashboardOrderService } from "./pages/mechanic/dashboard-order-service";
 
 export function App() {
   useEffect(() => {
@@ -75,6 +76,7 @@ export function App() {
             <Route element={<MechanicRoute />}>
               <Route path="/register-mechanic" element={< RegisterMechanic />} />
               <Route path="/dashboard" element={< Dashboard />} />
+              <Route path="/dashboard/:orderServiceId" element={<DashboardOrderService />} />
             </Route>
 
             <Route path="/home" element={<Home />} />

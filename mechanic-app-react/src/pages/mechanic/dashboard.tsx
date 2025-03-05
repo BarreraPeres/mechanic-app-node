@@ -36,7 +36,7 @@ export function renderStatus(status: string): { color: string, nameInPortuguese:
             color,
             nameInPortuguese
         }
-    } else if (status === "IN_PROGRESS") {
+    } else if (status === "IN_PROGRESS" || status === "SCHEDULED") {
         const color = "bg-green-100 text-green-800"
         const nameInPortuguese = "Aceito"
 
