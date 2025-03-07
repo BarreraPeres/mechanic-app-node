@@ -6,27 +6,30 @@ interface FetchOrderServiceBody {
     status?: string
     page?: number
 }
-export interface FetchOrderServiceRes {
-    orderServices: {
+
+export type OrderService = {
+    id: string;
+    created_at: Date;
+    status: string;
+    description: string | null;
+    materials: string | null;
+    value: number;
+    start_date: Date;
+    end_date: Date;
+    scheduling_id: string | null;
+    mechanic_id: string | null;
+    vehicle_id: string;
+    vehicle: {
         id: string;
-        created_at: Date;
-        status: string;
-        description: string | null;
-        materials: string | null;
-        value: number;
-        start_date: Date;
-        end_date: Date;
-        scheduling_id: string | null;
-        mechanic_id: string | null;
-        vehicle_id: string;
-        vehicle: {
-            id: string;
-            model: string;
-            brand: string;
-            year: number;
-            plate: string;
-        }
-    }[]
+        model: string;
+        brand: string;
+        year: number;
+        plate: string;
+    }
+}
+
+export interface FetchOrderServiceRes {
+    orderServices: OrderService[]
 }
 
 export async function FetchOrderService({
