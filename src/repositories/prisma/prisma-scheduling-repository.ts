@@ -1,9 +1,15 @@
 import { $Enums, Prisma, Scheduling } from "@prisma/client";
 import { SchedulingRepository } from "../scheduling-repository";
 import { prisma } from "../../config/prisma";
+import dayjs from "dayjs";
+import utc from 'dayjs/plugin/utc'
+import ptBR from 'dayjs/locale/pt-br'
+
+dayjs.locale(ptBR)
+dayjs.extend(utc);
+
 
 export class PrismaSchedulingRepository implements SchedulingRepository {
-
     async create(data: Prisma.SchedulingUncheckedCreateInput) {
         const scheduling = prisma.scheduling.create({
             data
@@ -82,6 +88,25 @@ export class PrismaSchedulingRepository implements SchedulingRepository {
         }
     }
 
+    async getSchedulesTotalToday(userId: string) {
+        const today = dayjs().add(-3, "hours").toDate()
+        const tomorrow = dayjs().add(1, "day").toDate()
 
+        const total = await prisma.scheduling.count({
+            where: {
+                user_id: userId,
+                request_at: {
+                    gte: today,
+                    lte: tomorrow
+                }
+            }
+        })
+
+        if (!total) {
+            return null
+        }
+
+        return { total }
+    }
 
 }

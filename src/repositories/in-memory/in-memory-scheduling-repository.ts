@@ -74,4 +74,16 @@ export class InMemoryScheduleRepository implements SchedulingRepository {
                 })) || null
         }
     }
+
+    async getSchedulesTotalToday(userId: string) {
+        const schedules = this.items.filter(item => item.user_id === userId && item.request_at >= new Date())
+        const total = schedules.length
+
+        if (!total) {
+            return null
+        }
+        return { total }
+
+    }
+
 }
