@@ -118,4 +118,22 @@ export class PrismaOrderServiceRepository implements OrderServiceRepository {
 
         return orderServices
     }
+
+    async getInvoicing(mechanicId: string) {
+        const invoicing = await prisma.orderService.aggregate({
+            _sum: {
+                value: true
+            },
+            where: {
+                mechanic_id: mechanicId
+            }
+        })
+        const sum = invoicing._sum.value
+
+        if (!sum) {
+            return null
+        }
+
+        return { sum }
+    }
 }

@@ -113,6 +113,17 @@ export class InMemoryOrderServiceRepository implements OrderServiceRepository {
             .filter(item => item.vehicle_id === vehicleId)
             .slice(page * 10, (page + 1) * 10)
     }
+    async getInvoicing(mechanicId: string) {
+
+        const sum = this.items
+            .filter((orders) => {
+                return orders.mechanic_id === mechanicId
+            })
+            .reduce((acc, current) =>
+                acc + current.value, 0)
+
+        return { sum }
+    }
 
 }
 

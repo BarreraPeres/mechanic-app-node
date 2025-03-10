@@ -41,5 +41,6 @@ export interface OrderServiceRepository {
     save(schedulingId: string, UpdateStatus: string): Promise<OrderService | null>
     findManyByMechanicId(mechanicId: string, page: number, status?: string,): Promise<OrderServiceWithVehicleAndMechanic[] | null>
     findManyByVehicleId(vehicleId: string, page: number): Promise<OrderService[]>
+    getInvoicing(mechanicId: string): Promise<{ sum: number } | null>
 }
 

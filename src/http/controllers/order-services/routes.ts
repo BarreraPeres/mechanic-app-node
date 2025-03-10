@@ -4,6 +4,7 @@ import { history } from "./history";
 import { jwtVerifyUserRole } from "../../hooks/jwt-verify-user-role";
 import { fetch } from "./fetch";
 import { get } from "./get";
+import { invoicing } from "./invoicing";
 
 export async function orderServicesRoutes(app: FastifyInstance) {
     //employee
@@ -13,5 +14,6 @@ export async function orderServicesRoutes(app: FastifyInstance) {
     app.get("/order-services/:vehicleId/history", history)
     app.get("/order-services/:mechanicId", fetch)
     app.get("/order-service/:orderServiceId", get)
+    app.get("/order-service/:mechanicId/invoicing", invoicing)
 
 }
