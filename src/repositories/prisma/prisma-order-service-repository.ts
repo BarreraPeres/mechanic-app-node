@@ -1,6 +1,7 @@
 import { $Enums, OrderService, Prisma } from "@prisma/client";
 import { OrderServiceRepository } from "../order-service-repository";
 import { prisma } from "../../config/prisma";
+import dayjs from "dayjs";
 
 
 export class PrismaOrderServiceRepository implements OrderServiceRepository {
@@ -120,12 +121,21 @@ export class PrismaOrderServiceRepository implements OrderServiceRepository {
     }
 
     async getInvoicing(mechanicId: string) {
+        const firstDayOfMonth = dayjs().startOf("month").toDate()
+        const firstDayOfNextMount = dayjs().startOf("month").add(1, "month").toDate()
+
         const invoicing = await prisma.orderService.aggregate({
             _sum: {
                 value: true
             },
             where: {
-                mechanic_id: mechanicId
+                mechanic_id: mechanicId,
+                AND: {
+                    created_at: {
+                        gte: firstDayOfMonth,
+                        lt: firstDayOfNextMount
+                    }
+                }
             }
         })
         const sum = invoicing._sum.value

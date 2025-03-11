@@ -2,6 +2,7 @@
 import { $Enums, Mechanic, OrderService, Vehicle } from "@prisma/client";
 import { OrderServiceCreateTypeWithVehicle, OrderServiceRepository } from "../order-service-repository";
 import { randomUUID } from "crypto";
+import dayjs from "dayjs";
 
 export class InMemoryOrderServiceRepository implements OrderServiceRepository {
 
@@ -113,11 +114,16 @@ export class InMemoryOrderServiceRepository implements OrderServiceRepository {
             .filter(item => item.vehicle_id === vehicleId)
             .slice(page * 10, (page + 1) * 10)
     }
-    async getInvoicing(mechanicId: string) {
 
+    async getInvoicing(mechanicId: string) {
         const sum = this.items
             .filter((orders) => {
-                return orders.mechanic_id === mechanicId
+                const firstDayOfMonth = dayjs().startOf("month").toDate()
+                const firstDayOfNextMount = dayjs().startOf("month").add(1, "month").toDate()
+
+                return (orders.mechanic_id === mechanicId &&
+                    orders.created_at >= firstDayOfMonth &&
+                    orders.created_at < firstDayOfNextMount)
             })
             .reduce((acc, current) =>
                 acc + current.value, 0)

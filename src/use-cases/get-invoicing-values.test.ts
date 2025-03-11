@@ -12,8 +12,7 @@ describe("Get Invoicing Values Use Case", async () => {
         sut = new GetInvoicingValuesUseCases(orderServiceRepository)
     })
 
-    it("should Be return sum of invoicing", async () => {
-
+    it("should Be return sum of invoicing in current month", async () => {
 
         orderServiceRepository.items.push({
             id: "order_service_1",
@@ -21,7 +20,7 @@ describe("Get Invoicing Values Use Case", async () => {
             scheduling_id: "scheduling_1",
             description: "need change oil for car",
             value: 100,
-            created_at: new Date(),
+            created_at: new Date("2025-01-09T04:12:12.000Z"),
             end_date: new Date(),
             materials: "any",
             start_date: new Date(),
@@ -47,7 +46,7 @@ describe("Get Invoicing Values Use Case", async () => {
         })
 
         expect(sum).toEqual(expect.objectContaining({
-            sum: 200
+            sum: 100
         }))
 
     })

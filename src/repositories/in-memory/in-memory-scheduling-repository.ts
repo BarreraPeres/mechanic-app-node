@@ -1,6 +1,7 @@
 import { $Enums, Mechanic, Prisma, Scheduling, Vehicle } from "@prisma/client";
 import { SchedulingRepository } from "../scheduling-repository";
 import { randomUUID } from "crypto";
+import dayjs from "dayjs";
 
 export class InMemoryScheduleRepository implements SchedulingRepository {
 
@@ -76,7 +77,17 @@ export class InMemoryScheduleRepository implements SchedulingRepository {
     }
 
     async getSchedulesTotalToday(userId: string) {
-        const schedules = this.items.filter(item => item.user_id === userId && item.request_at >= new Date())
+        const today = dayjs().add(-3, "hours").toDate()
+        const tomorrow = dayjs().add(1, "day").toDate()
+        const schedules = this.items.filter(item => {
+            return (
+                item.user_id === userId &&
+                item.request_at >= today &&
+                item.request_at <= tomorrow
+            )
+        }
+        )
+        console.log(this.items)
         const total = schedules.length
 
         if (!total) {

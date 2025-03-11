@@ -18,6 +18,7 @@
 - [x] Deve ser possível cadastrar mecânicas
 - [x] Deve ser possível buscar mecânicas pelo nome
 - [x] Deve ser possivel buscar ordens de serviços, caso queira pelo status, paginado.
+- [x] Deve ser possivel buscar o faturamento do mês da mecânica e buscar agendamentos de um dia.
 
 
 ## Regras De Negócio
